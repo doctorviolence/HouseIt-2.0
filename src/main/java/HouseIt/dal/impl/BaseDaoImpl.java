@@ -6,11 +6,9 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
-public abstract class BaseDao<T extends Serializable> implements IBaseDao<T> {
+public abstract class BaseDaoImpl<T extends Serializable> implements IBaseDao<T> {
 
     @Autowired
     protected SessionFactory sessionFactory;
@@ -20,14 +18,8 @@ public abstract class BaseDao<T extends Serializable> implements IBaseDao<T> {
     }
 
     @SuppressWarnings("unchecked")
-    public Set<T> getEntities(Class<T> entity) {
-        List<T> list = getCurrentSession().createQuery("FROM " + entity.getName()).list();
-
-        if (list != null) {
-            return new HashSet<T>(list);
-        } else {
-            return null;
-        }
+    public List<T> getEntities(Class<T> entity) {
+        return getCurrentSession().createQuery("FROM " + entity.getName()).list();
     }
 
     @SuppressWarnings("unchecked")

@@ -5,6 +5,6 @@ import HouseIt.model.Building;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class BuildingDao extends BaseDao<Building> implements IBuildingDao {
+public class BuildingDaoImpl extends BaseDaoImpl<Building> implements IBuildingDao {
 
 }

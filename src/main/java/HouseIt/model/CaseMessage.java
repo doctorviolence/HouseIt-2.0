@@ -49,21 +49,4 @@ public class CaseMessage implements Serializable {
         this.c = c;
     }
 
-    @Override
-    public int hashCode() {
-        return (int) messageNo;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o && this.getClass() == o.getClass()) {
-            return true;
-        } else if (o == null && this.getClass() != o.getClass()) {
-            return false;
-        }
-
-        CaseMessage cm = (CaseMessage) o;
-        return (messageNo == cm.getMessageNo());
-    }
-
 }

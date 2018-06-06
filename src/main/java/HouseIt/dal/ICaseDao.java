@@ -2,14 +2,14 @@ package HouseIt.dal;
 
 import HouseIt.model.Case;
 
-import java.util.Set;
+import java.util.List;
 
 public interface ICaseDao extends IBaseDao<Case> {
 
-    Set<Case> findCasesByTenantId(long tenantId);
+    List<Case> findCasesByTenantId(long tenantId);
 
-    Set<Case> getCasesByType(String caseType);
+    List<Case> getCasesByType(String caseType);
 
-    Set<Case> getCasesByFixDate();
+    List<Case> getCasesByFixDate();
 
 }

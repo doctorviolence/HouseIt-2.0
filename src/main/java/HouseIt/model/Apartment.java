@@ -2,7 +2,7 @@ package HouseIt.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Table(name = "apartments")
@@ -15,7 +15,7 @@ public class Apartment implements Serializable {
     private int floorNo;
     private double rent;
     private Building building;
-    private Set<Tenant> tenants;
+    private List<Tenant> tenants;
 
     public Apartment() {
 
@@ -79,29 +79,12 @@ public class Apartment implements Serializable {
     }
 
     @OneToMany(mappedBy = "apartment", fetch = FetchType.LAZY)
-    public Set<Tenant> getTenants() {
+    public List<Tenant> getTenants() {
         return tenants;
     }
 
-    public void setTenants(Set<Tenant> tenants) {
+    public void setTenants(List<Tenant> tenants) {
         this.tenants = tenants;
-    }
-
-    @Override
-    public int hashCode() {
-        return (int) apartmentId;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o && this.getClass() == o.getClass()) {
-            return true;
-        } else if (o == null && this.getClass() != o.getClass()) {
-            return false;
-        }
-
-        Apartment a = (Apartment) o;
-        return (apartmentId == a.getApartmentId());
     }
 
 }

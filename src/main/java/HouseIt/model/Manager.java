@@ -2,7 +2,7 @@ package HouseIt.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Table(name = "managers")
@@ -10,7 +10,7 @@ public class Manager implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private long managerId;
-    private Set<Case> cases;
+    private List<Case> cases;
 
     public Manager() {
 
@@ -28,29 +28,12 @@ public class Manager implements Serializable {
     }
 
     @OneToMany(mappedBy = "manager", fetch = FetchType.LAZY)
-    public Set<Case> getCases() {
+    public List<Case> getCases() {
         return cases;
     }
 
-    public void setCases(Set<Case> cases) {
+    public void setCases(List<Case> cases) {
         this.cases = cases;
-    }
-
-    @Override
-    public int hashCode() {
-        return (int) managerId;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o && this.getClass() == o.getClass()) {
-            return true;
-        } else if (o == null && this.getClass() != o.getClass()) {
-            return false;
-        }
-
-        Manager m = (Manager) o;
-        return (managerId == m.getManagerId());
     }
 
 }

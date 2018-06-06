@@ -5,6 +5,6 @@ import HouseIt.model.Manager;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class ManagerDao extends BaseDao<Manager> implements IManagerDao {
+public class ManagerDaoImpl extends BaseDaoImpl<Manager> implements IManagerDao {
 
 }

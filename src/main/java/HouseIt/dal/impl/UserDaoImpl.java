@@ -5,6 +5,6 @@ import HouseIt.model.User;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class UserDao extends BaseDao<User> implements IUserDao {
+public class UserDaoImpl extends BaseDaoImpl<User> implements IUserDao {
 
 }

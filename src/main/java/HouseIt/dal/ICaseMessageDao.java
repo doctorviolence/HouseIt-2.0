@@ -2,10 +2,10 @@ package HouseIt.dal;
 
 import HouseIt.model.CaseMessage;
 
-import java.util.Set;
+import java.util.List;
 
 public interface ICaseMessageDao extends IBaseDao<CaseMessage> {
 
-    Set<CaseMessage> getCaseMessagesByCase(long caseNo);
+    List<CaseMessage> getCaseMessagesByCase(long caseNo);
 
 }

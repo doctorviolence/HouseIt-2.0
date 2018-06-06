@@ -1,5 +1,7 @@
 package HouseIt.dal;
 
-public interface IManagerDao {
+import HouseIt.model.Manager;
+
+public interface IManagerDao extends IBaseDao<Manager> {
 
 }

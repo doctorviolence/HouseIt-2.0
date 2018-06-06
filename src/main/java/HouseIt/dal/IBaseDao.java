@@ -1,11 +1,11 @@
 package HouseIt.dal;
 
 import java.io.Serializable;
-import java.util.Set;
+import java.util.List;
 
 public interface IBaseDao<T extends Serializable> {
 
-    Set<T> getEntities(Class<T> entity);
+    List<T> getEntities(Class<T> entity);
 
     T findEntityById(Class<T> entity, long id);
 

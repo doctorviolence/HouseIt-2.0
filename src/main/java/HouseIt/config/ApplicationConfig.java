@@ -32,37 +32,37 @@ public class ApplicationConfig {
 
     @Bean
     public IApartmentDao apartmentDao() {
-        return new ApartmentDao();
+        return new ApartmentDaoImplImpl();
     }
 
     @Bean
     public IBuildingDao buildingDao() {
-        return new BuildingDao();
+        return new BuildingDaoImpl();
     }
 
     @Bean
     public ICaseDao caseDao() {
-        return new CaseDao();
+        return new CaseDaoImpl();
     }
 
     @Bean
     public ICaseMessageDao caseMessageDao() {
-        return new CaseMessageDao();
+        return new CaseMessageDaoImpl();
     }
 
     @Bean
     public IManagerDao managerDao() {
-        return new ManagerDao();
+        return new ManagerDaoImpl();
     }
 
     @Bean
     public ITenantDao tenantDao() {
-        return new TenantDao();
+        return new TenantDaoImpl();
     }
 
     @Bean
     public IUserDao userDao() {
-        return new UserDao();
+        return new UserDaoImpl();
     }
 
     @Bean

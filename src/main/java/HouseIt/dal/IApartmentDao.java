@@ -2,10 +2,10 @@ package HouseIt.dal;
 
 import HouseIt.model.Apartment;
 
-import java.util.Set;
+import java.util.List;
 
 public interface IApartmentDao extends IBaseDao<Apartment> {
 
-    Set<Apartment> getApartmentsInBuilding(long buildingId);
+    List<Apartment> getApartmentsInBuilding(long buildingId);
 
 }
