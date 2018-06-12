@@ -9,20 +9,32 @@ import java.util.List;
 public class Tenant implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "tenant_id", nullable = false)
     private long tenantId;
+
+    @Column(name = "first_name")
     private String firstName;
+
+    @Column(name = "last_name")
     private String lastName;
+
+    @Column(name = "phone_no")
     private String phoneNo;
+
+    @ManyToOne
+    @JoinColumn(name = "apartment_id", referencedColumnName = "apartment_id", nullable = false)
     private Apartment apartment;
+
+    @OneToMany(mappedBy = "tenant", fetch = FetchType.LAZY)
     private List<Case> cases;
 
     public Tenant() {
 
     }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name = "tenant_id", nullable = false)
     public long getTenantId() {
         return tenantId;
     }
@@ -31,7 +43,6 @@ public class Tenant implements Serializable {
         this.tenantId = tenantId;
     }
 
-    @Column(name = "first_name")
     public String getFirstName() {
         return firstName;
     }
@@ -40,7 +51,6 @@ public class Tenant implements Serializable {
         this.firstName = firstName;
     }
 
-    @Column(name = "last_name")
     public String getLastName() {
         return lastName;
     }
@@ -49,7 +59,6 @@ public class Tenant implements Serializable {
         this.lastName = lastName;
     }
 
-    @Column(name = "phone_no")
     public String getPhoneNo() {
         return phoneNo;
     }
@@ -58,8 +67,6 @@ public class Tenant implements Serializable {
         this.phoneNo = phoneNo;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "apartment_id", referencedColumnName = "apartment_id", nullable = false)
     public Apartment getApartment() {
         return apartment;
     }
@@ -68,7 +75,6 @@ public class Tenant implements Serializable {
         this.apartment = apartment;
     }
 
-    @OneToMany(mappedBy = "tenant", fetch = FetchType.LAZY)
     public List<Case> getCases() {
         return cases;
     }

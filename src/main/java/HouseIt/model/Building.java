@@ -9,18 +9,25 @@ import java.util.List;
 public class Building implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "building_id", nullable = false)
     private long buildingId;
+
+    @Column(name = "address")
     private String address;
+
+    @Column(name = "floor_levels")
     private int floorLevels;
+
+    @OneToMany(mappedBy = "building", fetch = FetchType.LAZY)
     private List<Apartment> apartments;
 
     public Building() {
 
     }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name = "building_id", nullable = false)
     public long getBuildingId() {
         return buildingId;
     }
@@ -29,7 +36,6 @@ public class Building implements Serializable {
         this.buildingId = buildingId;
     }
 
-    @Column(name = "address")
     public String getAddress() {
         return address;
     }
@@ -38,7 +44,6 @@ public class Building implements Serializable {
         this.address = address;
     }
 
-    @Column(name = "floor_levels")
     public int getFloorLevels() {
         return floorLevels;
     }
@@ -47,7 +52,6 @@ public class Building implements Serializable {
         this.floorLevels = floorLevels;
     }
 
-    @OneToMany(mappedBy = "building", fetch = FetchType.LAZY)
     public List<Apartment> getApartments() {
         return apartments;
     }

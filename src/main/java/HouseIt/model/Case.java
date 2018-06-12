@@ -9,23 +9,42 @@ import java.util.List;
 public class Case implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(name = "case_no", nullable = false)
     private long caseNo;
+
+    @Column(name = "case_type")
     private String caseType;
+
+    @Column(name = "case_status")
     private String caseStatus;
+
+    @Column(name = "resolved")
     private String resolved;
+
+    @Column(name = "case_date")
     private String caseDate;
+
+    @Column(name = "fix_date")
     private String fixDate;
+
+    @ManyToOne
+    @JoinColumn(name = "tenant_id", referencedColumnName = "tenant_id", nullable = false)
     private Tenant tenant;
+
+    @ManyToOne
+    @JoinColumn(name = "manager_id", referencedColumnName = "manager_id", nullable = false)
     private Manager manager;
+
+    @OneToMany(mappedBy = "case", fetch = FetchType.LAZY)
     private List<CaseMessage> caseMessages;
 
     public Case() {
 
     }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name = "case_no", nullable = false)
     public long getCaseNo() {
         return caseNo;
     }
@@ -34,7 +53,6 @@ public class Case implements Serializable {
         this.caseNo = caseNo;
     }
 
-    @Column(name = "case_type")
     public String getCaseType() {
         return caseType;
     }
@@ -43,7 +61,6 @@ public class Case implements Serializable {
         this.caseType = caseType;
     }
 
-    @Column(name = "case_status")
     public String getCaseStatus() {
         return caseStatus;
     }
@@ -52,7 +69,6 @@ public class Case implements Serializable {
         this.caseStatus = caseStatus;
     }
 
-    @Column(name = "resolved")
     public String getResolved() {
         return resolved;
     }
@@ -61,7 +77,6 @@ public class Case implements Serializable {
         this.resolved = resolved;
     }
 
-    @Column(name = "case_date")
     public String getCaseDate() {
         return caseDate;
     }
@@ -70,7 +85,6 @@ public class Case implements Serializable {
         this.caseDate = caseDate;
     }
 
-    @Column(name = "fix_date")
     public String getFixDate() {
         return fixDate;
     }
@@ -79,8 +93,6 @@ public class Case implements Serializable {
         this.fixDate = fixDate;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "tenant_id", referencedColumnName = "tenant_id", nullable = false)
     public Tenant getTenant() {
         return tenant;
     }
@@ -89,8 +101,6 @@ public class Case implements Serializable {
         this.tenant = tenant;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "manager_id", referencedColumnName = "manager_id", nullable = false)
     public Manager getManager() {
         return manager;
     }
@@ -99,7 +109,6 @@ public class Case implements Serializable {
         this.manager = manager;
     }
 
-    @OneToMany(mappedBy = "case", fetch = FetchType.LAZY)
     public List<CaseMessage> getCaseMessages() {
         return caseMessages;
     }

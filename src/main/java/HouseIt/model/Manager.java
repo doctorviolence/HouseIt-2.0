@@ -9,16 +9,21 @@ import java.util.List;
 public class Manager implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "manager_id", nullable = false)
+
+    @OneToMany(mappedBy = "manager", fetch = FetchType.LAZY)
     private long managerId;
+
+
     private List<Case> cases;
 
     public Manager() {
 
     }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name = "manager_id", nullable = false)
     public long getManagerId() {
         return managerId;
     }
@@ -27,7 +32,6 @@ public class Manager implements Serializable {
         this.managerId = managerId;
     }
 
-    @OneToMany(mappedBy = "manager", fetch = FetchType.LAZY)
     public List<Case> getCases() {
         return cases;
     }

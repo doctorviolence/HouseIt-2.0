@@ -9,21 +9,35 @@ import java.util.List;
 public class Apartment implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "apartment_id", nullable = false)
     private long apartmentId;
+
+    @Column(name = "apartment_no")
     private String apartmentNo;
+
+    @Column(name = "size")
     private int size;
+
+    @Column(name = "floor_no")
     private int floorNo;
+
+    @Column(name = "rent")
     private double rent;
+
+    @ManyToOne
+    @JoinColumn(name = "building_id", referencedColumnName = "building_id", nullable = false)
     private Building building;
+
+    @OneToMany(mappedBy = "apartment", fetch = FetchType.LAZY)
     private List<Tenant> tenants;
 
     public Apartment() {
 
     }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name = "apartment_id", nullable = false)
     public long getApartmentId() {
         return apartmentId;
     }
@@ -32,7 +46,6 @@ public class Apartment implements Serializable {
         this.apartmentId = apartmentId;
     }
 
-    @Column(name = "apartment_no")
     public String getApartmentNo() {
         return apartmentNo;
     }
@@ -41,7 +54,6 @@ public class Apartment implements Serializable {
         this.apartmentNo = apartmentNo;
     }
 
-    @Column(name = "size")
     public int getSize() {
         return size;
     }
@@ -50,7 +62,6 @@ public class Apartment implements Serializable {
         this.size = size;
     }
 
-    @Column(name = "floor_no")
     public int getFloorNo() {
         return floorNo;
     }
@@ -59,7 +70,6 @@ public class Apartment implements Serializable {
         this.floorNo = floorNo;
     }
 
-    @Column(name = "rent")
     public double getRent() {
         return rent;
     }
@@ -68,8 +78,6 @@ public class Apartment implements Serializable {
         this.rent = rent;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "building_id", referencedColumnName = "building_id", nullable = false)
     public Building getBuilding() {
         return building;
     }
@@ -78,7 +86,6 @@ public class Apartment implements Serializable {
         this.building = building;
     }
 
-    @OneToMany(mappedBy = "apartment", fetch = FetchType.LAZY)
     public List<Tenant> getTenants() {
         return tenants;
     }

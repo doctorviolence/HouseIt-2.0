@@ -9,17 +9,33 @@ import java.util.Arrays;
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    private String[] roles = {"ADMIN", "MANAGER", "TENANT"};
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+
+    @Column(name = "username", nullable = false, unique = true)
     private String username;
+
+    @Column(name = "password")
     private String password;
+
+    @Column(name = "role")
     private String role;
-    private String[] roles = {"admin", "manager", "tenant"};
 
     public User() {
 
     }
 
-    @Id
-    @Column(name = "username", nullable = false)
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
     public String getUsername() {
         return username;
     }
@@ -28,7 +44,6 @@ public class User implements Serializable {
         this.username = username;
     }
 
-    @Column(name = "password")
     public String getPassword() {
         return password;
     }
@@ -37,7 +52,6 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    @Column(name = "role")
     public String getRole() {
         return role;
     }
