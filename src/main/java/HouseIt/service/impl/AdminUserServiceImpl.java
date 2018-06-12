@@ -14,20 +14,15 @@ public class AdminUserServiceImpl implements IAdminUserService {
 
     private IBuildingDao buildingDao;
     private IApartmentDao apartmentDao;
-    private ITenantDao tenantDao;
-    private ICaseDao caseDao;
-    private ICaseMessageDao caseMessageDao;
     private IManagerDao managerDao;
+    private IUserDao userDao;
 
     @Autowired
-    public AdminUserServiceImpl(IBuildingDao buildingDao, IApartmentDao apartmentDao, ITenantDao tenantDao, ICaseDao caseDao,
-                                ICaseMessageDao caseMessageDao, IManagerDao managerDao) throws HouseItServiceException {
+    public AdminUserServiceImpl(IBuildingDao buildingDao, IApartmentDao apartmentDao, IManagerDao managerDao, IUserDao userDao) {
         this.buildingDao = buildingDao;
         this.apartmentDao = apartmentDao;
-        this.tenantDao = tenantDao;
-        this.caseDao = caseDao;
-        this.caseMessageDao = caseMessageDao;
         this.managerDao = managerDao;
+        this.userDao = userDao;
     }
 
     public List<Building> getBuildings() throws HouseItServiceException {
@@ -38,38 +33,29 @@ public class AdminUserServiceImpl implements IAdminUserService {
         }
     }
 
-    public boolean createBuilding(Building building) throws HouseItServiceException {
-        boolean inserted = false;
+    public void createBuilding(Building building) throws HouseItServiceException {
         try {
             buildingDao.createEntity(building);
-            inserted = true;
         } catch (Exception e) {
             throw new HouseItServiceException("Failed to add building.", e);
         }
-        return inserted;
     }
 
-    public boolean updateBuilding(Building building) throws HouseItServiceException {
-        boolean updated = false;
+    public void updateBuilding(Building building) throws HouseItServiceException {
         try {
             buildingDao.updateEntity(building);
-            updated = true;
         } catch (Exception e) {
             throw new HouseItServiceException("Unable to update building.", e);
         }
-        return updated;
     }
 
-    public boolean deleteBuilding(Building building) throws HouseItServiceException {
-        boolean deleted = false;
+    public void deleteBuilding(Building building) throws HouseItServiceException {
         try {
             long id = building.getBuildingId();
             buildingDao.deleteEntity(Building.class, id);
-            deleted = true;
         } catch (Exception e) {
             throw new HouseItServiceException("Failed to delete building.", e);
         }
-        return deleted;
     }
 
     public List<Apartment> getApartmentsInBuilding(long buildingId) throws HouseItServiceException {
@@ -80,123 +66,28 @@ public class AdminUserServiceImpl implements IAdminUserService {
         }
     }
 
-    public boolean createApartment(Apartment apartment) throws HouseItServiceException {
-        boolean inserted = false;
+    public void createApartment(Apartment apartment) throws HouseItServiceException {
         try {
             apartmentDao.createEntity(apartment);
-            inserted = true;
         } catch (Exception e) {
             throw new HouseItServiceException("Failed to add apartment.", e);
         }
-        return inserted;
     }
 
-    public boolean updateApartment(Apartment apartment) throws HouseItServiceException {
-        boolean updated = false;
+    public void updateApartment(Apartment apartment) throws HouseItServiceException {
         try {
             apartmentDao.updateEntity(apartment);
-            updated = true;
         } catch (Exception e) {
             throw new HouseItServiceException("Unable to update apartment.", e);
         }
-        return updated;
     }
 
-    public boolean deleteApartment(Apartment apartment) throws HouseItServiceException {
-        boolean deleted = false;
+    public void deleteApartment(Apartment apartment) throws HouseItServiceException {
         try {
             long id = apartment.getApartmentId();
             apartmentDao.deleteEntity(Apartment.class, id);
-            deleted = true;
         } catch (Exception e) {
             throw new HouseItServiceException("Failed to delete apartment.", e);
-        }
-        return deleted;
-    }
-
-    public List<Tenant> getTenantsInApartment(long apartmentId) throws HouseItServiceException {
-        try {
-            return tenantDao.getTenantsInFlat(apartmentId);
-        } catch (Exception e) {
-            throw new HouseItServiceException("Could not get tenants.", e);
-        }
-    }
-
-    public Tenant findTenant(Tenant tenant) throws HouseItServiceException {
-        try {
-            long id = tenant.getTenantId();
-            return tenantDao.findEntityById(Tenant.class, id);
-        } catch (Exception e) {
-            throw new HouseItServiceException("Could not find tenant.", e);
-        }
-    }
-
-    public boolean createTenant(Tenant tenant) throws HouseItServiceException {
-        boolean inserted = false;
-        try {
-            tenantDao.createEntity(tenant);
-            inserted = true;
-        } catch (Exception e) {
-            throw new HouseItServiceException("Failed to add tenant.", e);
-        }
-        return inserted;
-    }
-
-    public boolean updateTenant(Tenant tenant) throws HouseItServiceException {
-        boolean updated = false;
-        try {
-            tenantDao.updateEntity(tenant);
-            updated = true;
-        } catch (Exception e) {
-            throw new HouseItServiceException("Unable to update tenant.", e);
-        }
-        return updated;
-    }
-
-    public boolean deleteTenant(Tenant tenant) throws HouseItServiceException {
-        try {
-            Tenant t = findTenant(tenant);
-            if (t != null) {
-                long id = t.getTenantId();
-                tenantDao.deleteEntity(Tenant.class, id);
-                return true;
-            } else {
-                return false;
-            }
-        } catch (Exception e) {
-            throw new HouseItServiceException("Failed to delete tenant.", e);
-        }
-    }
-
-    public List<Case> getCases() throws HouseItServiceException {
-        try {
-            return caseDao.getEntities(Case.class);
-        } catch (Exception e) {
-            throw new HouseItServiceException("Could not get cases.", e);
-        }
-    }
-
-    public List<Case> findCasesByTenantId(long tenantId) throws HouseItServiceException {
-        try {
-            return caseDao.findCasesByTenantId(tenantId);
-        } catch (Exception e) {
-            throw new HouseItServiceException("Could not get cases.", e);
-        }
-    }
-
-    public List<Case> getCasesByType(String caseType) throws HouseItServiceException {
-        try {
-            return caseDao.getCasesByType(caseType);
-        } catch (Exception e) {
-            throw new HouseItServiceException("Could not get cases.", e);
-        }
-    }
-
-    public List<Case> getCasesByFixDate() throws HouseItServiceException {
-        try {
-            return caseDao.getCasesByFixDate();
-        } catch (Exception e) {
-            throw new HouseItServiceException("Could not get cases.", e);
         }
     }
 
@@ -208,69 +99,53 @@ public class AdminUserServiceImpl implements IAdminUserService {
         }
     }
 
-    public boolean createManager(Manager manager) throws HouseItServiceException {
-        boolean inserted = false;
+    public void createManager(Manager manager) throws HouseItServiceException {
         try {
             managerDao.createEntity(manager);
-            inserted = true;
         } catch (Exception e) {
             throw new HouseItServiceException("Failed to add manager.", e);
         }
-        return inserted;
     }
 
-    public boolean updateManager(Manager manager) throws HouseItServiceException {
-        boolean updated = false;
+    public void updateManager(Manager manager) throws HouseItServiceException {
         try {
             managerDao.updateEntity(manager);
-            updated = true;
         } catch (Exception e) {
             throw new HouseItServiceException("Unable to update manager.", e);
         }
-        return updated;
     }
 
-    public boolean deleteManager(Manager manager) throws HouseItServiceException {
-        boolean deleted = false;
+    public void deleteManager(Manager manager) throws HouseItServiceException {
         try {
             long id = manager.getManagerId();
             managerDao.deleteEntity(Manager.class, id);
-            deleted = true;
         } catch (Exception e) {
             throw new HouseItServiceException("Failed to delete manager.", e);
         }
-        return deleted;
     }
 
-    public List<CaseMessage> getCaseMessagesByCase(long caseNo) throws HouseItServiceException {
+    public void createUser(User user) throws HouseItServiceException {
         try {
-            return caseMessageDao.getCaseMessagesByCase(caseNo);
+            userDao.createEntity(user);
         } catch (Exception e) {
-            throw new HouseItServiceException("Could not get case messages.", e);
+            throw new HouseItServiceException("Failed to add new user.", e);
         }
     }
 
-    public boolean createCaseMessage(CaseMessage caseMessage) throws HouseItServiceException {
-        boolean inserted = false;
+    public void updateUser(User user) throws HouseItServiceException {
         try {
-            caseMessageDao.createEntity(caseMessage);
-            inserted = true;
+            userDao.updateEntity(user);
         } catch (Exception e) {
-            throw new HouseItServiceException("Failed to add case message.", e);
+            throw new HouseItServiceException("Unable to update user details.", e);
         }
-        return inserted;
     }
 
-    public boolean deleteCaseMessage(CaseMessage caseMessage) throws HouseItServiceException {
-        boolean deleted = false;
+    public void deleteUser(User user) throws HouseItServiceException {
         try {
-            long no = caseMessage.getMessageNo();
-            caseMessageDao.deleteEntity(CaseMessage.class, no);
-            deleted = true;
+            userDao.deleteUser(user);
         } catch (Exception e) {
-            throw new HouseItServiceException("Failed to delete case message.", e);
+            throw new HouseItServiceException("Failed to delete user.", e);
         }
-        return deleted;
     }
 
 }

@@ -7,4 +7,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class UserDaoImpl extends BaseDaoImpl<User> implements IUserDao {
 
+    public void deleteUser(User user) {
+        getCurrentSession().delete(user);
+    }
+
 }

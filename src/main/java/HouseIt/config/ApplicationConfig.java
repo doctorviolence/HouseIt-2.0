@@ -17,6 +17,7 @@ import java.util.Properties;
 @PropertySource({"classpath:db.properties"})
 @ComponentScans(value = {
         @ComponentScan("HouseIt.dal"),
+        @ComponentScan("HouseIt.model"),
         @ComponentScan("HouseIt.service")
 })
 public class ApplicationConfig {
@@ -27,8 +28,6 @@ public class ApplicationConfig {
     public ApplicationConfig() {
         super();
     }
-
-    // To-do: Add service beans
 
     @Bean
     public IApartmentDao apartmentDao() {

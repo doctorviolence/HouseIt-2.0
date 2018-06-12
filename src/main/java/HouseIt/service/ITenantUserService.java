@@ -10,18 +10,18 @@ public interface ITenantUserService {
 
     List<Case> findCasesByTenantId(long tenantId) throws HouseItServiceException;
 
-    boolean createCase(Case c) throws HouseItServiceException;
+    void createCase(Case c) throws HouseItServiceException;
 
-    boolean updateCase(Case c) throws HouseItServiceException;
+    void updateCase(Case c) throws HouseItServiceException;
 
-    boolean deleteCase(Case c) throws HouseItServiceException;
+    void deleteCase(Case c) throws HouseItServiceException;
 
     List<CaseMessage> getCaseMessagesByCase(long caseNo) throws HouseItServiceException;
 
-    boolean createCaseMessage(CaseMessage caseMessage) throws HouseItServiceException;
+    void createCaseMessage(CaseMessage caseMessage) throws HouseItServiceException;
 
-    boolean updateCaseMessage(CaseMessage caseMessage) throws HouseItServiceException;
+    void updateCaseMessage(CaseMessage caseMessage) throws HouseItServiceException;
 
-    boolean deleteCaseMessage(CaseMessage caseMessage) throws HouseItServiceException;
+    void deleteCaseMessage(CaseMessage caseMessage) throws HouseItServiceException;
 
 }

@@ -31,38 +31,29 @@ public class TenantUserServiceImpl implements ITenantUserService {
         }
     }
 
-    public boolean createCase(Case c) throws HouseItServiceException {
-        boolean inserted = false;
+    public void createCase(Case c) throws HouseItServiceException {
         try {
             caseDao.createEntity(c);
-            inserted = true;
         } catch (Exception e) {
             throw new HouseItServiceException("Failed to add case.", e);
         }
-        return inserted;
     }
 
-    public boolean updateCase(Case c) throws HouseItServiceException {
-        boolean updated = false;
+    public void updateCase(Case c) throws HouseItServiceException {
         try {
             caseDao.updateEntity(c);
-            updated = true;
         } catch (Exception e) {
             throw new HouseItServiceException("Unable to update case.", e);
         }
-        return updated;
     }
 
-    public boolean deleteCase(Case c) throws HouseItServiceException {
-        boolean deleted = false;
+    public void deleteCase(Case c) throws HouseItServiceException {
         try {
             long no = c.getCaseNo();
             caseDao.deleteEntity(Case.class, no);
-            deleted = true;
         } catch (Exception e) {
             throw new HouseItServiceException("Failed to delete case.", e);
         }
-        return deleted;
     }
 
     public List<CaseMessage> getCaseMessagesByCase(long caseNo) throws HouseItServiceException {
@@ -73,38 +64,29 @@ public class TenantUserServiceImpl implements ITenantUserService {
         }
     }
 
-    public boolean createCaseMessage(CaseMessage caseMessage) throws HouseItServiceException {
-        boolean inserted = false;
+    public void createCaseMessage(CaseMessage caseMessage) throws HouseItServiceException {
         try {
             caseMessageDao.createEntity(caseMessage);
-            inserted = true;
         } catch (Exception e) {
             throw new HouseItServiceException("Failed to add case message.", e);
         }
-        return inserted;
     }
 
-    public boolean updateCaseMessage(CaseMessage caseMessage) throws HouseItServiceException {
-        boolean updated = false;
+    public void updateCaseMessage(CaseMessage caseMessage) throws HouseItServiceException {
         try {
             caseMessageDao.updateEntity(caseMessage);
-            updated = true;
         } catch (Exception e) {
             throw new HouseItServiceException("Unable to update case message.", e);
         }
-        return updated;
     }
 
-    public boolean deleteCaseMessage(CaseMessage caseMessage) throws HouseItServiceException {
-        boolean deleted = false;
+    public void deleteCaseMessage(CaseMessage caseMessage) throws HouseItServiceException {
         try {
             long no = caseMessage.getMessageNo();
             caseMessageDao.deleteEntity(CaseMessage.class, no);
-            deleted = true;
         } catch (Exception e) {
             throw new HouseItServiceException("Failed to delete case message.", e);
         }
-        return deleted;
     }
 
 }
