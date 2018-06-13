@@ -27,121 +27,134 @@ public class ManagerUserServiceImpl implements IManagerUserService {
         this.caseMessageDao = caseMessageDao;
     }
 
-    public List<Building> getBuildings() throws ServiceLayerException {
-        try {
-            return buildingDao.getEntities(Building.class);
-        } catch (Exception e) {
-            throw new ServiceLayerException("Could not get buildings.", e);
+    public List<Building> getBuildings() {
+        List<Building> buildings = buildingDao.getEntities(Building.class);
+
+        if (buildings != null) {
+            return buildings;
+        } else {
+            throw new ServiceLayerException();
         }
     }
 
-    public List<Apartment> getApartmentsInBuilding(long buildingId) throws ServiceLayerException {
-        try {
-            return apartmentDao.getApartmentsInBuilding(buildingId);
-        } catch (Exception e) {
-            throw new ServiceLayerException("Could not get the building's apartments.", e);
+    public List<Apartment> getApartmentsInBuilding(long buildingId) {
+        List<Apartment> apartments = apartmentDao.getApartmentsInBuilding(buildingId);
+
+        if (apartments != null) {
+            return apartments;
+        } else {
+            throw new ServiceLayerException();
         }
     }
 
-    public List<Tenant> getTenantsInApartment(long apartmentId) throws ServiceLayerException {
-        try {
-            return tenantDao.getTenantsInFlat(apartmentId);
-        } catch (Exception e) {
-            throw new ServiceLayerException("Could not get tenants.", e);
+    public List<Tenant> getTenantsInApartment(long apartmentId) {
+        List<Tenant> tenants = tenantDao.getTenantsInFlat(apartmentId);
+
+        if (tenants != null) {
+            return tenants;
+        } else {
+            throw new ServiceLayerException();
         }
     }
 
-    public Tenant findTenant(Tenant tenant) throws ServiceLayerException {
-        try {
-            long id = tenant.getTenantId();
-            return tenantDao.findEntityById(Tenant.class, id);
-        } catch (Exception e) {
-            throw new ServiceLayerException("Could not find tenant.", e);
-        }
+    public Tenant findTenant(long id) {
+        return tenantDao.findEntityById(Tenant.class, id);
     }
 
-    public void createTenant(Tenant tenant) throws ServiceLayerException {
-        try {
+    public void createTenant(Tenant tenant) {
+        if (tenant != null) {
             tenantDao.createEntity(tenant);
-        } catch (Exception e) {
-            throw new ServiceLayerException("Failed to add tenant.", e);
+        } else {
+            throw new ServiceLayerException();
         }
     }
 
-    public void updateTenant(Tenant tenant) throws ServiceLayerException {
-        try {
+    public void updateTenant(Tenant tenant) {
+        if (tenant != null) {
             tenantDao.updateEntity(tenant);
-        } catch (Exception e) {
-            throw new ServiceLayerException("Unable to update tenant.", e);
+        } else {
+            throw new ServiceLayerException();
         }
     }
 
-    public void deleteTenant(Tenant tenant) throws ServiceLayerException {
-        try {
-            Tenant t = findTenant(tenant);
-            if (t != null) {
-                long id = t.getTenantId();
-                tenantDao.deleteEntity(Tenant.class, id);
-            }
-        } catch (Exception e) {
-            throw new ServiceLayerException("Failed to delete tenant.", e);
+    public void deleteTenant(long id) {
+        Tenant t = findTenant(id);
+
+        if (t != null) {
+            tenantDao.deleteEntity(Tenant.class, id);
+        } else {
+            throw new ServiceLayerException();
         }
     }
 
-    public List<Case> getCases() throws ServiceLayerException {
-        try {
-            return caseDao.getEntities(Case.class);
-        } catch (Exception e) {
-            throw new ServiceLayerException("Could not get cases.", e);
+    public List<Case> getCases() {
+        List<Case> cases = caseDao.getEntities(Case.class);
+
+        if (cases != null) {
+            return cases;
+        } else {
+            throw new ServiceLayerException();
         }
     }
 
-    public List<Case> findCasesByTenantId(long tenantId) throws ServiceLayerException {
-        try {
-            return caseDao.findCasesByTenantId(tenantId);
-        } catch (Exception e) {
-            throw new ServiceLayerException("Could not get cases.", e);
+    public List<Case> findCasesByTenantId(long tenantId) {
+        List<Case> cases = caseDao.findCasesByTenantId(tenantId);
+        if (cases != null) {
+            return cases;
+        } else {
+            throw new ServiceLayerException();
         }
     }
 
-    public List<Case> getCasesByType(String caseType) throws ServiceLayerException {
-        try {
-            return caseDao.getCasesByType(caseType);
-        } catch (Exception e) {
-            throw new ServiceLayerException("Could not get cases.", e);
+    public List<Case> getCasesByType(String caseType) {
+        List<Case> cases = caseDao.getCasesByType(caseType);
+
+        if (cases != null) {
+            return cases;
+        } else {
+            throw new ServiceLayerException();
         }
     }
 
-    public List<Case> getCasesByFixDate() throws ServiceLayerException {
-        try {
-            return caseDao.getCasesByFixDate();
-        } catch (Exception e) {
-            throw new ServiceLayerException("Could not get cases.", e);
+    public List<Case> getCasesByFixDate() {
+        List<Case> cases = caseDao.getCasesByFixDate();
+
+        if (cases != null) {
+            return cases;
+        } else {
+            throw new ServiceLayerException();
         }
     }
 
-    public List<CaseMessage> getCaseMessagesByCase(long caseNo) throws ServiceLayerException {
-        try {
-            return caseMessageDao.getCaseMessagesByCase(caseNo);
-        } catch (Exception e) {
-            throw new ServiceLayerException("Could not get case messages.", e);
+    public List<CaseMessage> getMessagesByCase(long caseNo) {
+        List<CaseMessage> caseMessages = caseMessageDao.getCaseMessagesByCase(caseNo);
+
+        if (caseMessages != null) {
+            return caseMessages;
+        } else {
+            throw new ServiceLayerException();
         }
     }
 
-    public void createCaseMessage(CaseMessage caseMessage) throws ServiceLayerException {
-        try {
+    public CaseMessage findMessage(long no) {
+        return caseMessageDao.findEntityById(CaseMessage.class, no);
+    }
+
+    public void createMessage(CaseMessage caseMessage) {
+        if (caseMessage != null) {
             caseMessageDao.createEntity(caseMessage);
-        } catch (Exception e) {
-            throw new ServiceLayerException("Failed to add case message.", e);
+        } else {
+            throw new ServiceLayerException();
         }
     }
 
-    public void deleteCaseMessage(CaseMessage caseMessage) throws ServiceLayerException {
-        try {
-            long no = caseMessage.getMessageNo();
+    public void deleteMessage(long no) {
+        CaseMessage cm = findMessage(no);
+
+        if (cm != null) {
             caseMessageDao.deleteEntity(CaseMessage.class, no);
-        } catch (Exception e) {
-            throw new ServiceLayerException("Failed to delete case message.", e);
+        } else {
+            throw new ServiceLayerException();
         }
     }
 

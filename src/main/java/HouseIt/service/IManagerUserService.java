@@ -1,38 +1,39 @@
 package HouseIt.service;
 
-import HouseIt.exception.ServiceLayerException;
 import HouseIt.model.*;
 
 import java.util.List;
 
 public interface IManagerUserService {
 
-    List<Building> getBuildings() throws ServiceLayerException;
+    List<Building> getBuildings();
 
-    List<Apartment> getApartmentsInBuilding(long buildingId) throws ServiceLayerException;
+    List<Apartment> getApartmentsInBuilding(long buildingId);
 
-    List<Tenant> getTenantsInApartment(long apartmentId) throws ServiceLayerException;
+    List<Tenant> getTenantsInApartment(long apartmentId);
 
-    Tenant findTenant(Tenant tenant) throws ServiceLayerException;
+    Tenant findTenant(long tenantId);
 
-    void createTenant(Tenant tenant) throws ServiceLayerException;
+    void createTenant(Tenant tenant);
 
-    void updateTenant(Tenant tenant) throws ServiceLayerException;
+    void updateTenant(Tenant tenant);
 
-    void deleteTenant(Tenant tenant) throws ServiceLayerException;
+    void deleteTenant(long tenantId);
 
-    List<Case> getCases() throws ServiceLayerException;
+    List<Case> getCases();
 
-    List<Case> findCasesByTenantId(long tenantId) throws ServiceLayerException;
+    List<Case> findCasesByTenantId(long tenantId);
 
-    List<Case> getCasesByType(String caseType) throws ServiceLayerException;
+    List<Case> getCasesByType(String caseType);
 
-    List<Case> getCasesByFixDate() throws ServiceLayerException;
+    List<Case> getCasesByFixDate();
 
-    List<CaseMessage> getCaseMessagesByCase(long caseNo) throws ServiceLayerException;
+    List<CaseMessage> getMessagesByCase(long caseNo);
 
-    void createCaseMessage(CaseMessage caseMessage) throws ServiceLayerException;
+    CaseMessage findMessage(long messageNo);
 
-    void deleteCaseMessage(CaseMessage caseMessage) throws ServiceLayerException;
+    void createMessage(CaseMessage caseMessage);
+
+    void deleteMessage(long messageNo);
 
 }

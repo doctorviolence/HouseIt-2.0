@@ -1,40 +1,47 @@
 package HouseIt.service;
 
-import HouseIt.exception.ServiceLayerException;
 import HouseIt.model.*;
 
 import java.util.List;
 
 public interface IAdminUserService {
 
-    List<Building> getBuildings() throws ServiceLayerException;
+    List<Building> getBuildings();
 
-    void createBuilding(Building building) throws ServiceLayerException;
+    Building findBuilding(long buildingId);
 
-    void updateBuilding(Building building) throws ServiceLayerException;
+    void createBuilding(Building building);
 
-    void deleteBuilding(Building building) throws ServiceLayerException;
+    void updateBuilding(Building building);
 
-    List<Apartment> getApartmentsInBuilding(long buildingId) throws ServiceLayerException;
+    void deleteBuilding(long buildingId);
 
-    void createApartment(Apartment apartment) throws ServiceLayerException;
+    List<Apartment> getApartmentsInBuilding(long buildingId);
 
-    void updateApartment(Apartment apartment) throws ServiceLayerException;
+    Apartment findApartment(long apartmentId);
 
-    void deleteApartment(Apartment apartment) throws ServiceLayerException;
+    void createApartment(Apartment apartment);
 
-    List<Manager> getManagers() throws ServiceLayerException;
+    void updateApartment(Apartment apartment);
 
-    void createManager(Manager manager) throws ServiceLayerException;
+    void deleteApartment(long apartmentId);
 
-    void updateManager(Manager manager) throws ServiceLayerException;
+    List<Manager> getManagers();
 
-    void deleteManager(Manager manager) throws ServiceLayerException;
+    Manager findManager(long managerId);
 
-    void createUser(User user) throws ServiceLayerException;
+    void createManager(Manager manager);
 
-    void updateUser(User user) throws ServiceLayerException;
+    void updateManager(Manager manager);
 
-    void deleteUser(User user) throws ServiceLayerException;
+    void deleteManager(long apartmentId);
+
+    User findUser(long userId);
+
+    void createUser(User user);
+
+    void updateUser(User user);
+
+    void deleteUser(long userId);
 
 }

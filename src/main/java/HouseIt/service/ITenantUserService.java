@@ -1,6 +1,5 @@
 package HouseIt.service;
 
-import HouseIt.exception.ServiceLayerException;
 import HouseIt.model.Case;
 import HouseIt.model.CaseMessage;
 
@@ -8,20 +7,24 @@ import java.util.List;
 
 public interface ITenantUserService {
 
-    List<Case> findCasesByTenantId(long tenantId) throws ServiceLayerException;
+    List<Case> findCasesByTenantId(long tenantId);
 
-    void createCase(Case c) throws ServiceLayerException;
+    Case findCase(long caseNo);
 
-    void updateCase(Case c) throws ServiceLayerException;
+    void createCase(Case c);
 
-    void deleteCase(Case c) throws ServiceLayerException;
+    void updateCase(Case c);
 
-    List<CaseMessage> getCaseMessagesByCase(long caseNo) throws ServiceLayerException;
+    void deleteCase(long caseNo);
 
-    void createCaseMessage(CaseMessage caseMessage) throws ServiceLayerException;
+    List<CaseMessage> getCaseMessagesByCase(long caseNo);
 
-    void updateCaseMessage(CaseMessage caseMessage) throws ServiceLayerException;
+    CaseMessage findMessage(long messageNo);
 
-    void deleteCaseMessage(CaseMessage caseMessage) throws ServiceLayerException;
+    void createMessage(CaseMessage caseMessage);
+
+    void updateMessage(CaseMessage caseMessage);
+
+    void deleteMessage(long messageNo);
 
 }

@@ -25,126 +25,155 @@ public class AdminUserServiceImpl implements IAdminUserService {
         this.userDao = userDao;
     }
 
-    public List<Building> getBuildings() throws ServiceLayerException {
-        try {
-            return buildingDao.getEntities(Building.class);
-        } catch (Exception e) {
-            throw new ServiceLayerException("Could not get buildings.", e);
+    public List<Building> getBuildings() {
+        List<Building> buildings = buildingDao.getEntities(Building.class);
+
+        if (buildings != null) {
+            return buildings;
+        } else {
+            throw new ServiceLayerException();
         }
     }
 
-    public void createBuilding(Building building) throws ServiceLayerException {
-        try {
+    public Building findBuilding(long buildingId) {
+        return buildingDao.findEntityById(Building.class, buildingId);
+    }
+
+    public void createBuilding(Building building) {
+        if (building != null) {
             buildingDao.createEntity(building);
-        } catch (Exception e) {
-            throw new ServiceLayerException("Failed to add building.", e);
+        } else {
+            throw new ServiceLayerException();
         }
     }
 
-    public void updateBuilding(Building building) throws ServiceLayerException {
-        try {
+    public void updateBuilding(Building building) {
+        Building b = findBuilding(building.getBuildingId());
+
+        if (b != null) {
             buildingDao.updateEntity(building);
-        } catch (Exception e) {
-            throw new ServiceLayerException("Unable to update building.", e);
+        } else {
+            throw new ServiceLayerException();
         }
     }
 
-    public void deleteBuilding(Building building) throws ServiceLayerException {
-        try {
-            long id = building.getBuildingId();
+    public void deleteBuilding(long id) {
+        Building b = findBuilding(id);
+
+        if (b != null) {
             buildingDao.deleteEntity(Building.class, id);
-        } catch (Exception e) {
-            throw new ServiceLayerException("Failed to delete building.", e);
+        } else {
+            throw new ServiceLayerException();
         }
     }
 
-    public List<Apartment> getApartmentsInBuilding(long buildingId) throws ServiceLayerException {
-        try {
-            return apartmentDao.getApartmentsInBuilding(buildingId);
-        } catch (Exception e) {
-            throw new ServiceLayerException("Could not get the building's apartments.", e);
+    public List<Apartment> getApartmentsInBuilding(long buildingId) {
+        List<Apartment> apartments = apartmentDao.getApartmentsInBuilding(buildingId);
+
+        if (apartments != null) {
+            return apartments;
+        } else {
+            throw new ServiceLayerException();
         }
     }
 
-    public void createApartment(Apartment apartment) throws ServiceLayerException {
-        try {
+    public Apartment findApartment(long apartmentId) {
+        return apartmentDao.findEntityById(Apartment.class, apartmentId);
+    }
+
+    public void createApartment(Apartment apartment) {
+        if (apartment != null) {
             apartmentDao.createEntity(apartment);
-        } catch (Exception e) {
-            throw new ServiceLayerException("Failed to add apartment.", e);
+        } else {
+            throw new ServiceLayerException();
         }
     }
 
-    public void updateApartment(Apartment apartment) throws ServiceLayerException {
-        try {
+    public void updateApartment(Apartment apartment) {
+        if (apartment != null) {
             apartmentDao.updateEntity(apartment);
-        } catch (Exception e) {
-            throw new ServiceLayerException("Unable to update apartment.", e);
+        } else {
+            throw new ServiceLayerException();
         }
     }
 
-    public void deleteApartment(Apartment apartment) throws ServiceLayerException {
-        try {
-            long id = apartment.getApartmentId();
+    public void deleteApartment(long id) {
+        Apartment a = findApartment(id);
+
+        if (a != null) {
             apartmentDao.deleteEntity(Apartment.class, id);
-        } catch (Exception e) {
-            throw new ServiceLayerException("Failed to delete apartment.", e);
+        } else {
+            throw new ServiceLayerException();
         }
     }
 
-    public List<Manager> getManagers() throws ServiceLayerException {
-        try {
-            return managerDao.getEntities(Manager.class);
-        } catch (Exception e) {
-            throw new ServiceLayerException("Could not get managers.", e);
+    public List<Manager> getManagers() {
+        List<Manager> managers = managerDao.getEntities(Manager.class);
+
+        if (managers != null) {
+            return managers;
+        } else {
+            throw new ServiceLayerException();
         }
     }
 
-    public void createManager(Manager manager) throws ServiceLayerException {
-        try {
+    public Manager findManager(long id) {
+        return managerDao.findEntityById(Manager.class, id);
+    }
+
+    public void createManager(Manager manager) {
+        if (manager != null) {
             managerDao.createEntity(manager);
-        } catch (Exception e) {
-            throw new ServiceLayerException("Failed to add manager.", e);
+        } else {
+            throw new ServiceLayerException();
         }
     }
 
-    public void updateManager(Manager manager) throws ServiceLayerException {
-        try {
+    public void updateManager(Manager manager) {
+        if (manager != null) {
             managerDao.updateEntity(manager);
-        } catch (Exception e) {
-            throw new ServiceLayerException("Unable to update manager.", e);
+        } else {
+            throw new ServiceLayerException();
         }
     }
 
-    public void deleteManager(Manager manager) throws ServiceLayerException {
-        try {
-            long id = manager.getManagerId();
+    public void deleteManager(long id) {
+        Manager m = findManager(id);
+
+        if (m != null) {
             managerDao.deleteEntity(Manager.class, id);
-        } catch (Exception e) {
-            throw new ServiceLayerException("Failed to delete manager.", e);
+        } else {
+            throw new ServiceLayerException();
         }
     }
 
-    public void createUser(User user) throws ServiceLayerException {
-        try {
+    public User findUser(long id) {
+        return userDao.findEntityById(User.class, id);
+    }
+
+    public void createUser(User user) {
+        if (user != null) {
             userDao.createEntity(user);
-        } catch (Exception e) {
-            throw new ServiceLayerException("Failed to add new user.", e);
+        } else {
+            throw new ServiceLayerException();
         }
     }
 
-    public void updateUser(User user) throws ServiceLayerException {
-        try {
+    public void updateUser(User user) {
+        if (user != null) {
             userDao.updateEntity(user);
-        } catch (Exception e) {
-            throw new ServiceLayerException("Unable to update user details.", e);
+        } else {
+            throw new ServiceLayerException();
         }
     }
 
-    public void deleteUser(User user) throws ServiceLayerException {
-        try {
-            userDao.deleteUser(user);
-        } catch (Exception e) {
-            throw new ServiceLayerException("Failed to delete user.", e);
+    public void deleteUser(long id) {
+        User u = findUser(id);
+
+        if (u != null) {
+            userDao.deleteEntity(User.class, id);
+        } else {
+            throw new ServiceLayerException();
         }
     }
 

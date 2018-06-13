@@ -23,69 +23,83 @@ public class TenantUserServiceImpl implements ITenantUserService {
         this.caseMessageDao = caseMessageDao;
     }
 
-    public List<Case> findCasesByTenantId(long tenantId) throws ServiceLayerException {
-        try {
+    public List<Case> findCasesByTenantId(long tenantId) {
+        List<Case> cases = caseDao.findCasesByTenantId(tenantId);
+
+        if (cases != null) {
             return caseDao.findCasesByTenantId(tenantId);
-        } catch (Exception e) {
-            throw new ServiceLayerException("Could not get cases.", e);
+        } else {
+            throw new ServiceLayerException();
         }
     }
 
-    public void createCase(Case c) throws ServiceLayerException {
-        try {
+    public Case findCase(long caseNo) {
+        return caseDao.findEntityById(Case.class, caseNo);
+    }
+
+    public void createCase(Case c) {
+        if (c != null) {
             caseDao.createEntity(c);
-        } catch (Exception e) {
-            throw new ServiceLayerException("Failed to add case.", e);
+        } else {
+            throw new ServiceLayerException();
         }
     }
 
-    public void updateCase(Case c) throws ServiceLayerException {
-        try {
+    public void updateCase(Case c) {
+        if (c != null) {
             caseDao.updateEntity(c);
-        } catch (Exception e) {
-            throw new ServiceLayerException("Unable to update case.", e);
+        } else {
+            throw new ServiceLayerException();
         }
     }
 
-    public void deleteCase(Case c) throws ServiceLayerException {
-        try {
-            long no = c.getCaseNo();
-            caseDao.deleteEntity(Case.class, no);
-        } catch (Exception e) {
-            throw new ServiceLayerException("Failed to delete case.", e);
+    public void deleteCase(long caseNo) {
+        Case c = findCase(caseNo);
+
+        if (c != null) {
+            caseDao.deleteEntity(Case.class, caseNo);
+        } else {
+            throw new ServiceLayerException();
         }
     }
 
-    public List<CaseMessage> getCaseMessagesByCase(long caseNo) throws ServiceLayerException {
-        try {
-            return caseMessageDao.getCaseMessagesByCase(caseNo);
-        } catch (Exception e) {
-            throw new ServiceLayerException("Could not get case messages.", e);
+    public List<CaseMessage> getCaseMessagesByCase(long caseNo) {
+        List<CaseMessage> caseMessages = caseMessageDao.getCaseMessagesByCase(caseNo);
+
+        if (caseMessages != null) {
+            return caseMessages;
+        } else {
+            throw new ServiceLayerException();
         }
     }
 
-    public void createCaseMessage(CaseMessage caseMessage) throws ServiceLayerException {
-        try {
+    public CaseMessage findMessage(long messageNo) {
+        return caseMessageDao.findEntityById(CaseMessage.class, messageNo);
+    }
+
+    public void createMessage(CaseMessage caseMessage) {
+        if (caseMessage != null) {
             caseMessageDao.createEntity(caseMessage);
-        } catch (Exception e) {
-            throw new ServiceLayerException("Failed to add case message.", e);
+        } else {
+            throw new ServiceLayerException();
         }
     }
 
-    public void updateCaseMessage(CaseMessage caseMessage) throws ServiceLayerException {
-        try {
+    public void updateMessage(CaseMessage caseMessage) {
+        if (caseMessage != null) {
             caseMessageDao.updateEntity(caseMessage);
-        } catch (Exception e) {
-            throw new ServiceLayerException("Unable to update case message.", e);
+        } else {
+            throw new ServiceLayerException();
         }
     }
 
-    public void deleteCaseMessage(CaseMessage caseMessage) throws ServiceLayerException {
-        try {
-            long no = caseMessage.getMessageNo();
-            caseMessageDao.deleteEntity(CaseMessage.class, no);
-        } catch (Exception e) {
-            throw new ServiceLayerException("Failed to delete case message.", e);
+    public void deleteMessage(long messageNo) {
+        CaseMessage cm = findMessage(messageNo);
+
+        if (cm != null) {
+            caseMessageDao.deleteEntity(CaseMessage.class, messageNo);
+        } else {
+            throw new ServiceLayerException();
         }
     }
 
