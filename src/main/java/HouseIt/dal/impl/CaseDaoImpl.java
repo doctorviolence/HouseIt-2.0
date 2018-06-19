@@ -16,20 +16,23 @@ public class CaseDaoImpl extends BaseDaoImpl<Case> implements ICaseDao {
     public List<Case> findCasesByTenantId(long tenantId) {
         return (List<Case>) getCurrentSession().createCriteria(Case.class)
                 .add(Restrictions.eq("tenant.tenantId", tenantId))
-                .addOrder(Order.asc("caseDate"));
+                .addOrder(Order.asc("caseDate"))
+                .list();
     }
 
     @SuppressWarnings("unchecked")
     public List<Case> getCasesByType(String caseType) {
         return (List<Case>) getCurrentSession().createCriteria(Case.class)
-                .add(Property.forName("caseType").like(caseType))
-                .addOrder(Order.asc("caseDate"));
+                .add(Restrictions.eq("caseType", caseType))
+                .addOrder(Order.asc("caseDate"))
+                .list();
     }
 
     @SuppressWarnings("unchecked")
     public List<Case> getCasesByFixDate() {
         return (List<Case>) getCurrentSession().createCriteria(Case.class)
-                .addOrder(Order.asc("fixDate"));
+                .addOrder(Order.asc("fixDate"))
+                .list();
     }
 
 }

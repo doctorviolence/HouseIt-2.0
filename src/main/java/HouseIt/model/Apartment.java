@@ -11,7 +11,7 @@ public class Apartment implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "apartment_id", nullable = false)
     private long apartmentId;
 
@@ -36,6 +36,10 @@ public class Apartment implements Serializable {
 
     public Apartment() {
 
+    }
+
+    public Apartment(long apartmentId) {
+        this.apartmentId = apartmentId;
     }
 
     public long getApartmentId() {

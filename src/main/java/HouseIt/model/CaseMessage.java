@@ -12,8 +12,8 @@ public class CaseMessage implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name = "case_message_no", nullable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "message_no", nullable = false)
     private long messageNo;
 
     @Column(name = "message_text")

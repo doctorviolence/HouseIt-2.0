@@ -5,7 +5,7 @@ import HouseIt.model.CaseMessage;
 
 import java.util.List;
 
-public interface ITenantUserService {
+public interface ITenantService {
 
     List<Case> findCasesByTenantId(long tenantId);
 

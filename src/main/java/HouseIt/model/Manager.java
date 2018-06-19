@@ -11,17 +11,19 @@ public class Manager implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "manager_id", nullable = false)
-
-    @OneToMany(mappedBy = "manager", fetch = FetchType.LAZY)
     private long managerId;
 
-
+    @OneToMany(mappedBy = "manager", fetch = FetchType.LAZY)
     private List<Case> cases;
 
     public Manager() {
 
+    }
+
+    public Manager(long managerId) {
+        this.managerId = managerId;
     }
 
     public long getManagerId() {

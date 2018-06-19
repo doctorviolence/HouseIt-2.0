@@ -3,7 +3,7 @@ package HouseIt.controller;
 import HouseIt.exception.ResourceNotFoundException;
 import HouseIt.exception.MissingInformationException;
 import HouseIt.model.*;
-import HouseIt.service.IManagerUserService;
+import HouseIt.service.IManagerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +17,7 @@ import java.util.List;
 public class ManagerUserController {
 
     @Autowired
-    private IManagerUserService userService;
+    private IManagerService userService;
 
     // Get all buildings
     @PostMapping(value = "/m-buildings")

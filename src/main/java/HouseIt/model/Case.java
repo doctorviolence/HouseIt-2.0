@@ -11,7 +11,7 @@ public class Case implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "case_no", nullable = false)
     private long caseNo;
 
@@ -38,11 +38,15 @@ public class Case implements Serializable {
     @JoinColumn(name = "manager_id", referencedColumnName = "manager_id", nullable = false)
     private Manager manager;
 
-    @OneToMany(mappedBy = "case", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "c", fetch = FetchType.LAZY)
     private List<CaseMessage> caseMessages;
 
     public Case() {
 
+    }
+
+    public Case(long caseNo) {
+        this.caseNo = caseNo;
     }
 
     public long getCaseNo() {

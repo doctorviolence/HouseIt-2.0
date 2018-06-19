@@ -1,13 +1,13 @@
-CREATE TABLE buildings (
+CREATE TABLE IF NOT EXISTS buildings (
   building_id  BIGINT(20) NOT NULL AUTO_INCREMENT,
   address      VARCHAR(100),
   floor_levels INT,
   PRIMARY KEY (building_id)
 );
 
-CREATE TABLE apartments (
+CREATE TABLE IF NOT EXISTS apartments (
   apartment_id BIGINT(20) NOT NULL AUTO_INCREMENT,
-  apartment_no INT,
+  apartment_no VARCHAR(10),
   size         INT,
   floor_no     INT,
   rent         INT,
@@ -16,22 +16,22 @@ CREATE TABLE apartments (
   FOREIGN KEY (building_id) REFERENCES buildings (building_id)
 );
 
-CREATE TABLE tenants (
+CREATE TABLE IF NOT EXISTS tenants (
   tenant_id    BIGINT(20) NOT NULL AUTO_INCREMENT,
-  fname        VARCHAR(50),
-  lname        VARCHAR(50),
+  first_name   VARCHAR(50),
+  last_name    VARCHAR(50),
   phone_no     VARCHAR(30),
   apartment_id BIGINT(20) NOT NULL,
   PRIMARY KEY (tenant_id),
   FOREIGN KEY (apartment_id) REFERENCES apartments (apartment_id)
 );
 
-CREATE TABLE managers (
+CREATE TABLE IF NOT EXISTS managers (
   manager_id BIGINT(20) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (manager_id)
 );
 
-CREATE TABLE users (
+CREATE TABLE IF NOT EXISTS users (
   id       BIGINT(20) NOT NULL AUTO_INCREMENT,
   username VARCHAR(20),
   pw       VARCHAR(50),
@@ -39,10 +39,9 @@ CREATE TABLE users (
   PRIMARY KEY (id)
 );
 
-CREATE TABLE cases (
+CREATE TABLE IF NOT EXISTS cases (
   case_no     BIGINT(20) NOT NULL AUTO_INCREMENT,
   case_type   VARCHAR(20),
-  case_text   VARCHAR(100),
   case_status VARCHAR(20),
   resolved    VARCHAR(20),
   case_date   DATE,
@@ -54,7 +53,7 @@ CREATE TABLE cases (
   FOREIGN KEY (tenant_id) REFERENCES tenants (tenant_id)
 );
 
-CREATE TABLE case_messages (
+CREATE TABLE IF NOT EXISTS case_messages (
   message_no   BIGINT(20) NOT NULL AUTO_INCREMENT,
   message_text VARCHAR(150),
   case_no      BIGINT(20) NOT NULL,

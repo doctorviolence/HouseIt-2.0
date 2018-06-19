@@ -13,7 +13,8 @@ public class CaseMessageDaoImpl extends BaseDaoImpl<CaseMessage> implements ICas
     @SuppressWarnings("unchecked")
     public List<CaseMessage> getCaseMessagesByCase(long caseNo) {
         return (List<CaseMessage>) getCurrentSession().createCriteria(CaseMessage.class)
-                .add(Restrictions.eq("case.caseNo", caseNo));
+                .add(Restrictions.eq("c.caseNo", caseNo))
+                .list();
     }
 
 }

@@ -13,7 +13,8 @@ public class TenantDaoImpl extends BaseDaoImpl<Tenant> implements ITenantDao {
     @SuppressWarnings("unchecked")
     public List<Tenant> getTenantsInFlat(long apartmentId) {
         return (List<Tenant>) getCurrentSession().createCriteria(Tenant.class)
-                .add(Restrictions.eq("apartment.apartmentId", apartmentId));
+                .add(Restrictions.eq("apartment.apartmentId", apartmentId))
+                .list();
     }
 
 }

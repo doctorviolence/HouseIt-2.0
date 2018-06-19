@@ -3,14 +3,16 @@ package HouseIt.service.impl;
 import HouseIt.dal.*;
 import HouseIt.exception.ServiceLayerException;
 import HouseIt.model.*;
-import HouseIt.service.IManagerUserService;
+import HouseIt.service.IManagerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
-@Service("managerUserService")
-public class ManagerUserServiceImpl implements IManagerUserService {
+@Service("managerService")
+@Transactional
+public class ManagerServiceImpl implements IManagerService {
 
     private IBuildingDao buildingDao;
     private IApartmentDao apartmentDao;
@@ -19,7 +21,7 @@ public class ManagerUserServiceImpl implements IManagerUserService {
     private ICaseMessageDao caseMessageDao;
 
     @Autowired
-    public ManagerUserServiceImpl(IBuildingDao buildingDao, IApartmentDao apartmentDao, ITenantDao tenantDao, ICaseDao caseDao, ICaseMessageDao caseMessageDao) {
+    public ManagerServiceImpl(IBuildingDao buildingDao, IApartmentDao apartmentDao, ITenantDao tenantDao, ICaseDao caseDao, ICaseMessageDao caseMessageDao) {
         this.buildingDao = buildingDao;
         this.apartmentDao = apartmentDao;
         this.tenantDao = tenantDao;

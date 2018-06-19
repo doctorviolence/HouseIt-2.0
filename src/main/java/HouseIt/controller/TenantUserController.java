@@ -4,7 +4,7 @@ import HouseIt.exception.ResourceNotFoundException;
 import HouseIt.exception.MissingInformationException;
 import HouseIt.model.Case;
 import HouseIt.model.CaseMessage;
-import HouseIt.service.ITenantUserService;
+import HouseIt.service.ITenantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +18,7 @@ import java.util.List;
 public class TenantUserController {
 
     @Autowired
-    private ITenantUserService userService;
+    private ITenantService userService;
 
     // Get cases pertaining to tenant
     @PostMapping(value = "/t-cases")

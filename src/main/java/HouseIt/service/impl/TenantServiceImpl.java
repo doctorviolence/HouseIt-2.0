@@ -5,20 +5,22 @@ import HouseIt.dal.ICaseMessageDao;
 import HouseIt.exception.ServiceLayerException;
 import HouseIt.model.Case;
 import HouseIt.model.CaseMessage;
-import HouseIt.service.ITenantUserService;
+import HouseIt.service.ITenantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
-@Service("tenantUserService")
-public class TenantUserServiceImpl implements ITenantUserService {
+@Service("tenantService")
+@Transactional
+public class TenantServiceImpl implements ITenantService {
 
     private ICaseDao caseDao;
     private ICaseMessageDao caseMessageDao;
 
     @Autowired
-    public TenantUserServiceImpl(ICaseDao caseDao, ICaseMessageDao caseMessageDao) {
+    public TenantServiceImpl(ICaseDao caseDao, ICaseMessageDao caseMessageDao) {
         this.caseDao = caseDao;
         this.caseMessageDao = caseMessageDao;
     }

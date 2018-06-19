@@ -24,7 +24,7 @@ public abstract class BaseDaoImpl<T extends Serializable> implements IBaseDao<T>
 
     @SuppressWarnings("unchecked")
     public T findEntityById(Class<T> entity, long id) {
-        return (T) getCurrentSession().get(entity.getClass(), id);
+        return (T) getCurrentSession().get(entity, id);
     }
 
 

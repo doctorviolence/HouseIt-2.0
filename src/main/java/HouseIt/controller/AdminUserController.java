@@ -6,7 +6,7 @@ import HouseIt.model.Apartment;
 import HouseIt.model.Building;
 import HouseIt.model.Manager;
 import HouseIt.model.User;
-import HouseIt.service.IAdminUserService;
+import HouseIt.service.IAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +20,7 @@ import java.util.List;
 public class AdminUserController {
 
     @Autowired
-    private IAdminUserService adminUserService;
+    private IAdminService adminUserService;
 
     // Get buildings
     @PostMapping(value = "/a-buildings")

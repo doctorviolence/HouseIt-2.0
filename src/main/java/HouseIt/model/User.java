@@ -9,20 +9,21 @@ import java.util.Arrays;
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private String[] roles = {"ADMIN", "MANAGER", "TENANT"};
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
     @Column(name = "username", nullable = false, unique = true)
     private String username;
 
-    @Column(name = "password")
+    @Column(name = "pw")
     private String password;
 
     @Column(name = "role")
     private String role;
+
+    private String[] roles = {"ADMIN", "MANAGER", "TENANT"};
 
     public User() {
 

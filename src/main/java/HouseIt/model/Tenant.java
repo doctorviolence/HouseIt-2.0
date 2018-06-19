@@ -11,7 +11,7 @@ public class Tenant implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "tenant_id", nullable = false)
     private long tenantId;
 
@@ -33,6 +33,10 @@ public class Tenant implements Serializable {
 
     public Tenant() {
 
+    }
+
+    public Tenant(long tenantId) {
+        this.tenantId = tenantId;
     }
 
     public long getTenantId() {

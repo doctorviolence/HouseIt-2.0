@@ -4,7 +4,7 @@ import HouseIt.model.*;
 
 import java.util.List;
 
-public interface IAdminUserService {
+public interface IAdminService {
 
     List<Building> getBuildings();
 
