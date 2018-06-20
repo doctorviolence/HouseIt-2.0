@@ -4,6 +4,10 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Arrays;
 
+/**
+ * WORK IN PROGRESS (Looking over design/implementation of JWT)
+ **/
+
 @Entity
 @Table(name = "users")
 public class User implements Serializable {
@@ -23,7 +27,13 @@ public class User implements Serializable {
     @Column(name = "role")
     private String role;
 
-    private String[] roles = {"ADMIN", "MANAGER", "TENANT"};
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "tenant_id")
+    private Tenant tenant;
+
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "manager_id")
+    private Manager manager;
 
     public User() {
 
@@ -58,9 +68,27 @@ public class User implements Serializable {
     }
 
     public void setRole(String role) {
-        if (Arrays.stream(this.roles).parallel().anyMatch(role::contains)) {
+        String[] roles = {"ROLE_ADMIN", "ROLE_MANAGER", "ROLE_TENANT"};
+
+        if (Arrays.stream(roles).parallel().anyMatch(role::contains)) {
             this.role = role;
         }
+    }
+
+    public Tenant getTenant() {
+        return tenant;
+    }
+
+    public void setTenant(Tenant tenant) {
+        this.tenant = tenant;
+    }
+
+    public Manager getManager() {
+        return manager;
+    }
+
+    public void setManager(Manager manager) {
+        this.manager = manager;
     }
 
 }

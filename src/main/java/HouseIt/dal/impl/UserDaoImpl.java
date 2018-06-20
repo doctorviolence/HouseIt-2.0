@@ -13,8 +13,4 @@ public class UserDaoImpl extends BaseDaoImpl<User> implements IUserDao {
                 .add(Restrictions.eq("user.username", username));
     }
 
-    public void deleteUser(User user) {
-        getCurrentSession().delete(user);
-    }
-
 }

@@ -31,6 +31,9 @@ public class Tenant implements Serializable {
     @OneToMany(mappedBy = "tenant", fetch = FetchType.LAZY)
     private List<Case> cases;
 
+    @OneToOne(fetch = FetchType.EAGER, mappedBy = "tenant")
+    private User user;
+
     public Tenant() {
 
     }
@@ -85,6 +88,14 @@ public class Tenant implements Serializable {
 
     public void setCases(List<Case> cases) {
         this.cases = cases;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
 }

@@ -9,11 +9,9 @@ import HouseIt.service.ITenantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
-@Service("tenantService")
-@Transactional
+@Service("tenantUserService")
 public class TenantServiceImpl implements ITenantService {
 
     private ICaseDao caseDao;

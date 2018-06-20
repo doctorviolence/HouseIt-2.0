@@ -13,13 +13,17 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-@Service("loginUserService")
-public class UserDetailsServiceImpl implements UserDetailsService {
+/**
+ * WORK IN PROGRESS (Looking over design/implementation of JWT)
+ **/
+
+@Service("userService")
+public class UserServiceImpl implements UserDetailsService {
 
     private IUserDao userDao;
 
     @Autowired
-    public UserDetailsServiceImpl(IUserDao userDao) {
+    public UserServiceImpl(IUserDao userDao) {
         this.userDao = userDao;
     }
 

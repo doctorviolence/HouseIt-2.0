@@ -6,6 +6,4 @@ public interface IUserDao extends IBaseDao<User> {
 
     User findByUsername(String username);
 
-    void deleteUser(User user);
-
 }
