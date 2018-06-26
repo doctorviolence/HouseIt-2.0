@@ -1,3 +1,5 @@
+package service;
+
 import HouseIt.Application;
 import HouseIt.model.Apartment;
 import HouseIt.model.Building;

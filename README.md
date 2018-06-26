@@ -4,9 +4,7 @@ Revamped version of previous application 'HouseIt'.
 
 To-do:
 
-- Add Spring Security/JWT
-
-- Write controller tests (w/ JWT)
+- Write controller tests, fix security layer
 
 - Add new, more specific exception handling
 

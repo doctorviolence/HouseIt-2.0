@@ -36,6 +36,7 @@ CREATE TABLE IF NOT EXISTS users (
   username   VARCHAR(20),
   pw         VARCHAR(50),
   role       VARCHAR(20),
+  enabled    TINYINT(1),
   tenant_id  BIGINT(20) NOT NULL,
   manager_id BIGINT(20) NOT NULL,
   PRIMARY KEY (id),

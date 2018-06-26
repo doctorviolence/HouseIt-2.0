@@ -1,3 +1,5 @@
+package service;
+
 import HouseIt.Application;
 import HouseIt.model.Case;
 import HouseIt.model.CaseMessage;

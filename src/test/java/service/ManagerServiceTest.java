@@ -1,3 +1,5 @@
+package service;
+
 import HouseIt.Application;
 import HouseIt.model.*;
 import HouseIt.service.IManagerService;
