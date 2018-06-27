@@ -2,7 +2,9 @@ package HouseIt.config;
 
 import HouseIt.dal.*;
 import HouseIt.dal.impl.*;
+import HouseIt.service.impl.UserServiceImpl;
 import org.springframework.context.annotation.*;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Configuration

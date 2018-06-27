@@ -34,13 +34,13 @@ public class TenantServiceTest {
     }
 
     @Test
-    public void testWhenFindingCasesByTenantId_ThenReturnTwoCases() {
+    public void whenFindingCasesByTenantId_ThenReturnTwoCases() {
         List<Case> cases = tenantService.findCasesByTenantId(1);
         assertThat(cases).hasSize(2);
     }
 
     @Test
-    public void testWhenFindingCasesByNo_ThenReturnOneCase() {
+    public void whenFindingCasesByNo_ThenReturnOneCase() {
         Case test = tenantService.findCase(1);
         assertThat(test.getCaseNo()).isEqualTo(1);
         assertThat(test.getCaseType()).isEqualTo("Kitchen");
@@ -48,19 +48,19 @@ public class TenantServiceTest {
     }
 
     @Test
-    public void testWhenFindingCasesByInvalidNo_ThenReturnNull() {
+    public void whenFindingCasesByInvalidNo_ThenReturnNull() {
         Case test = tenantService.findCase(3);
         assertThat(test).isNull();
     }
 
     @Test
-    public void testWhenGetMessagesByCase_thenReturnTwo() {
+    public void whenGetMessagesByCase_thenReturnTwo() {
         List<CaseMessage> caseMessages = tenantService.getCaseMessagesByCase(1);
         assertThat(caseMessages).hasSize(2);
     }
 
     @Test
-    public void testWhenGetMessagesByInvalidCase_thenReturnNull() {
+    public void whenGetMessagesByInvalidCase_thenReturnNull() {
         List<CaseMessage> caseMessages = tenantService.getCaseMessagesByCase(2);
         assertThat(caseMessages).isNullOrEmpty();
     }

@@ -10,7 +10,8 @@ public class UserDaoImpl extends BaseDaoImpl<User> implements IUserDao {
 
     public User findByUsername(String username) {
         return (User) getCurrentSession().createCriteria(User.class)
-                .add(Restrictions.eq("user.username", username));
+                .add(Restrictions.eq("username", username))
+                .uniqueResult();
     }
 
 }

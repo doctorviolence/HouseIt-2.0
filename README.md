@@ -4,7 +4,7 @@ Revamped version of previous application 'HouseIt'.
 
 To-do:
 
-- Write controller tests, fix security layer
+- Write controller tests, fix security layer (debug: bad credentials)
 
 - Add new, more specific exception handling
 

@@ -9,11 +9,14 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 /**
  * Overrides userdetailsservice and instead returns my custom wrapper for the domain user
  **/
 
 @Service("userService")
+@Transactional
 public class UserServiceImpl implements UserDetailsService {
 
     private IUserDao userDao;
@@ -27,12 +30,11 @@ public class UserServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userDao.findByUsername(username);
 
-        if (user != null) {
-            return new AuthenticatedUser(user); // Returns custom wrapper of my user domain
-        } else {
+        if (user == null) {
             throw new UsernameNotFoundException(String.format("Unable to find user by username %s.", username));
         }
 
+        return new AuthenticatedUser(user); // Returns custom wrapper of my user domain
     }
 
 }

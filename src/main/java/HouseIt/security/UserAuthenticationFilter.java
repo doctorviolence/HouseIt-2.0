@@ -5,8 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -20,50 +18,46 @@ import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.Date;
 
 public class UserAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private final Logger logger = Logger.getLogger(UserAuthenticationFilter.class);
 
-    @Value("${houseit.token.secret}")
-    private String secret;
+    private static String secret = "DrPepper5";
+    private static long expiration = 604800;
+    private static String tokenPrefix = "Bearer ";
+    private static String tokenHeader = "Authorization";
 
-    @Value("${houseit.token.expiration}")
-    private long expiration;
-
-    @Value("${houseit.token.prefix}")
-    private String tokenPrefix;
-
-    @Value("${houseit.token.header}")
-    private String tokenHeader;
-
-    @Autowired
     private UserDetailsService userService;
 
     private AuthenticationManager authenticationManager;
 
-    public UserAuthenticationFilter(AuthenticationManager authenticationManager) {
+    public UserAuthenticationFilter(AuthenticationManager authenticationManager, UserDetailsService userService) {
         this.authenticationManager = authenticationManager;
+        this.userService = userService;
+        setFilterProcessesUrl("/login");
     }
 
     // Authenticates user's credentials and, if it exists in DB, issues them to the Authentication Manager
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         try {
-            ServletInputStream json = (ServletInputStream) request.getInputStream();
+            ServletInputStream json = request.getInputStream();
             User user = new ObjectMapper().readValue(json, User.class);
+
             UserDetails userDetails = userService.loadUserByUsername(user.getUsername());
 
-            return authenticationManager.authenticate(
+            return authenticationManager.authenticate( // look over this line
                     new UsernamePasswordAuthenticationToken( // principal, credential, authorities
-                            userDetails,
+                            userDetails.getUsername(),
                             userDetails.getPassword(),
-                            userDetails.getAuthorities()));
+                            userDetails.getAuthorities())
+            );
 
-        } catch (IOException e) {
+        } catch (AuthenticationException | IOException e) { // remember to change this
             logger.error(e);
+            logger.debug(e);
             throw new RuntimeException(e);
         }
     }
@@ -79,14 +73,15 @@ public class UserAuthenticationFilter extends UsernamePasswordAuthenticationFilt
             response.addHeader(tokenHeader, tokenPrefix + token);
         }
 
-        logger.debug(String.format("Successful authentication at %s", new UrlPathHelper().getPathWithinApplication(request)));
+        logger.info(String.format("Successful authentication at %s", new UrlPathHelper().getPathWithinApplication(request)));
     }
 
     // If user's credentials fail then this method is called
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed)
             throws IOException, ServletException {
-        logger.debug(String.format("Authentication failed at %s", new UrlPathHelper().getPathWithinApplication(request)));
+        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, String.format("Authentication failed at %s", new UrlPathHelper().getPathWithinApplication(request)));
+        //logger.error(String.format("Authentication failed at %s", new UrlPathHelper().getPathWithinApplication(request)));
     }
 
     // Generates JWT
@@ -97,9 +92,9 @@ public class UserAuthenticationFilter extends UsernamePasswordAuthenticationFilt
             return Jwts.builder()
                     .setSubject(user.getUsername())
                     .setExpiration(new Date(System.currentTimeMillis() + expiration))
-                    .signWith(SignatureAlgorithm.HS512, secret.getBytes("UTF-8"))
+                    .signWith(SignatureAlgorithm.HS512, secret.getBytes())
                     .compact();
-        } catch (UnsupportedEncodingException e) {
+        } catch (Exception e) {
             logger.error(e);
             throw new RuntimeException();
         }

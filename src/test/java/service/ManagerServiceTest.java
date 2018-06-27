@@ -33,37 +33,37 @@ public class ManagerServiceTest {
     }
 
     @Test
-    public void testWhenGettingAllBuildings_ThenReturnThree() {
+    public void whenGettingAllBuildings_ThenReturnThree() {
         List<Building> buildings = managerService.getBuildings();
         assertThat(buildings).hasSize(3);
     }
 
     @Test
-    public void testWhenGettingTenantsInApartment_ThenReturnOne() {
+    public void whenGettingTenantsInApartment_ThenReturnOne() {
         List<Tenant> tenants = managerService.getTenantsInApartment(1);
         assertThat(tenants).hasSize(1);
     }
 
     @Test
-    public void testWhenGettingTenantsInInvalidApartment_ThenReturnNone() {
+    public void whenGettingTenantsInInvalidApartment_ThenReturnNone() {
         List<Tenant> tenants = managerService.getTenantsInApartment(111);
         assertThat(tenants).isNullOrEmpty();
     }
 
     @Test
-    public void testWhenFindingCasesByTenantId_ThenReturnTwo() {
+    public void whenFindingCasesByTenantId_ThenReturnTwo() {
         List<Case> cases = managerService.findCasesByTenantId(1);
         assertThat(cases.size() == 2);
     }
 
     @Test
-    public void testWhenFindingCasesByInvalidTenantId_ThenReturnNone() {
+    public void whenFindingCasesByInvalidTenantId_ThenReturnNone() {
         List<Case> cases = managerService.findCasesByTenantId(111);
         assertThat(cases).isNullOrEmpty();
     }
 
     @Test
-    public void testWhenGettingCaseByType_ThenReturnCorrectCases() {
+    public void whenGettingCaseByType_ThenReturnCorrectCases() {
         List<Case> water = managerService.getCasesByType("Water");
         assertThat(water).isNullOrEmpty();
 
@@ -79,7 +79,7 @@ public class ManagerServiceTest {
     }
 
     @Test
-    public void testWhenGettingCasesByFixDate_ThenGetCorrectOrder() {
+    public void whenGettingCasesByFixDate_ThenGetCorrectOrder() {
         List<Case> cases = managerService.getCasesByFixDate();
         assertThat(cases.get(0).getFixDate()).isEqualTo("2018-07-01");
         assertThat(cases.get(0).getFixDate()).isNotEqualTo("2018-07-02");
@@ -88,7 +88,7 @@ public class ManagerServiceTest {
     }
 
     @Test
-    public void testWhenCreatingMessage_ThenNoException() {
+    public void whenCreatingMessage_ThenNoException() {
         CaseMessage caseMessage = new CaseMessage();
         caseMessage.setMessageText("Test");
         caseMessage.setCase(new Case(2));
@@ -100,7 +100,7 @@ public class ManagerServiceTest {
     }
 
     @Test
-    public void testWhenGettingMessagesByCase_ThenReturnTwo() {
+    public void whenGettingMessagesByCase_ThenReturnTwo() {
         List<CaseMessage> caseMessages = managerService.getMessagesByCase(1);
         assertThat(caseMessages).hasSize(2);
     }

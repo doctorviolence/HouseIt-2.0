@@ -21,3 +21,5 @@ INSERT INTO cases VALUES (NULL, 'Bathroom', 'To do', 'No', '2018-06-19', '2018-0
 INSERT INTO case_messages VALUES (NULL, 'Water leaking from kitchen tap.', 1);
 
 INSERT INTO case_messages VALUES (NULL, 'Water all over the floor. Come ASAP.', 1);
+
+INSERT INTO users VALUES (NULL, 'Test', '$2a$10$FvaIoQkJbTu6gEiYzfTJdOSZmN4iOhxrEkEbrGKeHxpg7Q56j2zwK', 'ROLE_ADMIN', 1, null);

@@ -35,7 +35,7 @@ public class AdminServiceTest {
     }
 
     @Test
-    public void testWhenCreatingBuilding_ThenNoException() {
+    public void whenCreatingBuilding_ThenNoException() {
         Building b = new Building();
         b.setAddress("Sagas gränd");
         b.setFloorLevels(5);
@@ -44,7 +44,7 @@ public class AdminServiceTest {
     }
 
     @Test
-    public void testWhenUpdatingApartment_ThenNoException() {
+    public void whenUpdatingApartment_ThenNoException() {
         Apartment a = new Apartment(1);
         a.setApartmentNo("N202");
         a.setRent(11524);
@@ -62,7 +62,7 @@ public class AdminServiceTest {
     }
 
     @Test
-    public void testWhenDeletingApartment_ThenNoException() {
+    public void whenDeletingApartment_ThenNoException() {
         adminService.deleteApartment(3);
 
         Apartment a = adminService.findApartment(3);
@@ -70,7 +70,7 @@ public class AdminServiceTest {
     }
 
     @Test
-    public void testWhenFindingApartmentsInBuilding_ThenReturnCorrectApartments() {
+    public void whenFindingApartmentsInBuilding_ThenReturnCorrectApartments() {
         List<Apartment> apartments = adminService.getApartmentsInBuilding(1);
         assertThat(apartments).hasSize(2);
 
@@ -79,13 +79,13 @@ public class AdminServiceTest {
     }
 
     @Test
-    public void testWhenFindingApartmentsWithInvalidBuilding_ThenReturnNull() {
+    public void whenFindingApartmentsWithInvalidBuilding_ThenReturnNull() {
         List<Apartment> apartments = adminService.getApartmentsInBuilding(111);
         assertThat(apartments).isNullOrEmpty();
     }
 
     @Test
-    public void testWhenSearchingForBuildingId_ThenReturnsCorrectBuilding() {
+    public void whenSearchingForBuildingId_ThenReturnsCorrectBuilding() {
         Building b = adminService.findBuilding(1);
         assertThat(b.getBuildingId()).isEqualTo(1);
         assertThat(b.getAddress()).isEqualTo("Hyllie allé");
@@ -98,7 +98,7 @@ public class AdminServiceTest {
     }
 
     @Test
-    public void testWhenGettingAllManagers_ThenReturnOne() {
+    public void whenGettingAllManagers_ThenReturnOne() {
         List<Manager> managers = adminService.getManagers();
         assertThat(managers).hasSize(1);
     }

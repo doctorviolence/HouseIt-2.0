@@ -34,11 +34,10 @@ CREATE TABLE IF NOT EXISTS managers (
 CREATE TABLE IF NOT EXISTS users (
   id         BIGINT(20) NOT NULL AUTO_INCREMENT,
   username   VARCHAR(20),
-  pw         VARCHAR(50),
+  pw         VARCHAR(100),
   role       VARCHAR(20),
-  enabled    TINYINT(1),
-  tenant_id  BIGINT(20) NOT NULL,
-  manager_id BIGINT(20) NOT NULL,
+  tenant_id  BIGINT(20),
+  manager_id BIGINT(20),
   PRIMARY KEY (id),
   FOREIGN KEY (manager_id) REFERENCES managers (manager_id),
   FOREIGN KEY (tenant_id) REFERENCES tenants (tenant_id)

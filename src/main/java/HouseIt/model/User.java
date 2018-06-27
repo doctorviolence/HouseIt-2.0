@@ -1,5 +1,7 @@
 package HouseIt.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Arrays;
@@ -10,8 +12,10 @@ public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @JsonIgnore
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
     private long id;
 
     @Column(name = "username", nullable = false, unique = true)
@@ -20,22 +24,27 @@ public class User implements Serializable {
     @Column(name = "pw")
     private String password;
 
+    @JsonIgnore
     @Column(name = "role")
     private String role;
 
-    @Column(name = "enabled")
-    private boolean enabled;
-
+    @JsonIgnore
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "tenant_id")
     private Tenant tenant;
 
+    @JsonIgnore
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "manager_id")
     private Manager manager;
 
     public User() {
 
+    }
+
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
     }
 
     public long getId() {
@@ -72,14 +81,6 @@ public class User implements Serializable {
         if (Arrays.stream(roles).parallel().anyMatch(role::contains)) {
             this.role = role;
         }
-    }
-
-    public boolean isEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
     }
 
     public Tenant getTenant() {
