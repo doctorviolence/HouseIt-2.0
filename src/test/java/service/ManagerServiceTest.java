@@ -3,7 +3,7 @@ package service;
 import HouseIt.Application;
 import HouseIt.model.*;
 import HouseIt.service.IManagerService;
-import config.DbTestConfig;
+import config.TestDatabaseConfig;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  **/
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = {Application.class, DbTestConfig.class})
+@SpringBootTest(classes = {Application.class, TestDatabaseConfig.class})
 @ActiveProfiles("test")
 public class ManagerServiceTest {
 

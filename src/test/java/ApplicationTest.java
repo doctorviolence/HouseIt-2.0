@@ -1,5 +1,5 @@
 import HouseIt.Application;
-import HouseIt.config.DbConfig;
+import HouseIt.config.DatabaseConfig;
 import HouseIt.config.WebSecurityConfig;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,7 +11,7 @@ import org.springframework.test.context.junit4.SpringRunner;
  **/
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = {Application.class, DbConfig.class, WebSecurityConfig.class})
+@SpringBootTest(classes = {Application.class, DatabaseConfig.class, WebSecurityConfig.class})
 public class ApplicationTest {
 
     @Test

@@ -1,10 +1,11 @@
 package HouseIt.exception;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ServiceLayerException extends RuntimeException {
 
-    private Logger logger = Logger.getLogger(ServiceLayerException.class);
+    private Logger logger = LoggerFactory.getLogger(ServiceLayerException.class);
 
     public ServiceLayerException() {
         super();

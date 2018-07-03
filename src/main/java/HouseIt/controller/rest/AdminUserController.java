@@ -1,5 +1,6 @@
-package HouseIt.controller;
+package HouseIt.controller.rest;
 
+import HouseIt.dal.IUserDao;
 import HouseIt.exception.ResourceNotFoundException;
 import HouseIt.exception.MissingInformationException;
 import HouseIt.model.Apartment;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,6 +23,12 @@ public class AdminUserController {
 
     @Autowired
     private IAdminService adminUserService;
+
+    @Autowired
+    private IUserDao userDao;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     // Get buildings
     @PostMapping(value = "/a-buildings")
@@ -122,7 +130,8 @@ public class AdminUserController {
     @PostMapping(value = "a-create-user", consumes = "application/json")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<User> createUser(@RequestBody User user) throws MissingInformationException {
-        adminUserService.createUser(user);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        userDao.createEntity(user);
         return new ResponseEntity<User>(HttpStatus.CREATED);
     }
 

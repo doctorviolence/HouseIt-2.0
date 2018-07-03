@@ -4,60 +4,65 @@ import HouseIt.model.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.stereotype.Component;
 import org.springframework.web.util.UrlPathHelper;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 
+/**
+ * Authenticates user's credentials and, if the user exists in DB, issues them to the Authentication Manager
+ **/
+
+@Component
 public class UserAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
-    private final Logger logger = Logger.getLogger(UserAuthenticationFilter.class);
+    private final Logger logger = LoggerFactory.getLogger(UserAuthenticationFilter.class);
 
-    private static String secret = "DrPepper5";
-    private static long expiration = 604800;
-    private static String tokenPrefix = "Bearer ";
-    private static String tokenHeader = "Authorization";
+    @Value("${security.token.expiration}")
+    private Long expiration;
 
-    private UserDetailsService userService;
+    @Value("${security.token.secret}")
+    private String secret;
 
-    private AuthenticationManager authenticationManager;
+    @Value("${security.token.prefix}")
+    private String tokenPrefix;
 
-    public UserAuthenticationFilter(AuthenticationManager authenticationManager, UserDetailsService userService) {
-        this.authenticationManager = authenticationManager;
-        this.userService = userService;
+    @Value("${security.token.header}")
+    private String tokenHeader;
+
+    public UserAuthenticationFilter(AuthenticationManager authenticationManager) {
         setFilterProcessesUrl("/login");
+        setAuthenticationManager(authenticationManager);
     }
 
-    // Authenticates user's credentials and, if it exists in DB, issues them to the Authentication Manager
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         try {
             ServletInputStream json = request.getInputStream();
             User user = new ObjectMapper().readValue(json, User.class);
 
-            UserDetails userDetails = userService.loadUserByUsername(user.getUsername());
-
-            return authenticationManager.authenticate( // look over this line
-                    new UsernamePasswordAuthenticationToken( // principal, credential, authorities
-                            userDetails.getUsername(),
-                            userDetails.getPassword(),
-                            userDetails.getAuthorities())
+            return getAuthenticationManager().authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            user.getUsername(),
+                            user.getPassword(),
+                            new ArrayList<>())
             );
-
-        } catch (AuthenticationException | IOException e) { // remember to change this
-            logger.error(e);
-            logger.debug(e);
+        } catch (IOException e) {
+            logger.error(e.getMessage());
+            logger.debug(e.getMessage());
             throw new RuntimeException(e);
         }
     }
@@ -66,7 +71,6 @@ public class UserAuthenticationFilter extends UsernamePasswordAuthenticationFilt
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication auth)
             throws IOException, ServletException {
-
         String token = generateToken(auth);
 
         if (token != null) {
@@ -80,8 +84,10 @@ public class UserAuthenticationFilter extends UsernamePasswordAuthenticationFilt
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed)
             throws IOException, ServletException {
-        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, String.format("Authentication failed at %s", new UrlPathHelper().getPathWithinApplication(request)));
-        //logger.error(String.format("Authentication failed at %s", new UrlPathHelper().getPathWithinApplication(request)));
+        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, String.format("Bad credentials: Authentication failed at %s",
+                new UrlPathHelper().getPathWithinApplication(request)));
+
+        logger.error(String.format("Bad credentials: Authentication failed at %s", new UrlPathHelper().getPathWithinApplication(request)));
     }
 
     // Generates JWT
@@ -92,10 +98,11 @@ public class UserAuthenticationFilter extends UsernamePasswordAuthenticationFilt
             return Jwts.builder()
                     .setSubject(user.getUsername())
                     .setExpiration(new Date(System.currentTimeMillis() + expiration))
-                    .signWith(SignatureAlgorithm.HS512, secret.getBytes())
+                    .signWith(SignatureAlgorithm.HS512, secret.getBytes("UTF-8"))
                     .compact();
+
         } catch (Exception e) {
-            logger.error(e);
+            logger.error(e.getMessage());
             throw new RuntimeException();
         }
     }

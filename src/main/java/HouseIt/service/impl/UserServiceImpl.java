@@ -34,7 +34,7 @@ public class UserServiceImpl implements UserDetailsService {
             throw new UsernameNotFoundException(String.format("Unable to find user by username %s.", username));
         }
 
-        return new AuthenticatedUser(user); // Returns custom wrapper of my user domain
+        return new AuthenticatedUser(user.getUsername(), user.getPassword(), user); // Returns custom wrapper of my user domain
     }
 
 }

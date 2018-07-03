@@ -4,8 +4,10 @@ Revamped version of previous application 'HouseIt'.
 
 To-do:
 
-- Write controller tests, fix security layer (debug: bad credentials)
+- Re-structure service and controller/rest endpoints + tests
 
-- Add new, more specific exception handling
+- Improve exception handling in service layer, as well as response handling at rest endpoints
+
+- Begin work on React client...
 
 

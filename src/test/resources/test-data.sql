@@ -22,4 +22,4 @@ INSERT INTO case_messages VALUES (NULL, 'Water leaking from kitchen tap.', 1);
 
 INSERT INTO case_messages VALUES (NULL, 'Water all over the floor. Come ASAP.', 1);
 
-INSERT INTO users VALUES (NULL, 'Test', '$2a$10$FvaIoQkJbTu6gEiYzfTJdOSZmN4iOhxrEkEbrGKeHxpg7Q56j2zwK', 'ROLE_ADMIN', 1, null);
+INSERT INTO users VALUES (NULL, 'Test', '$2a$10$Q8LhsI6ybh7XowXtL8cJf.9uZg8XqjFm403HV.NEkDHqXUZH0VX26', 'TENANT', 1);

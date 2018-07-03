@@ -6,6 +6,7 @@ import HouseIt.model.*;
 import HouseIt.service.IAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -19,15 +20,15 @@ public class AdminServiceImpl implements IAdminService {
     private IApartmentDao apartmentDao;
     private IManagerDao managerDao;
     private IUserDao userDao;
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public AdminServiceImpl(IBuildingDao buildingDao, IApartmentDao apartmentDao, IManagerDao managerDao, IUserDao userDao, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public AdminServiceImpl(IBuildingDao buildingDao, IApartmentDao apartmentDao, IManagerDao managerDao, IUserDao userDao, PasswordEncoder passwordEncoder) {
         this.buildingDao = buildingDao;
         this.apartmentDao = apartmentDao;
         this.managerDao = managerDao;
         this.userDao = userDao;
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public List<Building> getBuildings() {
@@ -158,7 +159,7 @@ public class AdminServiceImpl implements IAdminService {
 
     public void createUser(User user) {
         if (user != null) {
-            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
             userDao.createEntity(user);
         } else {
             throw new ServiceLayerException();

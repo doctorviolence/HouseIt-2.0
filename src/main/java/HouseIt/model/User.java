@@ -33,11 +33,6 @@ public class User implements Serializable {
     @JoinColumn(name = "tenant_id")
     private Tenant tenant;
 
-    @JsonIgnore
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "manager_id")
-    private Manager manager;
-
     public User() {
 
     }
@@ -76,10 +71,12 @@ public class User implements Serializable {
     }
 
     public void setRole(String role) {
-        String[] roles = {"ROLE_ADMIN", "ROLE_MANAGER", "ROLE_TENANT"};
+        String[] roles = {"ADMIN", "MANAGER", "TENANT"};
 
         if (Arrays.stream(roles).parallel().anyMatch(role::contains)) {
             this.role = role;
+        } else {
+            this.role = "";
         }
     }
 
@@ -89,14 +86,6 @@ public class User implements Serializable {
 
     public void setTenant(Tenant tenant) {
         this.tenant = tenant;
-    }
-
-    public Manager getManager() {
-        return manager;
-    }
-
-    public void setManager(Manager manager) {
-        this.manager = manager;
     }
 
 }

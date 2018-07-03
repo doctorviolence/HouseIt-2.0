@@ -1,4 +1,4 @@
-package HouseIt.controller;
+package HouseIt.controller.rest;
 
 import HouseIt.exception.ResourceNotFoundException;
 import HouseIt.exception.MissingInformationException;

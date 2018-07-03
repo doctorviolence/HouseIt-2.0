@@ -2,6 +2,7 @@ package HouseIt.security;
 
 import HouseIt.model.User;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -16,13 +17,26 @@ import java.util.List;
 public class AuthenticatedUser implements UserDetails {
 
     private User user;
+    private String username;
+    private String password;
+    private Collection<? extends GrantedAuthority> authorities = new ArrayList<>();
+    private Boolean accountNonExpired = true;
+    private Boolean accountNonLocked = true;
+    private Boolean credentialsNonExpired = true;
+    private Boolean enabled = true;
 
-    public AuthenticatedUser(User user) {
-        this.user = user;
+    public AuthenticatedUser() {
+        super();
+    }
+
+    public AuthenticatedUser(String username, String password, User user) {
+        this.setUser(user);
+        this.setUsername(username);
+        this.setPassword(password);
     }
 
     public User getUser() {
-        return user;
+        return this.user;
     }
 
     public void setUser(User user) {
@@ -31,39 +45,45 @@ public class AuthenticatedUser implements UserDetails {
 
     @Override
     public String getUsername() {
-        return user.getUsername();
+        return this.username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     @Override
     public String getPassword() {
-        return user.getPassword();
+        return this.password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority(user.getRole()));
-        return authorities;
+        return AuthorityUtils.commaSeparatedStringToAuthorityList(user.getRole());
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return true;
+        return this.accountNonExpired;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return true;
+        return this.credentialsNonExpired;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return this.accountNonLocked;
     }
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return this.enabled;
     }
 
 }
