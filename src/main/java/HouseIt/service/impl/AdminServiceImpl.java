@@ -1,11 +1,10 @@
 package HouseIt.service.impl;
 
 import HouseIt.dal.*;
-import HouseIt.exception.ServiceLayerException;
+import HouseIt.exception.MyEntityNotFoundException;
 import HouseIt.model.*;
 import HouseIt.service.IAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -16,171 +15,123 @@ import java.util.List;
 @Transactional
 public class AdminServiceImpl implements IAdminService {
 
+    @Autowired
     private IBuildingDao buildingDao;
-    private IApartmentDao apartmentDao;
-    private IManagerDao managerDao;
-    private IUserDao userDao;
-    private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public AdminServiceImpl(IBuildingDao buildingDao, IApartmentDao apartmentDao, IManagerDao managerDao, IUserDao userDao, PasswordEncoder passwordEncoder) {
-        this.buildingDao = buildingDao;
-        this.apartmentDao = apartmentDao;
-        this.managerDao = managerDao;
-        this.userDao = userDao;
-        this.passwordEncoder = passwordEncoder;
-    }
+    private IApartmentDao apartmentDao;
+
+    @Autowired
+    private IManagerDao managerDao;
+
+    @Autowired
+    private IUserDao userDao;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public List<Building> getBuildings() {
-        List<Building> buildings = buildingDao.getEntities(Building.class);
-
-        if (buildings != null) {
-            return buildings;
-        } else {
-            throw new ServiceLayerException();
-        }
+        return buildingDao.getEntities(Building.class);
     }
 
-    public Building findBuilding(long buildingId) {
-        return buildingDao.findEntityById(Building.class, buildingId);
+    public Building findBuilding(long buildingId) throws MyEntityNotFoundException {
+        Building b = buildingDao.findEntityById(Building.class, buildingId);
+        if (b == null) {
+            throw new MyEntityNotFoundException(String.format("Building with ID %s not found.", buildingId));
+        }
+        return b;
     }
 
     public void createBuilding(Building building) {
-        if (building != null) {
-            buildingDao.createEntity(building);
-        } else {
-            throw new ServiceLayerException();
-        }
+        buildingDao.createEntity(building);
     }
 
     public void updateBuilding(Building building) {
-        Building b = findBuilding(building.getBuildingId());
-
-        if (b != null) {
-            buildingDao.updateEntity(building);
-        } else {
-            throw new ServiceLayerException();
-        }
+        buildingDao.updateEntity(building);
     }
 
-    public void deleteBuilding(long id) {
+    public void deleteBuilding(long id) throws MyEntityNotFoundException {
         Building b = findBuilding(id);
-
         if (b != null) {
             buildingDao.deleteEntity(Building.class, id);
-        } else {
-            throw new ServiceLayerException();
         }
     }
 
     public List<Apartment> getApartmentsInBuilding(long buildingId) {
-        List<Apartment> apartments = apartmentDao.getApartmentsInBuilding(buildingId);
-
-        if (apartments != null) {
-            return apartments;
-        } else {
-            throw new ServiceLayerException();
-        }
+        return apartmentDao.getApartmentsInBuilding(buildingId);
     }
 
-    public Apartment findApartment(long apartmentId) {
-        return apartmentDao.findEntityById(Apartment.class, apartmentId);
+    public Apartment findApartment(long apartmentId) throws MyEntityNotFoundException {
+        Apartment a = apartmentDao.findEntityById(Apartment.class, apartmentId);
+        if (a == null) {
+            throw new MyEntityNotFoundException(String.format("Apartment with ID %s not found.", apartmentId));
+        }
+        return a;
     }
 
     public void createApartment(Apartment apartment) {
-        if (apartment != null) {
-            apartmentDao.createEntity(apartment);
-        } else {
-            throw new ServiceLayerException();
-        }
+        apartmentDao.createEntity(apartment);
     }
 
     public void updateApartment(Apartment apartment) {
-        if (apartment != null) {
-            apartmentDao.updateEntity(apartment);
-        } else {
-            throw new ServiceLayerException();
-        }
+        apartmentDao.updateEntity(apartment);
     }
 
-    public void deleteApartment(long id) {
+    public void deleteApartment(long id) throws MyEntityNotFoundException {
         Apartment a = findApartment(id);
-
         if (a != null) {
             apartmentDao.deleteEntity(Apartment.class, id);
-        } else {
-            throw new ServiceLayerException();
         }
     }
 
     public List<Manager> getManagers() {
-        List<Manager> managers = managerDao.getEntities(Manager.class);
-
-        if (managers != null) {
-            return managers;
-        } else {
-            throw new ServiceLayerException();
-        }
+        return managerDao.getEntities(Manager.class);
     }
 
-    public Manager findManager(long id) {
-        return managerDao.findEntityById(Manager.class, id);
+    public Manager findManager(long id) throws MyEntityNotFoundException {
+        Manager m = managerDao.findEntityById(Manager.class, id);
+        if (m == null) {
+            throw new MyEntityNotFoundException(String.format("Manager with ID %s not found.", id));
+        }
+        return m;
     }
 
     public void createManager(Manager manager) {
-        if (manager != null) {
-            managerDao.createEntity(manager);
-        } else {
-            throw new ServiceLayerException();
-        }
+        managerDao.createEntity(manager);
     }
 
     public void updateManager(Manager manager) {
-        if (manager != null) {
-            managerDao.updateEntity(manager);
-        } else {
-            throw new ServiceLayerException();
-        }
+        managerDao.updateEntity(manager);
     }
 
-    public void deleteManager(long id) {
+    public void deleteManager(long id) throws MyEntityNotFoundException {
         Manager m = findManager(id);
-
         if (m != null) {
             managerDao.deleteEntity(Manager.class, id);
-        } else {
-            throw new ServiceLayerException();
         }
     }
 
-    public User findUser(long id) {
-        return userDao.findEntityById(User.class, id);
+    public User findUser(long id) throws MyEntityNotFoundException {
+        User u = userDao.findEntityById(User.class, id);
+        if (u == null) {
+            throw new MyEntityNotFoundException(String.format("User with ID %s not found.", id));
+        }
+        return u;
     }
 
     public void createUser(User user) {
-        if (user != null) {
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
-            userDao.createEntity(user);
-        } else {
-            throw new ServiceLayerException();
-        }
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        userDao.createEntity(user);
     }
 
     public void updateUser(User user) {
-        if (user != null) {
-            userDao.updateEntity(user);
-        } else {
-            throw new ServiceLayerException();
-        }
+        userDao.updateEntity(user);
     }
 
-    public void deleteUser(long id) {
+    public void deleteUser(long id) throws MyEntityNotFoundException {
         User u = findUser(id);
-
         if (u != null) {
             userDao.deleteEntity(User.class, id);
-        } else {
-            throw new ServiceLayerException();
         }
     }
 

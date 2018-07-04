@@ -1,6 +1,7 @@
 package service;
 
 import HouseIt.Application;
+import HouseIt.exception.MyEntityNotFoundException;
 import HouseIt.model.Apartment;
 import HouseIt.model.Building;
 import HouseIt.model.Manager;
@@ -16,10 +17,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
-/**
- * Integration tests against admin service layer
- **/
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {Application.class, TestDatabaseConfig.class})
@@ -44,7 +41,7 @@ public class AdminServiceTest {
     }
 
     @Test
-    public void whenUpdatingApartment_ThenNoException() {
+    public void whenUpdatingApartment_ThenNoException() throws MyEntityNotFoundException {
         Apartment a = new Apartment(1);
         a.setApartmentNo("N202");
         a.setRent(11524);
@@ -62,10 +59,14 @@ public class AdminServiceTest {
     }
 
     @Test
-    public void whenDeletingApartment_ThenNoException() {
+    public void whenDeletingApartment_ThenNoException() throws MyEntityNotFoundException {
         adminService.deleteApartment(3);
-
-        Apartment a = adminService.findApartment(3);
+        Apartment a = null;
+        try {
+            adminService.findApartment(3);
+        } catch (MyEntityNotFoundException e) {
+            assertThat(e.getMessage()).isEqualTo("Apartment with ID 3 not found.");
+        }
         assertThat(a).isNull();
     }
 
@@ -85,7 +86,7 @@ public class AdminServiceTest {
     }
 
     @Test
-    public void whenSearchingForBuildingId_ThenReturnsCorrectBuilding() {
+    public void whenSearchingForBuildingId_ThenReturnsCorrectBuilding() throws MyEntityNotFoundException {
         Building b = adminService.findBuilding(1);
         assertThat(b.getBuildingId()).isEqualTo(1);
         assertThat(b.getAddress()).isEqualTo("Hyllie allé");

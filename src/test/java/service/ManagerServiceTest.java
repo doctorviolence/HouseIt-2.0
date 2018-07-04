@@ -1,6 +1,7 @@
 package service;
 
 import HouseIt.Application;
+import HouseIt.exception.MyEntityNotFoundException;
 import HouseIt.model.*;
 import HouseIt.service.IManagerService;
 import config.TestDatabaseConfig;
@@ -14,10 +15,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
-/**
- * Integration tests against manager service layer
- **/
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {Application.class, TestDatabaseConfig.class})
@@ -88,7 +85,7 @@ public class ManagerServiceTest {
     }
 
     @Test
-    public void whenCreatingMessage_ThenNoException() {
+    public void whenCreatingMessage_ThenNoException() throws MyEntityNotFoundException {
         CaseMessage caseMessage = new CaseMessage();
         caseMessage.setMessageText("Test");
         caseMessage.setCase(new Case(2));

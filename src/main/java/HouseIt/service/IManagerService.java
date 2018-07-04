@@ -1,5 +1,6 @@
 package HouseIt.service;
 
+import HouseIt.exception.MyEntityNotFoundException;
 import HouseIt.model.*;
 
 import java.util.List;
@@ -12,13 +13,13 @@ public interface IManagerService {
 
     List<Tenant> getTenantsInApartment(long apartmentId);
 
-    Tenant findTenant(long tenantId);
+    Tenant findTenant(long tenantId) throws MyEntityNotFoundException;
 
     void createTenant(Tenant tenant);
 
     void updateTenant(Tenant tenant);
 
-    void deleteTenant(long tenantId);
+    void deleteTenant(long tenantId) throws MyEntityNotFoundException;
 
     List<Case> getCases();
 
@@ -30,10 +31,10 @@ public interface IManagerService {
 
     List<CaseMessage> getMessagesByCase(long caseNo);
 
-    CaseMessage findMessage(long messageNo);
+    CaseMessage findMessage(long messageNo) throws MyEntityNotFoundException;
 
     void createMessage(CaseMessage caseMessage);
 
-    void deleteMessage(long messageNo);
+    void deleteMessage(long messageNo) throws MyEntityNotFoundException;
 
 }

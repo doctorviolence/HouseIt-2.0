@@ -1,8 +1,7 @@
 package HouseIt.controller.rest;
 
 import HouseIt.dal.IUserDao;
-import HouseIt.exception.ResourceNotFoundException;
-import HouseIt.exception.MissingInformationException;
+import HouseIt.exception.MyEntityNotFoundException;
 import HouseIt.model.Apartment;
 import HouseIt.model.Building;
 import HouseIt.model.Manager;
@@ -33,7 +32,7 @@ public class AdminUserController {
     // Get buildings
     @PostMapping(value = "/a-buildings")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<List<Building>> getBuildings() throws ResourceNotFoundException {
+    public ResponseEntity<List<Building>> getBuildings() throws MyEntityNotFoundException {
         List<Building> buildings = adminUserService.getBuildings();
         return new ResponseEntity<List<Building>>(buildings, HttpStatus.OK);
     }
@@ -41,7 +40,7 @@ public class AdminUserController {
     // Create building
     @PostMapping(value = "a-create-building", consumes = "application/json")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<Building> createBuilding(@RequestBody Building building) throws MissingInformationException {
+    public ResponseEntity<Building> createBuilding(@RequestBody Building building) {
         adminUserService.createBuilding(building);
         return new ResponseEntity<Building>(HttpStatus.CREATED);
     }
@@ -49,7 +48,7 @@ public class AdminUserController {
     // Update building
     @PutMapping(value = "a-update-building", consumes = "application/json")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<Building> updateBuilding(@RequestBody Building building) throws MissingInformationException {
+    public ResponseEntity<Building> updateBuilding(@RequestBody Building building) {
         adminUserService.updateBuilding(building);
         return new ResponseEntity<Building>(HttpStatus.OK);
     }
@@ -57,7 +56,7 @@ public class AdminUserController {
     // Delete building
     @DeleteMapping(value = "a-delete-building/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<Building> deleteBuilding(@PathVariable long id) throws ResourceNotFoundException {
+    public ResponseEntity<Building> deleteBuilding(@PathVariable long id) throws MyEntityNotFoundException {
         adminUserService.deleteBuilding(id);
         return new ResponseEntity<Building>(HttpStatus.NO_CONTENT);
     }
@@ -65,7 +64,7 @@ public class AdminUserController {
     // Get apartments pertaining to building id
     @PostMapping(value = "/a-apartments-in-building/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<List<Apartment>> getApartmentsInBuilding(@PathVariable long id) throws ResourceNotFoundException {
+    public ResponseEntity<List<Apartment>> getApartmentsInBuilding(@PathVariable long id) throws MyEntityNotFoundException {
         List<Apartment> apartments = adminUserService.getApartmentsInBuilding(id);
         return new ResponseEntity<List<Apartment>>(apartments, HttpStatus.OK);
     }
@@ -73,7 +72,7 @@ public class AdminUserController {
     // Create apartment
     @PostMapping(value = "a-create-apartment", consumes = "application/json")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<Apartment> createApartment(@RequestBody Apartment apartment) throws MissingInformationException {
+    public ResponseEntity<Apartment> createApartment(@RequestBody Apartment apartment) {
         adminUserService.createApartment(apartment);
         return new ResponseEntity<Apartment>(HttpStatus.CREATED);
     }
@@ -81,7 +80,7 @@ public class AdminUserController {
     // Update apartment
     @PutMapping(value = "a-update-apartment", consumes = "application/json")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<Apartment> updateApartment(@RequestBody Apartment apartment) throws MissingInformationException {
+    public ResponseEntity<Apartment> updateApartment(@RequestBody Apartment apartment) {
         adminUserService.updateApartment(apartment);
         return new ResponseEntity<Apartment>(HttpStatus.OK);
     }
@@ -89,7 +88,7 @@ public class AdminUserController {
     // Delete apartment
     @DeleteMapping(value = "a-delete-apartment/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<Apartment> deleteApartment(@PathVariable long id) throws ResourceNotFoundException {
+    public ResponseEntity<Apartment> deleteApartment(@PathVariable long id) throws MyEntityNotFoundException {
         adminUserService.deleteApartment(id);
         return new ResponseEntity<Apartment>(HttpStatus.NO_CONTENT);
     }
@@ -97,7 +96,7 @@ public class AdminUserController {
     // Get managers
     @PostMapping(value = "/a-managers")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<List<Manager>> getManagers() throws ResourceNotFoundException {
+    public ResponseEntity<List<Manager>> getManagers() throws MyEntityNotFoundException {
         List<Manager> managers = adminUserService.getManagers();
         return new ResponseEntity<List<Manager>>(managers, HttpStatus.OK);
     }
@@ -105,7 +104,7 @@ public class AdminUserController {
     // Create manager
     @PostMapping(value = "a-create-manager", consumes = "application/json")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<Manager> createManager(@RequestBody Manager manager) throws MissingInformationException {
+    public ResponseEntity<Manager> createManager(@RequestBody Manager manager) {
         adminUserService.createManager(manager);
         return new ResponseEntity<Manager>(HttpStatus.CREATED);
     }
@@ -113,7 +112,7 @@ public class AdminUserController {
     // Update manager
     @PutMapping(value = "a-update-manager", consumes = "application/json")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<Manager> updateManager(@RequestBody Manager manager) throws MissingInformationException {
+    public ResponseEntity<Manager> updateManager(@RequestBody Manager manager) {
         adminUserService.updateManager(manager);
         return new ResponseEntity<Manager>(HttpStatus.OK);
     }
@@ -121,7 +120,7 @@ public class AdminUserController {
     // Delete manager
     @DeleteMapping(value = "a-delete-manager/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<Manager> deleteManager(@PathVariable long id) throws ResourceNotFoundException {
+    public ResponseEntity<Manager> deleteManager(@PathVariable long id) throws MyEntityNotFoundException {
         adminUserService.deleteManager(id);
         return new ResponseEntity<Manager>(HttpStatus.NO_CONTENT);
     }
@@ -129,7 +128,7 @@ public class AdminUserController {
     // Create user
     @PostMapping(value = "a-create-user", consumes = "application/json")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<User> createUser(@RequestBody User user) throws MissingInformationException {
+    public ResponseEntity<User> createUser(@RequestBody User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userDao.createEntity(user);
         return new ResponseEntity<User>(HttpStatus.CREATED);
@@ -138,7 +137,7 @@ public class AdminUserController {
     // Update user
     @PutMapping(value = "a-update-user", consumes = "application/json")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<User> updateUser(@RequestBody User user) throws MissingInformationException {
+    public ResponseEntity<User> updateUser(@RequestBody User user) {
         adminUserService.updateUser(user);
         return new ResponseEntity<User>(HttpStatus.OK);
     }
@@ -146,7 +145,7 @@ public class AdminUserController {
     // Delete user
     @DeleteMapping(value = "a-delete-user/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<User> deleteUser(@PathVariable long id) throws ResourceNotFoundException {
+    public ResponseEntity<User> deleteUser(@PathVariable long id) throws MyEntityNotFoundException {
         adminUserService.deleteUser(id);
         return new ResponseEntity<User>(HttpStatus.NO_CONTENT);
     }
