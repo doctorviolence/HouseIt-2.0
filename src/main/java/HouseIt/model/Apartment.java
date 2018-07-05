@@ -1,5 +1,7 @@
 package HouseIt.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
@@ -27,10 +29,12 @@ public class Apartment implements Serializable {
     @Column(name = "rent")
     private double rent;
 
+    @JsonIgnore // temporary fix
     @ManyToOne
     @JoinColumn(name = "building_id", referencedColumnName = "building_id", nullable = false)
     private Building building;
 
+    @JsonIgnore // temporary fix
     @OneToMany(mappedBy = "apartment", fetch = FetchType.LAZY)
     private List<Tenant> tenants;
 

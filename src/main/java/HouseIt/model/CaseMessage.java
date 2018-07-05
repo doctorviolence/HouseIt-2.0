@@ -1,5 +1,6 @@
 package HouseIt.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
@@ -20,6 +21,7 @@ public class CaseMessage implements Serializable {
     @Type(type = "text")
     private String messageText;
 
+    @JsonIgnore // temporary fix
     @ManyToOne
     @JoinColumn(name = "case_no", referencedColumnName = "case_no", nullable = false)
     private Case c;

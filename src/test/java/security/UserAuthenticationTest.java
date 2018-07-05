@@ -130,7 +130,7 @@ public class UserAuthenticationTest {
         }
     }
 
-    // NB: Adding more tests once I have re-written the service layer/rest endpoints
+    // NB: Adding more tests (e.g. expiration tests) once I have re-written the service layer/rest endpoints
 
     private Claims parseTokenClaims(String token) {
         try {

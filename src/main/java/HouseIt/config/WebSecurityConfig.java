@@ -65,7 +65,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .and()
                 .authorizeRequests()
                     .antMatchers(HttpMethod.POST, "/login").permitAll()
-                    .anyRequest().authenticated();
+                    .anyRequest()
+                    .authenticated();
 
         // This adds my custom filter chain for authentication/authorization
         httpSecurity

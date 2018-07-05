@@ -19,13 +19,13 @@ public class AuthenticatedUserTest {
     private final String username = "Test";
     private final String password = "Password";
     private final Tenant tenant = new Tenant(12);
-    private final Collection<? extends GrantedAuthority> authorities = AuthorityUtils.commaSeparatedStringToAuthorityList("ADMIN,TENANT");
+    private final Collection<? extends GrantedAuthority> authorities = AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_ADMIN,ROLE_TENANT");
 
     @Before
     public void setUp() throws Exception {
         this.user.setPassword(this.password);
         this.user.setUsername(this.username);
-        this.user.setRole("ADMIN,TENANT");
+        this.user.setRole("ROLE_ADMIN,ROLE_TENANT");
         this.user.setTenant(this.tenant);
     }
 
@@ -54,7 +54,7 @@ public class AuthenticatedUserTest {
         AuthenticatedUser authUser = new AuthenticatedUser(username, password, this.user);
         assertThat(authUser.getAuthorities()).isEqualTo(authorities);
 
-        this.user.setRole("TENANT");
+        this.user.setRole("ROLE_TENANT");
         assertThat(authUser.getAuthorities()).isNotEqualTo(authorities);
     }
 

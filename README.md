@@ -2,12 +2,14 @@
 
 Revamped version of previous application 'HouseIt'.
 
-To-do:
-
-- Re-structure service and controller/rest endpoints + tests
+To-do (after React client is finished):
 
 - Improve exception handling in service layer, as well as response handling at rest endpoints
 
-- Begin work on React client...
+- Optimize DAL, remove various bottlenecks
+
+- Add additional attributes to domain objects
+
+- Write additional functions
 
 

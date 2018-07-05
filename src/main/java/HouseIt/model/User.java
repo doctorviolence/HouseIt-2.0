@@ -71,7 +71,7 @@ public class User implements Serializable {
     }
 
     public void setRole(String role) {
-        String[] roles = {"ADMIN", "MANAGER", "TENANT"};
+        String[] roles = {"ROLE_ADMIN", "ROLE_MANAGER", "ROLE_TENANT"};
 
         if (Arrays.stream(roles).parallel().anyMatch(role::contains)) {
             this.role = role;

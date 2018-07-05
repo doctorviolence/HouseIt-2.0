@@ -3,10 +3,13 @@ package HouseIt.security;
 import io.jsonwebtoken.Jwts;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.oauth2.common.exceptions.UnauthorizedUserException;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.stereotype.Component;
 
@@ -16,7 +19,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
 
 /**
  * Validates requests containing tokens from controller end points
@@ -39,6 +41,9 @@ public class UserAuthorizationFilter extends BasicAuthenticationFilter {
     @Value("${security.token.header}")
     private String tokenHeader;
 
+    @Autowired
+    private UserDetailsService userService;
+
     public UserAuthorizationFilter(AuthenticationManager authenticationManager) {
         super(authenticationManager);
     }
@@ -52,6 +57,7 @@ public class UserAuthorizationFilter extends BasicAuthenticationFilter {
 
             if (header == null || !header.startsWith(tokenPrefix)) {
                 chain.doFilter(request, response);
+                throw new UnauthorizedUserException("Invalid token");
             }
 
             String user = null;
@@ -64,11 +70,13 @@ public class UserAuthorizationFilter extends BasicAuthenticationFilter {
                         .getSubject();
             }
 
+            AuthenticatedUser authUser = (AuthenticatedUser) userService.loadUserByUsername(user);
+
             if (user != null) {
-                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken( // principal, credential, authorities
-                        user,
-                        null,
-                        new ArrayList<>()
+                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+                        authUser.getUsername(),
+                        authUser.getPassword(),
+                        authUser.getAuthorities()
                 );
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);

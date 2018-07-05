@@ -1,5 +1,7 @@
 package HouseIt.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
@@ -21,6 +23,7 @@ public class Building implements Serializable {
     @Column(name = "floor_levels")
     private int floorLevels;
 
+    @JsonIgnore // temporary fix
     @OneToMany(mappedBy = "building", fetch = FetchType.LAZY)
     private List<Apartment> apartments;
 
