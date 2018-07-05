@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.converter.HttpMessageNotWritableException;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingPathVariableException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
@@ -30,7 +31,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Override
     protected ResponseEntity<java.lang.Object> handleMissingPathVariable(MissingPathVariableException e, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        logger.error("Missing Path Variable Exception: ", e.getCause());
+        logger.error("Missing Path Variable Exception: ", e.getMessage());
         ErrorResponse response = new ErrorResponse(HttpStatus.NOT_FOUND, String.format("Invalid URL request for %s", request.getContextPath()), e);
 
         return new ResponseEntity<>(response, response.getStatus());
@@ -94,6 +95,14 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleEntityNotFound(EntityNotFoundException e) {
         logger.error("Entity Not Found Exception ", e.getMessage());
         ErrorResponse response = new ErrorResponse(HttpStatus.NOT_FOUND, "Entity not found", e);
+
+        return new ResponseEntity<>(response, response.getStatus());
+    }
+
+    @ExceptionHandler({AccessDeniedException.class})
+    protected ResponseEntity<Object> handleAccessDeniedException(AccessDeniedException e) {
+        logger.error("Access is denied ", e);
+        ErrorResponse response = new ErrorResponse(HttpStatus.FORBIDDEN, "You don't have access to this", e);
 
         return new ResponseEntity<>(response, response.getStatus());
     }
