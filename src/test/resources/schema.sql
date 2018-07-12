@@ -32,33 +32,33 @@ CREATE TABLE IF NOT EXISTS managers (
 );
 
 CREATE TABLE IF NOT EXISTS users (
-  id         BIGINT(20) NOT NULL AUTO_INCREMENT,
-  username   VARCHAR(20),
-  pw         CHAR(60),
-  role       VARCHAR(20),
-  tenant_id  BIGINT(20),
+  id        BIGINT(20) NOT NULL AUTO_INCREMENT,
+  username  VARCHAR(20),
+  pw        CHAR(60),
+  role      VARCHAR(20),
+  tenant_id BIGINT(20),
   PRIMARY KEY (id),
   FOREIGN KEY (tenant_id) REFERENCES tenants (tenant_id)
 );
 
-CREATE TABLE IF NOT EXISTS cases (
-  case_no     BIGINT(20) NOT NULL AUTO_INCREMENT,
-  case_type   VARCHAR(20),
-  case_status VARCHAR(20),
+CREATE TABLE IF NOT EXISTS tasks (
+  task_no     BIGINT(20) NOT NULL AUTO_INCREMENT,
+  task_type   VARCHAR(20),
+  task_status VARCHAR(20),
   resolved    VARCHAR(20),
-  case_date   DATE,
+  task_date   DATE,
   fix_date    DATE,
   manager_id  BIGINT(20) NOT NULL,
   tenant_id   BIGINT(20) NOT NULL,
-  PRIMARY KEY (case_no),
+  PRIMARY KEY (task_no),
   FOREIGN KEY (manager_id) REFERENCES managers (manager_id),
   FOREIGN KEY (tenant_id) REFERENCES tenants (tenant_id)
 );
 
-CREATE TABLE IF NOT EXISTS case_messages (
+CREATE TABLE IF NOT EXISTS task_messages (
   message_no   BIGINT(20) NOT NULL AUTO_INCREMENT,
   message_text VARCHAR(150),
-  case_no      BIGINT(20) NOT NULL,
+  task_no      BIGINT(20) NOT NULL,
   PRIMARY KEY (message_no),
-  FOREIGN KEY (case_no) REFERENCES cases (case_no)
+  FOREIGN KEY (task_no) REFERENCES tasks (task_no)
 );

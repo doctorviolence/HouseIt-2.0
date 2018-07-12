@@ -1,14 +1,13 @@
 package HouseIt.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "case_messages")
-public class CaseMessage implements Serializable {
+@Table(name = "task_messages")
+public class TaskMessage implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -21,12 +20,11 @@ public class CaseMessage implements Serializable {
     @Type(type = "text")
     private String messageText;
 
-    @JsonIgnore // temporary fix
     @ManyToOne
-    @JoinColumn(name = "case_no", referencedColumnName = "case_no", nullable = false)
-    private Case c;
+    @JoinColumn(name = "task_no", referencedColumnName = "task_no", nullable = false)
+    private Task task;
 
-    public CaseMessage() {
+    public TaskMessage() {
 
     }
 
@@ -46,12 +44,12 @@ public class CaseMessage implements Serializable {
         this.messageText = messageText;
     }
 
-    public Case getCase() {
-        return c;
+    public Task getTask() {
+        return task;
     }
 
-    public void setCase(Case c) {
-        this.c = c;
+    public void setTask(Task task) {
+        this.task = task;
     }
 
 }

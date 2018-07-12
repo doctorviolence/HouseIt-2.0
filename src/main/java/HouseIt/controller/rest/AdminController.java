@@ -47,15 +47,15 @@ public class AdminController {
     // Update building
     @PutMapping(value = "/admin/update-building", consumes = "application/json")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Building> updateBuilding(@RequestBody Building building) {
+    public ResponseEntity<Building> updateBuilding(@RequestBody Building building) throws MyEntityNotFoundException {
         adminUserService.updateBuilding(building);
         return new ResponseEntity<Building>(HttpStatus.OK);
     }
 
     // Delete building
-    @DeleteMapping(value = "/admin/delete-building")
+    @DeleteMapping(value = "/admin/delete-building/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Building> deleteBuilding(@RequestParam("id") long id) throws MyEntityNotFoundException {
+    public ResponseEntity<Building> deleteBuilding(@PathVariable("id") long id) throws MyEntityNotFoundException {
         adminUserService.deleteBuilding(id);
         return new ResponseEntity<Building>(HttpStatus.NO_CONTENT);
     }
@@ -63,7 +63,7 @@ public class AdminController {
     // Get apartments pertaining to building id
     @PostMapping(value = "/admin/apartments-in-building")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<List<Apartment>> getApartmentsInBuilding(@PathVariable long id) throws MyEntityNotFoundException {
+    public ResponseEntity<List<Apartment>> getApartmentsInBuilding(@RequestBody long id) {
         List<Apartment> apartments = adminUserService.getApartmentsInBuilding(id);
         return new ResponseEntity<List<Apartment>>(apartments, HttpStatus.OK);
     }
@@ -79,15 +79,15 @@ public class AdminController {
     // Update apartment
     @PutMapping(value = "/admin/update-apartment", consumes = "application/json")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Apartment> updateApartment(@RequestBody Apartment apartment) {
+    public ResponseEntity<Apartment> updateApartment(@RequestBody Apartment apartment) throws MyEntityNotFoundException {
         adminUserService.updateApartment(apartment);
         return new ResponseEntity<Apartment>(HttpStatus.OK);
     }
 
     // Delete apartment
-    @DeleteMapping(value = "/admin/delete-apartment")
+    @DeleteMapping(value = "/admin/delete-apartment/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Apartment> deleteApartment(@RequestParam("id") long id) throws MyEntityNotFoundException {
+    public ResponseEntity<Apartment> deleteApartment(@PathVariable("id") long id) throws MyEntityNotFoundException {
         adminUserService.deleteApartment(id);
         return new ResponseEntity<Apartment>(HttpStatus.NO_CONTENT);
     }
@@ -111,15 +111,15 @@ public class AdminController {
     // Update manager
     @PutMapping(value = "/admin/update-manager", consumes = "application/json")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Manager> updateManager(@RequestBody Manager manager) {
+    public ResponseEntity<Manager> updateManager(@RequestBody Manager manager) throws MyEntityNotFoundException {
         adminUserService.updateManager(manager);
         return new ResponseEntity<Manager>(HttpStatus.OK);
     }
 
     // Delete manager
-    @DeleteMapping(value = "/admin/delete-manager")
+    @DeleteMapping(value = "/admin/delete-manager/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Manager> deleteManager(@RequestParam("id") long id) throws MyEntityNotFoundException {
+    public ResponseEntity<Manager> deleteManager(@PathVariable("id") long id) throws MyEntityNotFoundException {
         adminUserService.deleteManager(id);
         return new ResponseEntity<Manager>(HttpStatus.NO_CONTENT);
     }
@@ -136,15 +136,15 @@ public class AdminController {
     // Update user
     @PutMapping(value = "/admin/update-user", consumes = "application/json")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<User> updateUser(@RequestBody User user) {
+    public ResponseEntity<User> updateUser(@RequestBody User user) throws MyEntityNotFoundException {
         adminUserService.updateUser(user);
         return new ResponseEntity<User>(HttpStatus.OK);
     }
 
     // Delete user
-    @DeleteMapping(value = "/admin/delete-user")
+    @DeleteMapping(value = "/admin/delete-user/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<User> deleteUser(@RequestParam("id") long id) throws MyEntityNotFoundException {
+    public ResponseEntity<User> deleteUser(@PathVariable("id") long id) throws MyEntityNotFoundException {
         adminUserService.deleteUser(id);
         return new ResponseEntity<User>(HttpStatus.NO_CONTENT);
     }

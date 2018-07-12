@@ -48,58 +48,58 @@ public class ManagerServiceTest {
     }
 
     @Test
-    public void whenFindingCasesByTenantId_ThenReturnTwo() {
-        List<Case> cases = managerService.findCasesByTenantId(1);
-        assertThat(cases.size() == 2);
+    public void whenFindingTasksByTenantId_ThenReturnTwo() {
+        List<Task> tasks = managerService.findTasksByTenantId(1);
+        assertThat(tasks.size() == 2);
     }
 
     @Test
-    public void whenFindingCasesByInvalidTenantId_ThenReturnNone() {
-        List<Case> cases = managerService.findCasesByTenantId(111);
-        assertThat(cases).isNullOrEmpty();
+    public void whenFindingTasksByInvalidTenantId_ThenReturnNone() {
+        List<Task> tasks = managerService.findTasksByTenantId(111);
+        assertThat(tasks).isNullOrEmpty();
     }
 
     @Test
-    public void whenGettingCaseByType_ThenReturnCorrectCases() {
-        List<Case> water = managerService.getCasesByType("Water");
+    public void whenGettingTaskByType_ThenReturnCorrectTasks() {
+        List<Task> water = managerService.getTasksByType("Water");
         assertThat(water).isNullOrEmpty();
 
-        List<Case> kitchen = managerService.getCasesByType("Kitchen");
+        List<Task> kitchen = managerService.getTasksByType("Kitchen");
         assertThat(kitchen).hasSize(1);
 
-        Case c = kitchen.get(0);
-        assertThat(c.getCaseNo()).isEqualTo(1);
-        assertThat(c.getCaseType()).isEqualTo("Kitchen");
-        assertThat(c.getCaseType()).isNotEqualTo("Water");
-        assertThat(c.getTenant().getTenantId() == 1).isTrue();
-        assertThat(c.getManager().getManagerId() == 1).isTrue();
+        Task t = kitchen.get(0);
+        assertThat(t.getTaskNo()).isEqualTo(1);
+        assertThat(t.getTaskType()).isEqualTo("Kitchen");
+        assertThat(t.getTaskType()).isNotEqualTo("Water");
+        assertThat(t.getTenant().getTenantId() == 1).isTrue();
+        assertThat(t.getManager().getManagerId() == 1).isTrue();
     }
 
     @Test
-    public void whenGettingCasesByFixDate_ThenGetCorrectOrder() {
-        List<Case> cases = managerService.getCasesByFixDate();
-        assertThat(cases.get(0).getFixDate()).isEqualTo("2018-07-01");
-        assertThat(cases.get(0).getFixDate()).isNotEqualTo("2018-07-02");
-        assertThat(cases.get(1).getFixDate()).isEqualTo("2018-07-02");
-        assertThat(cases.get(1).getFixDate()).isNotEqualTo("2018-07-01");
+    public void whenGettingTasksByFixDate_ThenGetCorrectOrder() {
+        List<Task> tasks = managerService.getTasksByFixDate();
+        assertThat(tasks.get(0).getFixDate()).isEqualTo("2018-07-01");
+        assertThat(tasks.get(0).getFixDate()).isNotEqualTo("2018-07-02");
+        assertThat(tasks.get(1).getFixDate()).isEqualTo("2018-07-02");
+        assertThat(tasks.get(1).getFixDate()).isNotEqualTo("2018-07-01");
     }
 
     @Test
     public void whenCreatingMessage_ThenNoException() throws MyEntityNotFoundException {
-        CaseMessage caseMessage = new CaseMessage();
-        caseMessage.setMessageText("Test");
-        caseMessage.setCase(new Case(2));
+        TaskMessage taskMessage = new TaskMessage();
+        taskMessage.setMessageText("Test");
+        taskMessage.setTask(new Task(2));
 
-        managerService.createMessage(caseMessage);
+        managerService.createMessage(taskMessage);
 
-        CaseMessage created = managerService.findMessage(3);
+        TaskMessage created = managerService.findMessage(3);
         assertThat(created.getMessageText()).isEqualTo("Test");
     }
 
     @Test
-    public void whenGettingMessagesByCase_ThenReturnTwo() {
-        List<CaseMessage> caseMessages = managerService.getMessagesByCase(1);
-        assertThat(caseMessages).hasSize(2);
+    public void whenGettingMessagesByTask_ThenReturnTwo() {
+        List<TaskMessage> taskMessages = managerService.getTaskMessagesByTask(1);
+        assertThat(taskMessages).hasSize(2);
     }
 
 }

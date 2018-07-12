@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.converter.HttpMessageNotWritableException;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingPathVariableException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
@@ -31,7 +33,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Override
     protected ResponseEntity<java.lang.Object> handleMissingPathVariable(MissingPathVariableException e, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        logger.error("Missing Path Variable Exception: ", e.getMessage());
+        logger.error("Missing Path Variable Exception: ", e);
         ErrorResponse response = new ErrorResponse(HttpStatus.NOT_FOUND, String.format("Invalid URL request for %s", request.getContextPath()), e);
 
         return new ResponseEntity<>(response, response.getStatus());
@@ -39,7 +41,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Override
     protected ResponseEntity<Object> handleMissingServletRequestParameter(MissingServletRequestParameterException e, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        logger.error("Missing Servlet Request Parameter Exception: ", e.getCause());
+        logger.error("Missing Servlet Request Parameter Exception: ", e);
         ErrorResponse response = new ErrorResponse(HttpStatus.BAD_REQUEST, String.format("Parameter %s is missing", e.getParameterName()), e);
 
         return new ResponseEntity<>(response, response.getStatus());
@@ -47,7 +49,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Override
     protected ResponseEntity<Object> handleHttpMessageNotWritable(HttpMessageNotWritableException e, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        logger.error("Http Message Not Readable Exception: ", e.getCause());
+        logger.error("Http Message Not Readable Exception: ", e);
         ErrorResponse response = new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Could not write JSON", e);
 
         return new ResponseEntity<>(response, response.getStatus());
@@ -55,7 +57,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Override
     protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException e, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        logger.error("Http Message Not Readable Exception: ", e.getCause());
+        logger.error("Http Message Not Readable Exception: ", e);
         ErrorResponse response = new ErrorResponse(HttpStatus.BAD_REQUEST, "Validation error", e);
 
         return new ResponseEntity<>(response, response.getStatus());
@@ -63,7 +65,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException e, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        logger.error("Method Argument Not Valid Exception: ", e.getCause());
+        logger.error("Method Argument Not Valid Exception: ", e);
         ErrorResponse response = new ErrorResponse(HttpStatus.BAD_REQUEST, "Validation error", e);
 
         return new ResponseEntity<>(response, response.getStatus());
@@ -71,13 +73,13 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(DataIntegrityViolationException.class)
     protected ResponseEntity<Object> handleDataIntegrityViolation(DataIntegrityViolationException e) {
-        logger.error("Data Integrity Violation Exception: ", e.getCause());
+        logger.error("Data Integrity Violation Exception: ", e);
         ErrorResponse response = null;
 
         if (e.getCause() instanceof ConstraintViolationException) {
             response = new ErrorResponse(HttpStatus.CONFLICT, "Database error", e);
         } else {
-            response = new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, e);
+            response = new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Database error", e);
         }
 
         return new ResponseEntity<>(response, response.getStatus());
@@ -85,7 +87,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler({MyEntityNotFoundException.class})
     protected ResponseEntity<Object> handleMyResourceNotFound(MyEntityNotFoundException e) {
-        logger.error("My Resource Not Found Exception ", e.getMessage());
+        logger.error("My Resource Not Found Exception ", e);
         ErrorResponse response = new ErrorResponse(HttpStatus.NOT_FOUND, "Entity not found", e);
 
         return new ResponseEntity<>(response, response.getStatus());
@@ -93,23 +95,39 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler({EntityNotFoundException.class})
     protected ResponseEntity<Object> handleEntityNotFound(EntityNotFoundException e) {
-        logger.error("Entity Not Found Exception ", e.getMessage());
+        logger.error("Entity Not Found Exception ", e);
         ErrorResponse response = new ErrorResponse(HttpStatus.NOT_FOUND, "Entity not found", e);
 
         return new ResponseEntity<>(response, response.getStatus());
     }
 
     @ExceptionHandler({AccessDeniedException.class})
-    protected ResponseEntity<Object> handleAccessDeniedException(AccessDeniedException e) {
+    protected ResponseEntity<Object> handleAccessDeniedException(AccessDeniedException e, WebRequest request) {
         logger.error("Access is denied ", e);
-        ErrorResponse response = new ErrorResponse(HttpStatus.FORBIDDEN, "You don't have access to this", e);
+        ErrorResponse response = new ErrorResponse(HttpStatus.UNAUTHORIZED, "You don't have access to this", e);
+
+        return new ResponseEntity<>(response, response.getStatus());
+    }
+
+    @ExceptionHandler({AuthenticationException.class})
+    protected ResponseEntity<Object> handleAuthenticationException(AuthenticationException e, WebRequest request) {
+        logger.error("Access is denied ", e);
+        ErrorResponse response = new ErrorResponse(HttpStatus.UNAUTHORIZED, "You don't have access to this", e);
+
+        return new ResponseEntity<>(response, response.getStatus());
+    }
+
+    @ExceptionHandler({InsufficientAuthenticationException.class})
+    protected ResponseEntity<Object> handleInsufficientAuthenticationException(InsufficientAuthenticationException e, WebRequest request) {
+        logger.error("Access is denied ", e);
+        ErrorResponse response = new ErrorResponse(HttpStatus.UNAUTHORIZED, "You don't have access to this", e);
 
         return new ResponseEntity<>(response, response.getStatus());
     }
 
     @ExceptionHandler({NullPointerException.class, IllegalArgumentException.class, IllegalStateException.class})
     public ResponseEntity<Object> handleInternal(RuntimeException e, WebRequest request) {
-        logger.error("Runtime Exception: ", e.getCause());
+        logger.error("Runtime Exception: ", e);
         ErrorResponse response = new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Server error", e);
 
         return new ResponseEntity<Object>(response, response.getStatus());

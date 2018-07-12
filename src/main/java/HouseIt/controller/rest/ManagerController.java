@@ -15,29 +15,29 @@ import java.util.List;
 public class ManagerController {
 
     @Autowired
-    private IManagerService userService;
+    private IManagerService service;
 
     // Get all buildings
     @PostMapping(value = "/manager/buildings")
     @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
     public ResponseEntity<List<Building>> getBuildings() throws MyEntityNotFoundException {
-        List<Building> buildings = userService.getBuildings();
+        List<Building> buildings = service.getBuildings();
         return new ResponseEntity<List<Building>>(buildings, HttpStatus.OK);
     }
 
     // Get all apartments pertaining to building
-    @PostMapping(value = "/manager/apartments")
+    @PostMapping(value = "/manager/apartments/{id}")
     @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
-    public ResponseEntity<List<Apartment>> getApartmentsInBuilding(@RequestParam("id") long id) throws MyEntityNotFoundException {
-        List<Apartment> apartments = userService.getApartmentsInBuilding(id);
+    public ResponseEntity<List<Apartment>> getApartmentsInBuilding(@PathVariable("id") long id) throws MyEntityNotFoundException {
+        List<Apartment> apartments = service.getApartmentsInBuilding(id);
         return new ResponseEntity<List<Apartment>>(apartments, HttpStatus.OK);
     }
 
     // Get all tenants
-    @PostMapping(value = "/manager/tenants")
+    @PostMapping(value = "/manager/tenants/{id}")
     @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
-    public ResponseEntity<List<Tenant>> getTenantsInApartment(@RequestParam("id") long id) throws MyEntityNotFoundException {
-        List<Tenant> tenants = userService.getTenantsInApartment(id);
+    public ResponseEntity<List<Tenant>> getTenantsInApartment(@PathVariable("id") long id) throws MyEntityNotFoundException {
+        List<Tenant> tenants = service.getTenantsInApartment(id);
         return new ResponseEntity<List<Tenant>>(tenants, HttpStatus.OK);
     }
 
@@ -45,80 +45,80 @@ public class ManagerController {
     @PostMapping(value = "/manager/create-tenant", consumes = "application/json")
     @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
     public ResponseEntity<Tenant> createTenant(@RequestBody Tenant tenant) {
-        userService.createTenant(tenant);
+        service.createTenant(tenant);
         return new ResponseEntity<Tenant>(HttpStatus.CREATED);
     }
 
     // Update tenant
     @PutMapping(value = "/manager/update-tenant", consumes = "application/json")
     @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
-    public ResponseEntity<Tenant> updateTenant(@RequestBody Tenant tenant) {
-        userService.updateTenant(tenant);
+    public ResponseEntity<Tenant> updateTenant(@RequestBody Tenant tenant) throws MyEntityNotFoundException {
+        service.updateTenant(tenant);
         return new ResponseEntity<Tenant>(HttpStatus.OK);
     }
 
     // Delete tenant
-    @DeleteMapping(value = "/manager/delete-tenant")
+    @DeleteMapping(value = "/manager/delete-tenant/{id}")
     @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
-    public ResponseEntity<Tenant> deleteTenant(@RequestParam("id") long id) throws MyEntityNotFoundException {
-        userService.deleteTenant(id);
+    public ResponseEntity<Tenant> deleteTenant(@PathVariable("id") long id) throws MyEntityNotFoundException {
+        service.deleteTenant(id);
         return new ResponseEntity<Tenant>(HttpStatus.NO_CONTENT);
     }
 
-    // Get all cases
-    @PostMapping(value = "/manager/cases")
+    // Get all tasks
+    @PostMapping(value = "/manager/tasks")
     @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
-    public ResponseEntity<List<Case>> getCases() throws MyEntityNotFoundException {
-        List<Case> cases = userService.getCases();
-        return new ResponseEntity<List<Case>>(cases, HttpStatus.OK);
+    public ResponseEntity<List<Task>> getTasks() throws MyEntityNotFoundException {
+        List<Task> tasks = service.getTasks();
+        return new ResponseEntity<List<Task>>(tasks, HttpStatus.OK);
     }
 
-    // Get cases pertaining to tenant
-    @PostMapping(value = "/manager/cases-by-tenant")
+    // Get tasks pertaining to tenant
+    @PostMapping(value = "/manager/tasks-by-tenant/{id}")
     @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
-    public ResponseEntity<List<Case>> findCasesByTenantId(@RequestParam("id") long id) throws MyEntityNotFoundException {
-        List<Case> cases = userService.findCasesByTenantId(id);
-        return new ResponseEntity<List<Case>>(cases, HttpStatus.OK);
+    public ResponseEntity<List<Task>> findCasesByTenantId(@PathVariable("id") long id) throws MyEntityNotFoundException {
+        List<Task> tasks = service.findTasksByTenantId(id);
+        return new ResponseEntity<List<Task>>(tasks, HttpStatus.OK);
     }
 
-    // Get cases by type
-    @PostMapping(value = "/manager/cases-by-type")
+    // Get tasks by type
+    @PostMapping(value = "/manager/tasks-by-type/{type}")
     @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
-    public ResponseEntity<List<Case>> getCasesByType(@RequestParam("type") String type) throws MyEntityNotFoundException {
-        List<Case> cases = userService.getCasesByType(type);
-        return new ResponseEntity<List<Case>>(cases, HttpStatus.OK);
+    public ResponseEntity<List<Task>> getTasksByType(@PathVariable("type") String type) throws MyEntityNotFoundException {
+        List<Task> tasks = service.getTasksByType(type);
+        return new ResponseEntity<List<Task>>(tasks, HttpStatus.OK);
     }
 
-    // Get cases by fix date
-    @PostMapping(value = "/manager/cases-by-fix-date")
+    // Get tasks by fix date
+    @PostMapping(value = "/manager/tasks-by-fix-date")
     @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
-    public ResponseEntity<List<Case>> getCasesByFixDate() throws MyEntityNotFoundException {
-        List<Case> cases = userService.getCasesByFixDate();
-        return new ResponseEntity<List<Case>>(cases, HttpStatus.OK);
+    public ResponseEntity<List<Task>> getTasksByFixDate() throws MyEntityNotFoundException {
+        List<Task> tasks = service.getTasksByFixDate();
+        return new ResponseEntity<List<Task>>(tasks, HttpStatus.OK);
     }
 
-    // Get messages pertaining to case
-    @PostMapping(value = "/manager/messages-by-case")
+    // Get messages pertaining to task
+    @PostMapping(value = "/manager/messages-by-task/{no}")
     @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
-    public ResponseEntity<List<CaseMessage>> getMessagesByCase(@RequestParam("no") long no) throws MyEntityNotFoundException {
-        List<CaseMessage> messages = userService.getMessagesByCase(no);
-        return new ResponseEntity<List<CaseMessage>>(messages, HttpStatus.OK);
+    public ResponseEntity<List<TaskMessage>> getMessagesByTask(@PathVariable("no") long no) throws MyEntityNotFoundException {
+        List<TaskMessage> messages = service.getTaskMessagesByTask(no);
+        return new ResponseEntity<List<TaskMessage>>(messages, HttpStatus.OK);
     }
 
     // Create message
     @PostMapping(value = "/manager/create-message", consumes = "application/json")
     @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
-    public ResponseEntity<CaseMessage> createMessage(@RequestBody CaseMessage message) {
-        userService.createMessage(message);
-        return new ResponseEntity<CaseMessage>(HttpStatus.CREATED);
+    public ResponseEntity<TaskMessage> createMessage(@RequestBody TaskMessage message) {
+        service.createMessage(message);
+        return new ResponseEntity<TaskMessage>(HttpStatus.CREATED);
     }
 
     // Delete message
-    @DeleteMapping(value = "/manager/delete-message")
+    @DeleteMapping(value = "/manager/delete-message/{no}")
     @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
-    public ResponseEntity<CaseMessage> deleteMessage(@RequestParam("no") long no) throws MyEntityNotFoundException {
-        userService.deleteMessage(no);
-        return new ResponseEntity<CaseMessage>(HttpStatus.NO_CONTENT);
+    public ResponseEntity<TaskMessage> deleteMessage(@PathVariable("no") long no) throws MyEntityNotFoundException {
+        service.deleteMessage(no);
+        return new ResponseEntity<TaskMessage>(HttpStatus.NO_CONTENT);
     }
 
 }

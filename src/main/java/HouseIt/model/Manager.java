@@ -1,5 +1,7 @@
 package HouseIt.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
@@ -15,8 +17,9 @@ public class Manager implements Serializable {
     @Column(name = "manager_id", nullable = false)
     private long managerId;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "manager", fetch = FetchType.LAZY)
-    private List<Case> cases;
+    private List<Task> tasks;
 
     public Manager() {
 
@@ -34,12 +37,12 @@ public class Manager implements Serializable {
         this.managerId = managerId;
     }
 
-    public List<Case> getCases() {
-        return cases;
+    public List<Task> getTasks() {
+        return tasks;
     }
 
-    public void setCases(List<Case> cases) {
-        this.cases = cases;
+    public void setTasks(List<Task> tasks) {
+        this.tasks = tasks;
     }
 
 }

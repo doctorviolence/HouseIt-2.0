@@ -13,7 +13,7 @@ public interface IAdminService {
 
     void createBuilding(Building building);
 
-    void updateBuilding(Building building);
+    void updateBuilding(Building building) throws MyEntityNotFoundException;
 
     void deleteBuilding(long buildingId) throws MyEntityNotFoundException;
 
@@ -23,7 +23,7 @@ public interface IAdminService {
 
     void createApartment(Apartment apartment);
 
-    void updateApartment(Apartment apartment);
+    void updateApartment(Apartment apartment) throws MyEntityNotFoundException;
 
     void deleteApartment(long apartmentId) throws MyEntityNotFoundException;
 
@@ -33,7 +33,7 @@ public interface IAdminService {
 
     void createManager(Manager manager);
 
-    void updateManager(Manager manager);
+    void updateManager(Manager manager) throws MyEntityNotFoundException;
 
     void deleteManager(long apartmentId) throws MyEntityNotFoundException;
 
@@ -41,7 +41,7 @@ public interface IAdminService {
 
     void createUser(User user);
 
-    void updateUser(User user);
+    void updateUser(User user) throws MyEntityNotFoundException;
 
     void deleteUser(long userId) throws MyEntityNotFoundException;
 

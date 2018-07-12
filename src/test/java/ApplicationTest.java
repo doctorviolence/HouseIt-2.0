@@ -11,7 +11,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 public class ApplicationTest {
 
     @Test
-    public void whenLoadApplication_ThenNoExceptions() throws Exception {
+    public void whenLoadingApplication_ThenNoExceptions() throws Exception {
 
     }
 

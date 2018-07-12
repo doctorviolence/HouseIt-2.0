@@ -1,5 +1,7 @@
 package HouseIt.config;
 
+import HouseIt.security.MyAccessDeniedHandler;
+import HouseIt.security.MyAuthenticationEntryPoint;
 import HouseIt.security.UserAuthenticationFilter;
 import HouseIt.security.UserAuthorizationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
@@ -48,6 +52,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new UserAuthorizationFilter(authenticationManagerBean());
     }
 
+    @Bean
+    public AccessDeniedHandler accessDeniedHandlerBean() {
+        return new MyAccessDeniedHandler();
+    }
+
+    @Bean
+    public AuthenticationEntryPoint authenticationEntryPointBean() {
+        return new MyAuthenticationEntryPoint();
+    }
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userService).passwordEncoder(passwordEncoder());
@@ -72,6 +86,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity
                 .addFilterBefore(userAuthenticationFilterBean(), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(userAuthorizationFilterBean(), BasicAuthenticationFilter.class);
+
+        // Adding my custom exception handling to the filter chain
+        httpSecurity
+                .exceptionHandling()
+                    .authenticationEntryPoint(authenticationEntryPointBean())
+                    .and()
+                .exceptionHandling()
+                    .accessDeniedHandler(accessDeniedHandlerBean());
     }
 
 }

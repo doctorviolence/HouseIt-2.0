@@ -116,20 +116,19 @@ public class UserAuthorizationTest {
                     .header("Authorization", this.tenantToken)
                     .contentType(MediaType.APPLICATION_JSON)
                     .accept(MediaType.APPLICATION_JSON))
-                    .andExpect(status().isForbidden());
+                    .andExpect(status().isUnauthorized());
 
         } catch (Exception e) {
             logger.error(e.getMessage(), e.getCause());
-            fail("Access denied not returned");
+            fail("HTTP 401 not returned");
         }
     }
 
     @Test
     public void whenRequestingTenantEndPointWithValidAdminToken_thenReturnStatusCodeOk() {
         try {
-            this.mvc.perform(post("/tenant/cases")
+            this.mvc.perform(post("/tenant/tasks/1")
                     .header("Authorization", this.adminToken)
-                    .param("id", "1")
                     .contentType(MediaType.APPLICATION_JSON)
                     .accept(MediaType.APPLICATION_JSON))
                     .andExpect(status().isOk());
@@ -143,9 +142,8 @@ public class UserAuthorizationTest {
     @Test
     public void whenRequestingTenantEndPointWithValidTenantToken_thenReturnStatusCodeOk() {
         try {
-            this.mvc.perform(post("/tenant/messages")
+            this.mvc.perform(post("/tenant/messages/1")
                     .header("Authorization", this.tenantToken)
-                    .param("no", "1")
                     .contentType(MediaType.APPLICATION_JSON)
                     .accept(MediaType.APPLICATION_JSON))
                     .andExpect(status().isOk());

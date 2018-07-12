@@ -46,8 +46,11 @@ public class AdminServiceImpl implements IAdminService {
         buildingDao.createEntity(building);
     }
 
-    public void updateBuilding(Building building) {
-        buildingDao.updateEntity(building);
+    public void updateBuilding(Building building) throws MyEntityNotFoundException {
+        Building b = findBuilding(building.getBuildingId());
+        if (b != null) {
+            buildingDao.updateEntity(building);
+        }
     }
 
     public void deleteBuilding(long id) throws MyEntityNotFoundException {
@@ -73,8 +76,11 @@ public class AdminServiceImpl implements IAdminService {
         apartmentDao.createEntity(apartment);
     }
 
-    public void updateApartment(Apartment apartment) {
-        apartmentDao.updateEntity(apartment);
+    public void updateApartment(Apartment apartment) throws MyEntityNotFoundException {
+        Apartment a = findApartment(apartment.getApartmentId());
+        if (a != null) {
+            apartmentDao.updateEntity(apartment);
+        }
     }
 
     public void deleteApartment(long id) throws MyEntityNotFoundException {
@@ -100,8 +106,11 @@ public class AdminServiceImpl implements IAdminService {
         managerDao.createEntity(manager);
     }
 
-    public void updateManager(Manager manager) {
-        managerDao.updateEntity(manager);
+    public void updateManager(Manager manager) throws MyEntityNotFoundException {
+        Manager m = findManager(manager.getManagerId());
+        if (m != null) {
+            managerDao.updateEntity(manager);
+        }
     }
 
     public void deleteManager(long id) throws MyEntityNotFoundException {
@@ -124,8 +133,11 @@ public class AdminServiceImpl implements IAdminService {
         userDao.createEntity(user);
     }
 
-    public void updateUser(User user) {
-        userDao.updateEntity(user);
+    public void updateUser(User user) throws MyEntityNotFoundException {
+        User u = findUser(user.getId());
+        if (u != null) {
+            userDao.updateEntity(user);
+        }
     }
 
     public void deleteUser(long id) throws MyEntityNotFoundException {

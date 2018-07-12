@@ -17,23 +17,23 @@ public interface IManagerService {
 
     void createTenant(Tenant tenant);
 
-    void updateTenant(Tenant tenant);
+    void updateTenant(Tenant tenant) throws MyEntityNotFoundException;
 
     void deleteTenant(long tenantId) throws MyEntityNotFoundException;
 
-    List<Case> getCases();
+    List<Task> getTasks();
 
-    List<Case> findCasesByTenantId(long tenantId);
+    List<Task> findTasksByTenantId(long tenantId);
 
-    List<Case> getCasesByType(String caseType);
+    List<Task> getTasksByType(String taskType);
 
-    List<Case> getCasesByFixDate();
+    List<Task> getTasksByFixDate();
 
-    List<CaseMessage> getMessagesByCase(long caseNo);
+    List<TaskMessage> getTaskMessagesByTask(long taskNo);
 
-    CaseMessage findMessage(long messageNo) throws MyEntityNotFoundException;
+    TaskMessage findMessage(long messageNo) throws MyEntityNotFoundException;
 
-    void createMessage(CaseMessage caseMessage);
+    void createMessage(TaskMessage taskMessage);
 
     void deleteMessage(long messageNo) throws MyEntityNotFoundException;
 

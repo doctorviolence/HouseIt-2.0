@@ -29,13 +29,13 @@ public class ApplicationConfig {
     }
 
     @Bean
-    public ICaseDao caseDao() {
-        return new CaseDaoImpl();
+    public ITaskDao taskDao() {
+        return new TaskDaoImpl();
     }
 
     @Bean
-    public ICaseMessageDao caseMessageDao() {
-        return new CaseMessageDaoImpl();
+    public ITaskMessageDao taskMessageDao() {
+        return new TaskMessageDaoImpl();
     }
 
     @Bean

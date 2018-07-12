@@ -29,7 +29,6 @@ public class Apartment implements Serializable {
     @Column(name = "rent")
     private double rent;
 
-    @JsonIgnore // temporary fix
     @ManyToOne
     @JoinColumn(name = "building_id", referencedColumnName = "building_id", nullable = false)
     private Building building;

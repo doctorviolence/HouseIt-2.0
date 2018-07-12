@@ -2,8 +2,8 @@ package service;
 
 import HouseIt.Application;
 import HouseIt.exception.MyEntityNotFoundException;
-import HouseIt.model.Case;
-import HouseIt.model.CaseMessage;
+import HouseIt.model.Task;
+import HouseIt.model.TaskMessage;
 import HouseIt.service.ITenantService;
 import config.TestDatabaseConfig;
 import org.junit.Test;
@@ -31,40 +31,40 @@ public class TenantServiceTest {
     }
 
     @Test
-    public void whenFindingCasesByTenantId_ThenReturnTwoCases() throws MyEntityNotFoundException {
-        List<Case> cases = tenantService.findCasesByTenantId(1);
-        assertThat(cases).hasSize(2);
+    public void whenFindingTasksByTenantId_ThenReturnTwoTasks() throws MyEntityNotFoundException {
+        List<Task> tasks = tenantService.findTasksByTenantId(1);
+        assertThat(tasks).hasSize(2);
     }
 
     @Test
-    public void whenFindingCasesByNo_ThenReturnOneCase() throws MyEntityNotFoundException {
-        Case test = tenantService.findCase(1);
-        assertThat(test.getCaseNo()).isEqualTo(1);
-        assertThat(test.getCaseType()).isEqualTo("Kitchen");
-        assertThat(test.getCaseType()).isNotEqualTo("Bathroom");
+    public void whenFindingTasksByNo_ThenReturnOneTask() throws MyEntityNotFoundException {
+        Task test = tenantService.findTask(1);
+        assertThat(test.getTaskNo()).isEqualTo(1);
+        assertThat(test.getTaskType()).isEqualTo("Kitchen");
+        assertThat(test.getTaskType()).isNotEqualTo("Bathroom");
     }
 
     @Test
-    public void whenFindingCasesByInvalidNo_ThenReturnNull() throws MyEntityNotFoundException {
-        Case test = null;
+    public void whenFindingTasksByInvalidNo_ThenReturnNull() throws MyEntityNotFoundException {
+        Task test = null;
         try {
-            test = tenantService.findCase(3);
+            test = tenantService.findTask(3);
         } catch (MyEntityNotFoundException e) {
-            assertThat(e.getMessage()).isEqualTo("Case no. 3 not found.");
+            assertThat(e.getMessage()).isEqualTo("Task no. 3 not found.");
         }
         assertThat(test).isNull();
     }
 
     @Test
-    public void whenGetMessagesByCase_thenReturnTwo() throws MyEntityNotFoundException {
-        List<CaseMessage> caseMessages = tenantService.getCaseMessagesByCase(1);
-        assertThat(caseMessages).hasSize(2);
+    public void whenGettingMessagesByTask_thenReturnTwo() throws MyEntityNotFoundException {
+        List<TaskMessage> taskMessages = tenantService.getTaskMessagesByTask(1);
+        assertThat(taskMessages).hasSize(2);
     }
 
     @Test
-    public void whenGetMessagesByInvalidCase_thenReturnNull() throws MyEntityNotFoundException {
-        List<CaseMessage> caseMessages = tenantService.getCaseMessagesByCase(2);
-        assertThat(caseMessages).isNullOrEmpty();
+    public void whenGettingMessagesByInvalidTask_thenReturnNull() throws MyEntityNotFoundException {
+        List<TaskMessage> taskMessages = tenantService.getTaskMessagesByTask(2);
+        assertThat(taskMessages).isNullOrEmpty();
     }
 
 }

@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 public class ErrorResponse {
 
     private HttpStatus status;
+
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yy hh:mm:ss")
     private LocalDateTime timestamp;
     private String message;

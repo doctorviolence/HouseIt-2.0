@@ -7,75 +7,73 @@ import java.io.Serializable;
 import java.util.List;
 
 @Entity
-@Table(name = "cases")
-public class Case implements Serializable {
+@Table(name = "tasks")
+public class Task implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "case_no", nullable = false)
-    private long caseNo;
+    @Column(name = "task_no", nullable = false)
+    private long taskNo;
 
-    @Column(name = "case_type")
-    private String caseType;
+    @Column(name = "task_type")
+    private String taskType;
 
-    @Column(name = "case_status")
-    private String caseStatus;
+    @Column(name = "task_status")
+    private String taskStatus;
 
     @Column(name = "resolved")
     private String resolved;
 
-    @Column(name = "case_date")
-    private String caseDate;
+    @Column(name = "task_date")
+    private String taskDate;
 
     @Column(name = "fix_date")
     private String fixDate;
 
-    @JsonIgnore // temporary fix
     @ManyToOne
     @JoinColumn(name = "tenant_id", referencedColumnName = "tenant_id", nullable = false)
     private Tenant tenant;
 
-    @JsonIgnore // temporary fix
     @ManyToOne
     @JoinColumn(name = "manager_id", referencedColumnName = "manager_id", nullable = false)
     private Manager manager;
 
     @JsonIgnore // temporary fix
-    @OneToMany(mappedBy = "c", fetch = FetchType.LAZY)
-    private List<CaseMessage> caseMessages;
+    @OneToMany(mappedBy = "task", fetch = FetchType.LAZY)
+    private List<TaskMessage> taskMessages;
 
-    public Case() {
+    public Task() {
 
     }
 
-    public Case(long caseNo) {
-        this.caseNo = caseNo;
+    public Task(long taskNo) {
+        this.taskNo = taskNo;
     }
 
-    public long getCaseNo() {
-        return caseNo;
+    public long getTaskNo() {
+        return taskNo;
     }
 
-    public void setCaseNo(long caseNo) {
-        this.caseNo = caseNo;
+    public void setTaskNo(long taskNo) {
+        this.taskNo = taskNo;
     }
 
-    public String getCaseType() {
-        return caseType;
+    public String getTaskType() {
+        return taskType;
     }
 
-    public void setCaseType(String caseType) {
-        this.caseType = caseType;
+    public void setTaskType(String taskType) {
+        this.taskType = taskType;
     }
 
-    public String getCaseStatus() {
-        return caseStatus;
+    public String getTaskStatus() {
+        return taskStatus;
     }
 
-    public void setCaseStatus(String caseStatus) {
-        this.caseStatus = caseStatus;
+    public void setTaskStatus(String taskStatus) {
+        this.taskStatus = taskStatus;
     }
 
     public String getResolved() {
@@ -86,12 +84,12 @@ public class Case implements Serializable {
         this.resolved = resolved;
     }
 
-    public String getCaseDate() {
-        return caseDate;
+    public String getTaskDate() {
+        return taskDate;
     }
 
-    public void setCaseDate(String caseDate) {
-        this.caseDate = caseDate;
+    public void setTaskDate(String taskDate) {
+        this.taskDate = taskDate;
     }
 
     public String getFixDate() {
@@ -118,12 +116,12 @@ public class Case implements Serializable {
         this.manager = manager;
     }
 
-    public List<CaseMessage> getCaseMessages() {
-        return caseMessages;
+    public List<TaskMessage> getTaskMessages() {
+        return taskMessages;
     }
 
-    public void setCaseMessages(List<CaseMessage> caseMessages) {
-        this.caseMessages = caseMessages;
+    public void setTaskMessages(List<TaskMessage> taskMessages) {
+        this.taskMessages = taskMessages;
     }
 
 }

@@ -24,10 +24,10 @@ public class ManagerServiceImpl implements IManagerService {
     private ITenantDao tenantDao;
 
     @Autowired
-    private ICaseDao caseDao;
+    private ITaskDao taskDao;
 
     @Autowired
-    private ICaseMessageDao caseMessageDao;
+    private ITaskMessageDao taskMessageDao;
 
     public List<Building> getBuildings() {
         return buildingDao.getEntities(Building.class);
@@ -53,8 +53,11 @@ public class ManagerServiceImpl implements IManagerService {
         tenantDao.createEntity(tenant);
     }
 
-    public void updateTenant(Tenant tenant) {
-        tenantDao.updateEntity(tenant);
+    public void updateTenant(Tenant tenant) throws MyEntityNotFoundException {
+        Tenant t = findTenant(tenant.getTenantId());
+        if (t != null) {
+            tenantDao.updateEntity(tenant);
+        }
     }
 
     public void deleteTenant(long id) throws MyEntityNotFoundException {
@@ -64,42 +67,42 @@ public class ManagerServiceImpl implements IManagerService {
         }
     }
 
-    public List<Case> getCases() {
-        return caseDao.getEntities(Case.class);
+    public List<Task> getTasks() {
+        return taskDao.getEntities(Task.class);
     }
 
-    public List<Case> findCasesByTenantId(long tenantId) {
-        return caseDao.findCasesByTenantId(tenantId);
+    public List<Task> findTasksByTenantId(long tenantId) {
+        return taskDao.findTasksByTenantId(tenantId);
     }
 
-    public List<Case> getCasesByType(String caseType) {
-        return caseDao.getCasesByType(caseType);
+    public List<Task> getTasksByType(String taskType) {
+        return taskDao.getTasksByType(taskType);
     }
 
-    public List<Case> getCasesByFixDate() {
-        return caseDao.getCasesByFixDate();
+    public List<Task> getTasksByFixDate() {
+        return taskDao.getTasksByFixDate();
     }
 
-    public List<CaseMessage> getMessagesByCase(long caseNo) {
-        return caseMessageDao.getCaseMessagesByCase(caseNo);
+    public List<TaskMessage> getTaskMessagesByTask(long taskNo) {
+        return taskMessageDao.getTaskMessagesByTask(taskNo);
     }
 
-    public CaseMessage findMessage(long no) throws MyEntityNotFoundException {
-        CaseMessage cm = caseMessageDao.findEntityById(CaseMessage.class, no);
+    public TaskMessage findMessage(long no) throws MyEntityNotFoundException {
+        TaskMessage cm = taskMessageDao.findEntityById(TaskMessage.class, no);
         if (cm == null) {
             throw new MyEntityNotFoundException(String.format("Message no. %s not found.", no));
         }
         return cm;
     }
 
-    public void createMessage(CaseMessage caseMessage) {
-        caseMessageDao.createEntity(caseMessage);
+    public void createMessage(TaskMessage taskMessage) {
+        taskMessageDao.createEntity(taskMessage);
     }
 
     public void deleteMessage(long no) throws MyEntityNotFoundException {
-        CaseMessage cm = findMessage(no);
+        TaskMessage cm = findMessage(no);
         if (cm != null) {
-            caseMessageDao.deleteEntity(CaseMessage.class, no);
+            taskMessageDao.deleteEntity(TaskMessage.class, no);
         }
     }
 
