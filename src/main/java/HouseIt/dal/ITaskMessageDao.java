@@ -1,6 +1,6 @@
 package HouseIt.dal;
 
-import HouseIt.model.TaskMessage;
+import HouseIt.entities.TaskMessage;
 
 import java.util.List;
 

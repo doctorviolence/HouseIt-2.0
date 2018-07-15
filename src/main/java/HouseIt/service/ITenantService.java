@@ -1,8 +1,8 @@
 package HouseIt.service;
 
 import HouseIt.exception.MyEntityNotFoundException;
-import HouseIt.model.Task;
-import HouseIt.model.TaskMessage;
+import HouseIt.entities.Task;
+import HouseIt.entities.TaskMessage;
 
 import java.util.List;
 

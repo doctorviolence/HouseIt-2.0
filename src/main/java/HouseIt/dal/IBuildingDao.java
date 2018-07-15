@@ -1,6 +1,6 @@
 package HouseIt.dal;
 
-import HouseIt.model.Building;
+import HouseIt.entities.Building;
 
 public interface IBuildingDao extends IBaseDao<Building> {
 

@@ -1,4 +1,4 @@
-package HouseIt.model;
+package HouseIt.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 

@@ -1,7 +1,7 @@
 package HouseIt.dal.impl;
 
 import HouseIt.dal.ITaskDao;
-import HouseIt.model.Task;
+import HouseIt.entities.Task;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;

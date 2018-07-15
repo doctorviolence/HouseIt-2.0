@@ -1,7 +1,7 @@
 package HouseIt.dal.impl;
 
 import HouseIt.dal.ITaskMessageDao;
-import HouseIt.model.TaskMessage;
+import HouseIt.entities.TaskMessage;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 

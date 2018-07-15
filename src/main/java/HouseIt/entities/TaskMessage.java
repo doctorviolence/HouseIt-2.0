@@ -1,4 +1,4 @@
-package HouseIt.model;
+package HouseIt.entities;
 
 import org.hibernate.annotations.Type;
 

@@ -1,6 +1,6 @@
 package HouseIt.dal;
 
-import HouseIt.model.Tenant;
+import HouseIt.entities.Tenant;
 
 import java.util.List;
 

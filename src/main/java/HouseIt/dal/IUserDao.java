@@ -1,6 +1,6 @@
 package HouseIt.dal;
 
-import HouseIt.model.User;
+import HouseIt.entities.User;
 
 public interface IUserDao extends IBaseDao<User> {
 

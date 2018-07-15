@@ -1,7 +1,7 @@
 package HouseIt.service;
 
 import HouseIt.exception.MyEntityNotFoundException;
-import HouseIt.model.*;
+import HouseIt.entities.*;
 
 import java.util.List;
 

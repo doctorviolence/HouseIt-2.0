@@ -2,7 +2,7 @@ package service;
 
 import HouseIt.Application;
 import HouseIt.exception.MyEntityNotFoundException;
-import HouseIt.model.*;
+import HouseIt.entities.*;
 import HouseIt.service.IManagerService;
 import config.TestDatabaseConfig;
 import org.junit.Test;

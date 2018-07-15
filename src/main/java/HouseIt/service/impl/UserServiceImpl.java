@@ -1,7 +1,7 @@
 package HouseIt.service.impl;
 
 import HouseIt.dal.IUserDao;
-import HouseIt.model.User;
+import HouseIt.entities.User;
 import HouseIt.security.AuthenticatedUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

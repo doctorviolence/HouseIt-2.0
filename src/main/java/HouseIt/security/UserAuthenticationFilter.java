@@ -1,6 +1,6 @@
 package HouseIt.security;
 
-import HouseIt.model.User;
+import HouseIt.entities.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

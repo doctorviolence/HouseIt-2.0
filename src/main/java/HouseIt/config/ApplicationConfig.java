@@ -8,7 +8,7 @@ import org.springframework.context.annotation.*;
 @PropertySource("classpath:application-local.properties")
 @ComponentScans(value = {
         @ComponentScan("HouseIt.dal"),
-        @ComponentScan("HouseIt.model"),
+        @ComponentScan("HouseIt.entities"),
         @ComponentScan("HouseIt.service"),
         @ComponentScan("HouseIt.controller"),
 })

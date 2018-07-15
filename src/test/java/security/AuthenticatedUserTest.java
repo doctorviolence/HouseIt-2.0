@@ -1,7 +1,7 @@
 package security;
 
-import HouseIt.model.Tenant;
-import HouseIt.model.User;
+import HouseIt.entities.Tenant;
+import HouseIt.entities.User;
 import HouseIt.security.AuthenticatedUser;
 import org.junit.After;
 import org.junit.Before;

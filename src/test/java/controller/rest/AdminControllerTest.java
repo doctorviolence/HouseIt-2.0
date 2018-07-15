@@ -1,9 +1,9 @@
 package controller.rest;
 
 import HouseIt.Application;
-import HouseIt.model.Apartment;
-import HouseIt.model.Building;
-import HouseIt.model.User;
+import HouseIt.entities.Apartment;
+import HouseIt.entities.Building;
+import HouseIt.entities.User;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import config.TestDatabaseConfig;

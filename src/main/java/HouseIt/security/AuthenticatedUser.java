@@ -1,14 +1,12 @@
 package HouseIt.security;
 
-import HouseIt.model.User;
+import HouseIt.entities.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 /**
  * I am using a custom principal object here in order to return attributes from my domain user

@@ -1,7 +1,7 @@
 package HouseIt.dal.impl;
 
 import HouseIt.dal.ITenantDao;
-import HouseIt.model.Tenant;
+import HouseIt.entities.Tenant;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 

@@ -2,7 +2,7 @@ package security;
 
 import HouseIt.Application;
 import HouseIt.config.WebSecurityConfig;
-import HouseIt.model.Building;
+import HouseIt.entities.Building;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import config.TestDatabaseConfig;
 import org.junit.After;

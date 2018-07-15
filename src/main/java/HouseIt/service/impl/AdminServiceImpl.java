@@ -2,7 +2,7 @@ package HouseIt.service.impl;
 
 import HouseIt.dal.*;
 import HouseIt.exception.MyEntityNotFoundException;
-import HouseIt.model.*;
+import HouseIt.entities.*;
 import HouseIt.service.IAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;

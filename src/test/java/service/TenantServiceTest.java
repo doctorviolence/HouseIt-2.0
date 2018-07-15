@@ -2,8 +2,8 @@ package service;
 
 import HouseIt.Application;
 import HouseIt.exception.MyEntityNotFoundException;
-import HouseIt.model.Task;
-import HouseIt.model.TaskMessage;
+import HouseIt.entities.Task;
+import HouseIt.entities.TaskMessage;
 import HouseIt.service.ITenantService;
 import config.TestDatabaseConfig;
 import org.junit.Test;

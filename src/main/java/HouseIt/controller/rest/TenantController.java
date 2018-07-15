@@ -1,8 +1,8 @@
 package HouseIt.controller.rest;
 
 import HouseIt.exception.MyEntityNotFoundException;
-import HouseIt.model.Task;
-import HouseIt.model.TaskMessage;
+import HouseIt.entities.Task;
+import HouseIt.entities.TaskMessage;
 import HouseIt.service.ITenantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

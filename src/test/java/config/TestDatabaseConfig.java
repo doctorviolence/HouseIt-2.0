@@ -39,7 +39,7 @@ public class TestDatabaseConfig {
         LocalSessionFactoryBean sessionFactoryBean = new LocalSessionFactoryBean();
         sessionFactoryBean.setDataSource(dataSource());
         sessionFactoryBean.setHibernateProperties(hibernateProperties());
-        sessionFactoryBean.setPackagesToScan("HouseIt.model");
+        sessionFactoryBean.setPackagesToScan("HouseIt.entities");
 
         return sessionFactoryBean;
     }

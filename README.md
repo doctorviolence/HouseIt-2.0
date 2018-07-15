@@ -1,4 +1,4 @@
-HouseIt-2.0
+HouseIt-2.0-server
 ----
 
 This is a web application developed for my landlord to manage and organize various tasks. It additionally allows tenants to raise new tasks.

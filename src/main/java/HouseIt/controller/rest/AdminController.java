@@ -2,10 +2,10 @@ package HouseIt.controller.rest;
 
 import HouseIt.dal.IUserDao;
 import HouseIt.exception.MyEntityNotFoundException;
-import HouseIt.model.Apartment;
-import HouseIt.model.Building;
-import HouseIt.model.Manager;
-import HouseIt.model.User;
+import HouseIt.entities.Apartment;
+import HouseIt.entities.Building;
+import HouseIt.entities.Manager;
+import HouseIt.entities.User;
 import HouseIt.service.IAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

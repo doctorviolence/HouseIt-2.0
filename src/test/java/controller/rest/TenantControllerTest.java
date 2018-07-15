@@ -1,7 +1,7 @@
 package controller.rest;
 
 import HouseIt.Application;
-import HouseIt.model.Task;
+import HouseIt.entities.Task;
 import config.TestDatabaseConfig;
 import org.junit.After;
 import org.junit.Before;

@@ -1,6 +1,6 @@
 package HouseIt.dal;
 
-import HouseIt.model.Task;
+import HouseIt.entities.Task;
 
 import java.util.List;
 
