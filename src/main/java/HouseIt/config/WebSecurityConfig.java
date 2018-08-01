@@ -70,15 +70,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
-                .cors()
-                    .and()
-                    .csrf()
-                    .disable() // Disabling CSRF because session management is stateless/no cookies
+                .csrf()
+                    .disable() // Disabling CSRF because session management is stateless
                 .sessionManagement()
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                     .and()
                 .authorizeRequests()
-                    .antMatchers(HttpMethod.POST, "/login").permitAll()
+                    .antMatchers(HttpMethod.POST, "/auth/login").permitAll()
                     .anyRequest()
                     .authenticated();
 

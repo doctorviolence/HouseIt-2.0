@@ -44,7 +44,7 @@ public class TenantControllerTest {
         HttpHeaders headers = new HttpHeaders();
         HttpEntity<String> entity = new HttpEntity<>(this.tenantAuth, headers);
 
-        List<String> response = this.template.postForEntity("http://localhost:" + port + "/login", entity, String.class)
+        List<String> response = this.template.postForEntity("http://localhost:" + port + "/auth/login", entity, String.class)
                 .getHeaders()
                 .get("Authorization");
 

@@ -23,6 +23,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+import sun.jvm.hotspot.utilities.AssertionFailure;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
@@ -71,7 +72,7 @@ public class UserAuthenticationTest {
     public void whenAuthenticatingWithCorrectCredentials_thenReturnToken() throws Exception {
         String json = "{\"username\":\"Test\",\"password\":\"password\"}";
 
-        String token = this.mvc.perform(post("/login")
+        String token = this.mvc.perform(post("/auth/login")
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
                 .content(json))
                 .andExpect(status().isOk())
@@ -98,7 +99,7 @@ public class UserAuthenticationTest {
     public void whenAuthenticatingWithIncorrectCredentials_thenReturnAccessDenied() throws Exception {
         String json = "{\"username\":\"Test\",\"password\":\"Wrong\"}";
 
-        MvcResult result = this.mvc.perform(post("/login")
+        MvcResult result = this.mvc.perform(post("/auth/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json))
                 .andExpect(status().isUnauthorized())
@@ -116,7 +117,7 @@ public class UserAuthenticationTest {
     public void whenAuthenticatingWithNoCredentials_thenReturnAccessDenied() throws Exception {
         String json = "{\"username\":\"\",\"password\":\"\"}";
 
-        MvcResult result = this.mvc.perform(post("/login")
+        MvcResult result = this.mvc.perform(post("/auth/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json))
                 .andExpect(status().isUnauthorized())

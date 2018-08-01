@@ -49,14 +49,14 @@ public class UserAuthorizationTest {
                 .apply(springSecurity())
                 .build();
 
-        this.adminToken = this.mvc.perform(post("/login")
+        this.adminToken = this.mvc.perform(post("/auth/login")
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
                 .content("{\"username\":\"Test\",\"password\":\"password\"}"))
                 .andReturn()
                 .getResponse()
                 .getHeader("Authorization");
 
-        this.tenantToken = this.mvc.perform(post("/login")
+        this.tenantToken = this.mvc.perform(post("/auth/login")
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
                 .content("{\"username\":\"Test3\",\"password\":\"password\"}"))
                 .andReturn()

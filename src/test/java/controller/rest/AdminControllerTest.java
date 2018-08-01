@@ -366,7 +366,7 @@ public class AdminControllerTest {
         String json = "{\"username\":\"Test\",\"password\":\"password\"}";
         HttpEntity<String> entity = new HttpEntity<>(json, headers);
 
-        List<String> response = this.template.postForEntity("http://localhost:" + port + "/login", entity, String.class)
+        List<String> response = this.template.postForEntity("http://localhost:" + port + "/auth/login", entity, String.class)
                 .getHeaders()
                 .get("Authorization");
 

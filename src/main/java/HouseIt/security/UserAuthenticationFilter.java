@@ -6,6 +6,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,6 +20,7 @@ import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -44,7 +46,7 @@ public class UserAuthenticationFilter extends UsernamePasswordAuthenticationFilt
     private String tokenHeader;
 
     public UserAuthenticationFilter(AuthenticationManager authenticationManager) {
-        setFilterProcessesUrl("/login");
+        setFilterProcessesUrl("/auth/login");
         setAuthenticationManager(authenticationManager);
     }
 
@@ -53,6 +55,7 @@ public class UserAuthenticationFilter extends UsernamePasswordAuthenticationFilt
         try {
             ServletInputStream json = request.getInputStream();
             User user = new ObjectMapper().readValue(json, User.class);
+            System.out.println("Authentication: " + user);
 
             return getAuthenticationManager().authenticate(
                     new UsernamePasswordAuthenticationToken(
@@ -71,7 +74,7 @@ public class UserAuthenticationFilter extends UsernamePasswordAuthenticationFilt
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication auth)
             throws IOException, ServletException {
-        String token = generateToken(auth);
+        String token = this.generateToken(auth);
 
         if (token != null) {
             response.addHeader(tokenHeader, tokenPrefix + token);
@@ -90,7 +93,6 @@ public class UserAuthenticationFilter extends UsernamePasswordAuthenticationFilt
         logger.error(String.format("Bad credentials: Authentication failed at %s", new UrlPathHelper().getPathWithinApplication(request)));
     }
 
-    // Generates JWT
     private String generateToken(Authentication authentication) {
         try {
             AuthenticatedUser user = (AuthenticatedUser) authentication.getPrincipal();
@@ -100,8 +102,7 @@ public class UserAuthenticationFilter extends UsernamePasswordAuthenticationFilt
                     .setExpiration(new Date(System.currentTimeMillis() + expiration))
                     .signWith(SignatureAlgorithm.HS512, secret.getBytes("UTF-8"))
                     .compact();
-
-        } catch (Exception e) {
+        } catch (UnsupportedEncodingException e) {
             logger.error(e.getMessage());
             throw new RuntimeException();
         }
