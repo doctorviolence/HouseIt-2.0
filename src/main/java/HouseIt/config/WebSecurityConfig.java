@@ -21,7 +21,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -70,6 +69,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
+                .cors()
+                    .and()
                 .csrf()
                     .disable() // Disabling CSRF because session management is stateless
                 .sessionManagement()
@@ -83,7 +84,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         // This adds my custom filter chain for authentication/authorization
         httpSecurity
                 .addFilterBefore(userAuthenticationFilterBean(), UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(userAuthorizationFilterBean(), BasicAuthenticationFilter.class);
+                .addFilter(userAuthorizationFilterBean());
 
         // Adding my custom exception handling to the filter chain
         httpSecurity

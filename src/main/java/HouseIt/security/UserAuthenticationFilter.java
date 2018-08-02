@@ -6,7 +6,6 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -55,7 +54,6 @@ public class UserAuthenticationFilter extends UsernamePasswordAuthenticationFilt
         try {
             ServletInputStream json = request.getInputStream();
             User user = new ObjectMapper().readValue(json, User.class);
-            System.out.println("Authentication: " + user);
 
             return getAuthenticationManager().authenticate(
                     new UsernamePasswordAuthenticationToken(
@@ -65,7 +63,6 @@ public class UserAuthenticationFilter extends UsernamePasswordAuthenticationFilt
             );
         } catch (IOException e) {
             logger.error(e.getMessage());
-            logger.debug(e.getMessage());
             throw new RuntimeException(e);
         }
     }
