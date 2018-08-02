@@ -1,8 +1,7 @@
 package HouseIt.controller.rest;
 
+import HouseIt.entities.Tenant;
 import HouseIt.exception.MyEntityNotFoundException;
-import HouseIt.entities.Task;
-import HouseIt.entities.TaskMessage;
 import HouseIt.service.ITenantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,74 +11,51 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(maxAge = 3600)
 @RestController
 public class TenantController {
 
     @Autowired
-    private ITenantService service;
+    private ITenantService tenantService;
 
-    // Get tasks pertaining to tenant
-    @PostMapping(value = "/tenant/tasks/{id}")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('TENANT')")
-    public ResponseEntity<List<Task>> getTasksByTenantId(@PathVariable("id") long id) throws MyEntityNotFoundException {
-        List<Task> tasks = service.findTasksByTenantId(id);
-        return new ResponseEntity<List<Task>>(tasks, HttpStatus.OK);
+    // Get all tenants
+    @GetMapping(value = "/tenants/{id}")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
+    public ResponseEntity<List<Tenant>> getAllTenants() throws MyEntityNotFoundException {
+        List<Tenant> tenants = tenantService.getTenants();
+        return new ResponseEntity<List<Tenant>>(tenants, HttpStatus.OK);
     }
 
-    // Create task
-    @PostMapping(value = "/tenant/create-task", consumes = "application/json")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('TENANT')")
-    public ResponseEntity<Task> createTask(@RequestBody Task t) {
-        service.createTask(t);
-        return new ResponseEntity<Task>(HttpStatus.CREATED);
+    // Get tenants pertaining to apartment
+    @PostMapping(value = "/tenants/tenants-in-apartment")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<List<Tenant>> getTenantsInApartment(@RequestBody long id) {
+        List<Tenant> tenants = tenantService.getTenantsInApartment(id);
+        return new ResponseEntity<List<Tenant>>(tenants, HttpStatus.OK);
     }
 
-    // Update task
-    @PutMapping(value = "/tenant/update-task", consumes = "application/json")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('TENANT')")
-    public ResponseEntity<Task> updateTask(@RequestBody Task t) throws MyEntityNotFoundException {
-        service.updateTask(t);
-        return new ResponseEntity<Task>(HttpStatus.OK);
+    // Create tenant
+    @PostMapping(value = "/tenants/create-tenant", consumes = "application/json")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
+    public ResponseEntity<Tenant> createTenant(@RequestBody Tenant tenant) {
+        tenantService.createTenant(tenant);
+        return new ResponseEntity<Tenant>(HttpStatus.CREATED);
     }
 
-    // Delete task
-    @DeleteMapping(value = "/tenant/delete-task/{id}")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('TENANT')")
-    public ResponseEntity<Task> deleteTask(@PathVariable("id") long id) throws MyEntityNotFoundException {
-        service.deleteTask(id);
-        return new ResponseEntity<Task>(HttpStatus.NO_CONTENT);
+    // Update tenant
+    @PutMapping(value = "/tenants/update-tenant", consumes = "application/json")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
+    public ResponseEntity<Tenant> updateTenant(@RequestBody Tenant tenant) throws MyEntityNotFoundException {
+        tenantService.updateTenant(tenant);
+        return new ResponseEntity<Tenant>(HttpStatus.OK);
     }
 
-    // Get messages pertaining to task
-    @PostMapping(value = "/tenant/messages/{no}")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('TENANT')")
-    public ResponseEntity<List<TaskMessage>> getTaskMessagesByTask(@PathVariable("no") long no) throws MyEntityNotFoundException {
-        List<TaskMessage> messages = service.getTaskMessagesByTask(no);
-        return new ResponseEntity<List<TaskMessage>>(messages, HttpStatus.OK);
-    }
-
-    // Create message
-    @PostMapping(value = "/tenant/create-message", consumes = "application/json")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('TENANT')")
-    public ResponseEntity<TaskMessage> createTaskMessage(@RequestBody TaskMessage message) {
-        service.createMessage(message);
-        return new ResponseEntity<TaskMessage>(HttpStatus.CREATED);
-    }
-
-    // Update message
-    @PutMapping(value = "/tenant/update-message", consumes = "application/json")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('TENANT')")
-    public ResponseEntity<TaskMessage> updateTaskMessage(@RequestBody TaskMessage message) throws MyEntityNotFoundException {
-        service.updateMessage(message);
-        return new ResponseEntity<TaskMessage>(HttpStatus.OK);
-    }
-
-    // Delete message
-    @DeleteMapping(value = "/tenant/delete-message/{no}")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('TENANT')")
-    public ResponseEntity<TaskMessage> deleteTaskMessage(@PathVariable("no") long no) throws MyEntityNotFoundException {
-        service.deleteMessage(no);
-        return new ResponseEntity<TaskMessage>(HttpStatus.NO_CONTENT);
+    // Delete tenant
+    @DeleteMapping(value = "/tenants/delete-tenant/{id}")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
+    public ResponseEntity<Tenant> deleteTenant(@PathVariable("id") long id) throws MyEntityNotFoundException {
+        tenantService.deleteTenant(id);
+        return new ResponseEntity<Tenant>(HttpStatus.NO_CONTENT);
     }
 
 }

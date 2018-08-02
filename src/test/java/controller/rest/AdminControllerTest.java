@@ -62,7 +62,7 @@ public class AdminControllerTest {
             HttpEntity<String> request = new HttpEntity<>(headers);
 
             ResponseEntity<Building[]> response = template.exchange(
-                    "http://localhost:" + port + "/admin/buildings",
+                    "http://localhost:" + port + "/buildings",
                     HttpMethod.POST,
                     request,
                     Building[].class
@@ -120,7 +120,7 @@ public class AdminControllerTest {
             HttpEntity request = new HttpEntity<>(id, headers); // ID sent in body because I will add more functionality to the method later
 
             ResponseEntity<Apartment[]> response = this.template.exchange(
-                    "http://localhost:" + port + "/admin/apartments-in-building",
+                    "http://localhost:" + port + "/apartments/apartments-in-building",
                     HttpMethod.POST,
                     request,
                     Apartment[].class
@@ -148,7 +148,7 @@ public class AdminControllerTest {
             HttpEntity request = new HttpEntity<>(null, headers);
 
             this.template.exchange(
-                    "http://localhost:" + port + "/admin/apartments-in-building",
+                    "http://localhost:" + port + "/apartments/apartments-in-building",
                     HttpMethod.POST,
                     request,
                     Apartment[].class
@@ -172,7 +172,7 @@ public class AdminControllerTest {
             HttpEntity request = new HttpEntity<>(id, headers);
 
             ResponseEntity<Apartment[]> response = this.template.exchange(
-                    "http://localhost:" + port + "/admin/apartments-in-building",
+                    "http://localhost:" + port + "/apartments/apartments-in-building",
                     HttpMethod.POST,
                     request,
                     Apartment[].class
@@ -207,7 +207,7 @@ public class AdminControllerTest {
             HttpEntity request = new HttpEntity<>(new ObjectMapper().writeValueAsString(a), headers);
 
             ResponseEntity response = this.template.exchange(
-                    "http://localhost:" + port + "/admin/create-apartment",
+                    "http://localhost:" + port + "/apartments/create-apartment",
                     HttpMethod.POST,
                     request,
                     Apartment.class
@@ -237,7 +237,7 @@ public class AdminControllerTest {
             HttpEntity request = new HttpEntity<>(new ObjectMapper().writeValueAsString(a), headers);
 
             this.template.exchange(
-                    "http://localhost:" + port + "/admin/create-apartment",
+                    "http://localhost:" + port + "/apartments/create-apartment",
                     HttpMethod.POST,
                     request,
                     Apartment.class
@@ -267,7 +267,7 @@ public class AdminControllerTest {
             HttpEntity request = new HttpEntity<>(new ObjectMapper().writeValueAsString(a), headers);
 
             ResponseEntity response = this.template.exchange(
-                    "http://localhost:" + port + "/admin/update-apartment",
+                    "http://localhost:" + port + "/apartments/update-apartment",
                     HttpMethod.PUT,
                     request,
                     Apartment.class
@@ -295,7 +295,7 @@ public class AdminControllerTest {
             HttpEntity request = new HttpEntity<>(new ObjectMapper().writeValueAsString(a), headers);
 
             this.template.exchange(
-                    "http://localhost:" + port + "/admin/update-apartment",
+                    "http://localhost:" + port + "/apartments/update-apartment",
                     HttpMethod.PUT,
                     request,
                     Apartment.class
@@ -319,7 +319,7 @@ public class AdminControllerTest {
             HttpEntity request = new HttpEntity<>(headers);
 
             ResponseEntity response = this.template.exchange(
-                    "http://localhost:" + port + "/admin/delete-user/" + id,
+                    "http://localhost:" + port + "/users/delete-user/" + id,
                     HttpMethod.DELETE,
                     request,
                     User.class
@@ -344,7 +344,7 @@ public class AdminControllerTest {
             HttpEntity request = new HttpEntity<>(headers);
 
             this.template.exchange(
-                    "http://localhost:" + port + "/admin/delete-building/" + id,
+                    "http://localhost:" + port + "/buildings/delete-building/" + id,
                     HttpMethod.DELETE,
                     request,
                     Building.class

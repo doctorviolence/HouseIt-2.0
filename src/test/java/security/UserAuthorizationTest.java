@@ -80,7 +80,7 @@ public class UserAuthorizationTest {
     @Test
     public void whenRequestingAdminRestEndPointWithNoToken_thenReturnInvalidToken() {
         try {
-            this.mvc.perform(post("/admin/buildings"));
+            this.mvc.perform(post("/buildings"));
 
         } catch (Exception e) {
             assertThat(e.getMessage()).isEqualTo("Invalid token");
@@ -90,7 +90,7 @@ public class UserAuthorizationTest {
     @Test
     public void whenRequestingAdminRestEndPointWithValidToken_thenReturnExpected() {
         try {
-            String result = this.mvc.perform(post("/admin/buildings")
+            String result = this.mvc.perform(post("/buildings")
                     .header("Authorization", this.adminToken)
                     .contentType(MediaType.APPLICATION_JSON)
                     .accept(MediaType.APPLICATION_JSON))
@@ -112,7 +112,7 @@ public class UserAuthorizationTest {
     @Test
     public void whenRequestingAdminRestEndPointWithInvalidToken_thenReturnUnauthorized() {
         try {
-            this.mvc.perform(post("/admin/buildings")
+            this.mvc.perform(post("/buildings")
                     .header("Authorization", this.tenantToken)
                     .contentType(MediaType.APPLICATION_JSON)
                     .accept(MediaType.APPLICATION_JSON))
@@ -127,7 +127,7 @@ public class UserAuthorizationTest {
     @Test
     public void whenRequestingTenantEndPointWithValidAdminToken_thenReturnStatusCodeOk() {
         try {
-            this.mvc.perform(post("/tenant/tasks/1")
+            this.mvc.perform(post("/tasks-by-tenant/1")
                     .header("Authorization", this.adminToken)
                     .contentType(MediaType.APPLICATION_JSON)
                     .accept(MediaType.APPLICATION_JSON))
@@ -142,7 +142,7 @@ public class UserAuthorizationTest {
     @Test
     public void whenRequestingTenantEndPointWithValidTenantToken_thenReturnStatusCodeOk() {
         try {
-            this.mvc.perform(post("/tenant/messages/1")
+            this.mvc.perform(post("/messages/1")
                     .header("Authorization", this.tenantToken)
                     .contentType(MediaType.APPLICATION_JSON)
                     .accept(MediaType.APPLICATION_JSON))

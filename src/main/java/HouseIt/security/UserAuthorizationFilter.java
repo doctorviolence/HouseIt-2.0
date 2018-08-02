@@ -61,10 +61,10 @@ public class UserAuthorizationFilter extends BasicAuthenticationFilter {
             }
 
             String user = Jwts.parser()
-                        .setSigningKey(secret.getBytes())
-                        .parseClaimsJws(header.replace(tokenPrefix, ""))
-                        .getBody()
-                        .getSubject();
+                    .setSigningKey(secret.getBytes())
+                    .parseClaimsJws(header.replace(tokenPrefix, ""))
+                    .getBody()
+                    .getSubject();
 
             AuthenticatedUser authUser = (AuthenticatedUser) userService.loadUserByUsername(user);
 

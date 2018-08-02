@@ -75,6 +75,7 @@ public class UserAuthenticationFilter extends UsernamePasswordAuthenticationFilt
 
         if (token != null) {
             response.addHeader(tokenHeader, tokenPrefix + token);
+            response.getWriter().print("You are now logged in...");
         }
 
         logger.info(String.format("Successful authentication at %s", new UrlPathHelper().getPathWithinApplication(request)));
@@ -96,7 +97,7 @@ public class UserAuthenticationFilter extends UsernamePasswordAuthenticationFilt
 
             return Jwts.builder()
                     .setSubject(user.getUsername())
-                    .setExpiration(new Date(System.currentTimeMillis() + expiration))
+                    .setExpiration(new Date(System.currentTimeMillis() + expiration * 1000))
                     .signWith(SignatureAlgorithm.HS512, secret.getBytes("UTF-8"))
                     .compact();
         } catch (UnsupportedEncodingException e) {

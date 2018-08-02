@@ -1,31 +1,22 @@
 package HouseIt.service;
 
+import HouseIt.entities.Tenant;
 import HouseIt.exception.MyEntityNotFoundException;
-import HouseIt.entities.Task;
-import HouseIt.entities.TaskMessage;
 
 import java.util.List;
 
 public interface ITenantService {
 
-    List<Task> findTasksByTenantId(long tenantId) throws MyEntityNotFoundException;
+    List<Tenant> getTenants();
 
-    Task findTask(long caseNo) throws MyEntityNotFoundException;
+    List<Tenant> getTenantsInApartment(long apartmentId);
 
-    void createTask(Task c);
+    Tenant findTenant(long tenantId) throws MyEntityNotFoundException;
 
-    void updateTask(Task c) throws MyEntityNotFoundException;
+    void createTenant(Tenant tenant);
 
-    void deleteTask(long caseNo) throws MyEntityNotFoundException;
+    void updateTenant(Tenant tenant) throws MyEntityNotFoundException;
 
-    List<TaskMessage> getTaskMessagesByTask(long caseNo) throws MyEntityNotFoundException;
-
-    TaskMessage findMessage(long messageNo) throws MyEntityNotFoundException;
-
-    void createMessage(TaskMessage taskMessage);
-
-    void updateMessage(TaskMessage taskMessage) throws MyEntityNotFoundException;
-
-    void deleteMessage(long messageNo) throws MyEntityNotFoundException;
+    void deleteTenant(long tenantId) throws MyEntityNotFoundException;
 
 }

@@ -31,6 +31,9 @@ public class WebCorsFilter extends OncePerRequestFilter {
     @Value("${custom.cors.allowHeaders}")
     private String allowHeaders;
 
+    @Value("${custom.cors.exposeHeaders}")
+    private String exposeHeaders;
+
     @Value("${custom.cors.allowCredentials}")
     private String allowCredentials;
 
@@ -43,7 +46,8 @@ public class WebCorsFilter extends OncePerRequestFilter {
             response.addHeader("Access-Control-Allow-Origin", allowOrigin);
             response.addHeader("Access-Control-Allow-Methods", allowMethods);
             response.addHeader("Access-Control-Max-Age", maxAge);
-            response.addHeader("Access-Control-Allow-Headers", allowHeaders);
+            response.addHeader("Access-Control-Allow-Headers", allowHeaders + ", " + tokenHeader);
+            response.addHeader("Access-Control-Expose-Headers", exposeHeaders);
             response.addHeader("Access-Control-Allow-Credentials", allowCredentials);
 
             chain.doFilter(request, response);

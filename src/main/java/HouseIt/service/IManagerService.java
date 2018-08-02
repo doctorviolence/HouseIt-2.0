@@ -7,34 +7,14 @@ import java.util.List;
 
 public interface IManagerService {
 
-    List<Building> getBuildings();
+    List<Manager> getManagers();
 
-    List<Apartment> getApartmentsInBuilding(long buildingId);
+    Manager findManager(long managerId) throws MyEntityNotFoundException;
 
-    List<Tenant> getTenantsInApartment(long apartmentId);
+    void createManager(Manager manager);
 
-    Tenant findTenant(long tenantId) throws MyEntityNotFoundException;
+    void updateManager(Manager manager) throws MyEntityNotFoundException;
 
-    void createTenant(Tenant tenant);
-
-    void updateTenant(Tenant tenant) throws MyEntityNotFoundException;
-
-    void deleteTenant(long tenantId) throws MyEntityNotFoundException;
-
-    List<Task> getTasks();
-
-    List<Task> findTasksByTenantId(long tenantId);
-
-    List<Task> getTasksByType(String taskType);
-
-    List<Task> getTasksByFixDate();
-
-    List<TaskMessage> getTaskMessagesByTask(long taskNo);
-
-    TaskMessage findMessage(long messageNo) throws MyEntityNotFoundException;
-
-    void createMessage(TaskMessage taskMessage);
-
-    void deleteMessage(long messageNo) throws MyEntityNotFoundException;
+    void deleteManager(long apartmentId) throws MyEntityNotFoundException;
 
 }

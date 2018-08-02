@@ -15,94 +15,35 @@ import java.util.List;
 public class ManagerServiceImpl implements IManagerService {
 
     @Autowired
-    private IBuildingDao buildingDao;
+    private IManagerDao managerDao;
 
-    @Autowired
-    private IApartmentDao apartmentDao;
-
-    @Autowired
-    private ITenantDao tenantDao;
-
-    @Autowired
-    private ITaskDao taskDao;
-
-    @Autowired
-    private ITaskMessageDao taskMessageDao;
-
-    public List<Building> getBuildings() {
-        return buildingDao.getEntities(Building.class);
+    public List<Manager> getManagers() {
+        return managerDao.getEntities(Manager.class);
     }
 
-    public List<Apartment> getApartmentsInBuilding(long buildingId) {
-        return apartmentDao.getApartmentsInBuilding(buildingId);
-    }
-
-    public List<Tenant> getTenantsInApartment(long apartmentId) {
-        return tenantDao.getTenantsInFlat(apartmentId);
-    }
-
-    public Tenant findTenant(long id) throws MyEntityNotFoundException {
-        Tenant t = tenantDao.findEntityById(Tenant.class, id);
-        if (t == null) {
-            throw new MyEntityNotFoundException(String.format("Tenant with ID %s not found.", id));
+    public Manager findManager(long id) throws MyEntityNotFoundException {
+        Manager m = managerDao.findEntityById(Manager.class, id);
+        if (m == null) {
+            throw new MyEntityNotFoundException(String.format("Manager with ID %s not found.", id));
         }
-        return t;
+        return m;
     }
 
-    public void createTenant(Tenant tenant) {
-        tenantDao.createEntity(tenant);
+    public void createManager(Manager manager) {
+        managerDao.createEntity(manager);
     }
 
-    public void updateTenant(Tenant tenant) throws MyEntityNotFoundException {
-        Tenant t = findTenant(tenant.getTenantId());
-        if (t != null) {
-            tenantDao.updateEntity(tenant);
+    public void updateManager(Manager manager) throws MyEntityNotFoundException {
+        Manager m = findManager(manager.getManagerId());
+        if (m != null) {
+            managerDao.updateEntity(manager);
         }
     }
 
-    public void deleteTenant(long id) throws MyEntityNotFoundException {
-        Tenant t = findTenant(id);
-        if (t != null) {
-            tenantDao.deleteEntity(Tenant.class, id);
-        }
-    }
-
-    public List<Task> getTasks() {
-        return taskDao.getEntities(Task.class);
-    }
-
-    public List<Task> findTasksByTenantId(long tenantId) {
-        return taskDao.findTasksByTenantId(tenantId);
-    }
-
-    public List<Task> getTasksByType(String taskType) {
-        return taskDao.getTasksByType(taskType);
-    }
-
-    public List<Task> getTasksByFixDate() {
-        return taskDao.getTasksByFixDate();
-    }
-
-    public List<TaskMessage> getTaskMessagesByTask(long taskNo) {
-        return taskMessageDao.getTaskMessagesByTask(taskNo);
-    }
-
-    public TaskMessage findMessage(long no) throws MyEntityNotFoundException {
-        TaskMessage cm = taskMessageDao.findEntityById(TaskMessage.class, no);
-        if (cm == null) {
-            throw new MyEntityNotFoundException(String.format("Message no. %s not found.", no));
-        }
-        return cm;
-    }
-
-    public void createMessage(TaskMessage taskMessage) {
-        taskMessageDao.createEntity(taskMessage);
-    }
-
-    public void deleteMessage(long no) throws MyEntityNotFoundException {
-        TaskMessage cm = findMessage(no);
-        if (cm != null) {
-            taskMessageDao.deleteEntity(TaskMessage.class, no);
+    public void deleteManager(long id) throws MyEntityNotFoundException {
+        Manager m = findManager(id);
+        if (m != null) {
+            managerDao.deleteEntity(Manager.class, id);
         }
     }
 
