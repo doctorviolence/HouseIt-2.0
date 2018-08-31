@@ -17,4 +17,9 @@ public class TenantDaoImpl extends BaseDaoImpl<Tenant> implements ITenantDao {
                 .list();
     }
 
+    public Tenant createTenant(Tenant tenant) {
+        getCurrentSession().saveOrUpdate(tenant);
+        return tenant;
+    }
+
 }

@@ -14,4 +14,9 @@ public class UserDaoImpl extends BaseDaoImpl<User> implements IUserDao {
                 .uniqueResult();
     }
 
+    public User createUser(User user) {
+        getCurrentSession().saveOrUpdate(user);
+        return user;
+    }
+
 }

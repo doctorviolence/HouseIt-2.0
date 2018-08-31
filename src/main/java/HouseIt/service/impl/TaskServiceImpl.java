@@ -45,8 +45,8 @@ public class TaskServiceImpl implements ITaskService {
         return t;
     }
 
-    public void createTask(Task task) {
-        taskDao.createEntity(task);
+    public Task createTask(Task task) {
+        return taskDao.createTask(task);
     }
 
     public void updateTask(Task task) throws MyEntityNotFoundException {

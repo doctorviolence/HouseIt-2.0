@@ -3,6 +3,7 @@ package controller.rest;
 import HouseIt.Application;
 import HouseIt.entities.Apartment;
 import HouseIt.entities.Building;
+import HouseIt.entities.Tenant;
 import HouseIt.entities.User;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -63,7 +64,7 @@ public class AdminControllerTest {
 
             ResponseEntity<Building[]> response = template.exchange(
                     "http://localhost:" + port + "/buildings",
-                    HttpMethod.POST,
+                    HttpMethod.GET,
                     request,
                     Building[].class
             );
@@ -72,7 +73,7 @@ public class AdminControllerTest {
 
             assert response.getBody() != null;
             for (Building b : response.getBody()) {
-                String[] expected = {"Hyllie allé", "Drottninggatan", "Emporia"};
+                String[] expected = {"Main St", "Pitt St", "Maroubra St"};
                 String[] notExpected = {"Sydney", "London", "Berlin"};
                 String actual = b.getAddress();
 
@@ -96,8 +97,8 @@ public class AdminControllerTest {
             HttpEntity<String> request = new HttpEntity<>(headers);
 
             this.template.exchange(
-                    "http://localhost:" + port + "admin/buildings",
-                    HttpMethod.POST,
+                    "http://localhost:" + port + "/buildings",
+                    HttpMethod.GET,
                     request,
                     Building[].class
             );
@@ -117,11 +118,11 @@ public class AdminControllerTest {
             headers.add(HttpHeaders.AUTHORIZATION, token);
             long id = 1;
 
-            HttpEntity request = new HttpEntity<>(id, headers); // ID sent in body because I will add more functionality to the method later
+            HttpEntity request = new HttpEntity<>(headers);
 
             ResponseEntity<Apartment[]> response = this.template.exchange(
-                    "http://localhost:" + port + "/apartments/apartments-in-building",
-                    HttpMethod.POST,
+                    "http://localhost:" + port + "/apartments/apartments-in-building/" + id,
+                    HttpMethod.GET,
                     request,
                     Apartment[].class
             );
@@ -138,7 +139,36 @@ public class AdminControllerTest {
     }
 
     @Test
-    public void whenRequestingApartmentsInBuildingWithNoBody_thenReturnBadRequest() {
+    public void whenRequestingEmptyApartmentsInBuilding_thenReturnExpected() {
+        String token = initializeValidAuthorizationToken();
+        try {
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            headers.add(HttpHeaders.AUTHORIZATION, token);
+            long id = 1;
+
+            HttpEntity request = new HttpEntity<>(headers);
+
+            ResponseEntity<Apartment[]> response = this.template.exchange(
+                    "http://localhost:" + port + "/apartments/empty-apartments-in-building/" + id,
+                    HttpMethod.GET,
+                    request,
+                    Apartment[].class
+            );
+
+            assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+
+            assert response.getBody() != null;
+            Apartment[] apartments = response.getBody();
+            assertThat(apartments.length).isEqualTo(1);
+        } catch (HttpClientErrorException e) {
+            logger.info(e.getMessage());
+            fail("Apartments not retrieved, did not return HTTP 200");
+        }
+    }
+
+    @Test
+    public void whenRequestingApartmentsInBuildingWithNoParam_thenReturnNotFound() {
         String token = initializeValidAuthorizationToken();
         try {
             HttpHeaders headers = new HttpHeaders();
@@ -149,14 +179,14 @@ public class AdminControllerTest {
 
             this.template.exchange(
                     "http://localhost:" + port + "/apartments/apartments-in-building",
-                    HttpMethod.POST,
+                    HttpMethod.GET,
                     request,
                     Apartment[].class
             );
 
             fail("Did not return HTTP 400");
         } catch (HttpClientErrorException e) {
-            assertThat(e.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+            assertThat(e.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
         }
     }
 
@@ -169,11 +199,11 @@ public class AdminControllerTest {
             headers.add(HttpHeaders.AUTHORIZATION, token);
             long id = 54;
 
-            HttpEntity request = new HttpEntity<>(id, headers);
+            HttpEntity request = new HttpEntity<>(headers);
 
             ResponseEntity<Apartment[]> response = this.template.exchange(
-                    "http://localhost:" + port + "/apartments/apartments-in-building",
-                    HttpMethod.POST,
+                    "http://localhost:" + port + "/apartments/apartments-in-building/" + id,
+                    HttpMethod.GET,
                     request,
                     Apartment[].class
             );
@@ -352,6 +382,37 @@ public class AdminControllerTest {
             fail("Did not return HTTP 500");
         } catch (HttpServerErrorException e) {
             assertThat(e.getStatusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Test
+    public void whenCreatingUsers_thenReturnStatusCodeCreated() throws JsonProcessingException {
+        String token = initializeValidAuthorizationToken();
+        try {
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            headers.add(HttpHeaders.AUTHORIZATION, token);
+
+            User u = new User();
+            u.setUsername("Test4");
+            u.setPassword("Password");
+            u.setRole("ROLE_TENANT");
+            u.setTenant(new Tenant(1));
+            u.setApartment(new Apartment(1));
+
+            HttpEntity request = new HttpEntity<>(new ObjectMapper().writeValueAsString(u), headers);
+
+            ResponseEntity response = this.template.exchange(
+                    "http://localhost:" + port + "/users/create-user",
+                    HttpMethod.POST,
+                    request,
+                    User.class
+            );
+
+            assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
+        } catch (HttpServerErrorException e) {
+            logger.info(e.getMessage());
+            fail("Did not return HTTP 201");
         }
     }
 

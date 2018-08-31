@@ -1,5 +1,8 @@
 package HouseIt.security;
 
+import HouseIt.entities.Apartment;
+import HouseIt.entities.Building;
+import HouseIt.entities.Tenant;
 import HouseIt.entities.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -22,6 +25,8 @@ public class AuthenticatedUser implements UserDetails {
     private Boolean accountNonLocked = true;
     private Boolean credentialsNonExpired = true;
     private Boolean enabled = true;
+    private Apartment apartment;
+    private Tenant tenant;
 
     public AuthenticatedUser() {
         super();
@@ -31,6 +36,8 @@ public class AuthenticatedUser implements UserDetails {
         this.setUser(user);
         this.setUsername(username);
         this.setPassword(password);
+        this.setTenant();
+        this.setApartment();
     }
 
     public User getUser() {
@@ -84,4 +91,19 @@ public class AuthenticatedUser implements UserDetails {
         return this.enabled;
     }
 
+    public Apartment getApartment() {
+        return apartment;
+    }
+
+    public void setApartment() {
+        this.apartment = this.user.getApartment();
+    }
+
+    public Tenant getTenant() {
+        return tenant;
+    }
+
+    public void setTenant() {
+        this.tenant = this.user.getTenant();
+    }
 }

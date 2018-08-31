@@ -26,14 +26,18 @@ public class Tenant implements Serializable {
     @Column(name = "phone_no")
     private String phoneNo;
 
+    @Column(name = "email")
+    private String email;
+
     @ManyToOne
     @JoinColumn(name = "apartment_id", referencedColumnName = "apartment_id", nullable = false)
     private Apartment apartment;
 
-    @JsonIgnore // temporary fix
+    @JsonIgnore
     @OneToMany(mappedBy = "tenant", fetch = FetchType.LAZY)
     private List<Task> tasks;
 
+    @JsonIgnore
     @OneToOne(fetch = FetchType.EAGER, mappedBy = "tenant")
     private User user;
 
@@ -75,6 +79,14 @@ public class Tenant implements Serializable {
 
     public void setPhoneNo(String phoneNo) {
         this.phoneNo = phoneNo;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public Apartment getApartment() {

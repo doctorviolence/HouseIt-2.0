@@ -19,12 +19,12 @@ public interface ITaskService {
 
     List<Task> findTasksByTenantId(long tenantId) throws MyEntityNotFoundException;
 
-    Task findTask(long caseNo) throws MyEntityNotFoundException;
+    Task findTask(long taskNo) throws MyEntityNotFoundException;
 
-    void createTask(Task c);
+    Task createTask(Task t);
 
-    void updateTask(Task c) throws MyEntityNotFoundException;
+    void updateTask(Task t) throws MyEntityNotFoundException;
 
-    void deleteTask(long caseNo) throws MyEntityNotFoundException;
+    void deleteTask(long taskNo) throws MyEntityNotFoundException;
 
 }

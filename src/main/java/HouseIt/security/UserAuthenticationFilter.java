@@ -1,5 +1,8 @@
 package HouseIt.security;
 
+import HouseIt.entities.Apartment;
+import HouseIt.entities.Building;
+import HouseIt.entities.Tenant;
 import HouseIt.entities.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Jwts;
@@ -72,10 +75,26 @@ public class UserAuthenticationFilter extends UsernamePasswordAuthenticationFilt
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication auth)
             throws IOException, ServletException {
         String token = this.generateToken(auth);
+        Tenant tenant = this.generateUserTenant(auth);
+        Apartment apartment = this.generateUserApartment(auth);
 
         if (token != null) {
             response.addHeader(tokenHeader, tokenPrefix + token);
             response.getWriter().print("You are now logged in...");
+        }
+
+        if (tenant != null) {
+            Long tenantId = tenant.getTenantId();
+            String tenantName = tenant.getFirstName();
+            response.addHeader("Tenant", String.valueOf(tenantId));
+            response.addHeader("Name", tenantName);
+        }
+
+        if (apartment != null) {
+            Long apartmentId = apartment.getApartmentId();
+            response.addHeader("Apartment", String.valueOf(apartmentId));
+            Long buildingId = apartment.getBuilding().getBuildingId();
+            response.addHeader("Building", String.valueOf(buildingId));
         }
 
         logger.info(String.format("Successful authentication at %s", new UrlPathHelper().getPathWithinApplication(request)));
@@ -97,6 +116,7 @@ public class UserAuthenticationFilter extends UsernamePasswordAuthenticationFilt
 
             return Jwts.builder()
                     .setSubject(user.getUsername())
+                    .setIssuedAt(new Date(System.currentTimeMillis()))
                     .setExpiration(new Date(System.currentTimeMillis() + expiration * 1000))
                     .signWith(SignatureAlgorithm.HS512, secret.getBytes("UTF-8"))
                     .compact();
@@ -104,6 +124,28 @@ public class UserAuthenticationFilter extends UsernamePasswordAuthenticationFilt
             logger.error(e.getMessage());
             throw new RuntimeException();
         }
+    }
+
+    private Tenant generateUserTenant(Authentication authentication) {
+        AuthenticatedUser user = (AuthenticatedUser) authentication.getPrincipal();
+        Tenant tenant = user.getUser().getTenant();
+
+        if (tenant == null) {
+            return null;
+        }
+
+        return tenant;
+    }
+
+    private Apartment generateUserApartment(Authentication authentication) {
+        AuthenticatedUser user = (AuthenticatedUser) authentication.getPrincipal();
+        Apartment apartment = user.getUser().getApartment();
+
+        if (apartment == null) {
+            return null;
+        }
+
+        return apartment;
     }
 
 }

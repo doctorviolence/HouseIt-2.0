@@ -18,8 +18,16 @@ public class TaskMessageController {
     @Autowired
     private ITaskMessageService taskMessageService;
 
+    // Get all task messages
+    @GetMapping(value = "/messages")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<List<TaskMessage>> getAllTaskMessagess() throws MyEntityNotFoundException {
+        List<TaskMessage> tasks = taskMessageService.getAllTaskMessages();
+        return new ResponseEntity<List<TaskMessage>>(tasks, HttpStatus.OK);
+    }
+
     // Get messages pertaining to task
-    @PostMapping(value = "/messages/{no}")
+    @GetMapping(value = "/messages/{no}")
     @PreAuthorize("hasRole('ADMIN') or hasRole('TENANT')")
     public ResponseEntity<List<TaskMessage>> getTaskMessagesByTask(@PathVariable("no") long no) throws MyEntityNotFoundException {
         List<TaskMessage> messages = taskMessageService.getTaskMessagesByTask(no);
@@ -29,9 +37,9 @@ public class TaskMessageController {
     // Create message
     @PostMapping(value = "/messages/create-message", consumes = "application/json")
     @PreAuthorize("hasRole('ADMIN') or hasRole('TENANT')")
-    public ResponseEntity<TaskMessage> createTaskMessage(@RequestBody TaskMessage message) {
-        taskMessageService.createMessage(message);
-        return new ResponseEntity<TaskMessage>(HttpStatus.CREATED);
+    public ResponseEntity<TaskMessage> createTaskMessage(@RequestBody TaskMessage m) {
+        TaskMessage message = taskMessageService.createMessage(m);
+        return new ResponseEntity<TaskMessage>(message, HttpStatus.CREATED);
     }
 
     // Update message

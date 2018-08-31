@@ -7,7 +7,7 @@ public interface IUserService {
 
     User findUser(long userId) throws MyEntityNotFoundException;
 
-    void createUser(User user);
+    User createUser(User user);
 
     void updateUser(User user) throws MyEntityNotFoundException;
 

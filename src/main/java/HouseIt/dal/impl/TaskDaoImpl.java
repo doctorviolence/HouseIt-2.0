@@ -34,4 +34,9 @@ public class TaskDaoImpl extends BaseDaoImpl<Task> implements ITaskDao {
                 .list();
     }
 
+    public Task createTask(Task task) {
+        getCurrentSession().saveOrUpdate(task);
+        return task;
+    }
+
 }

@@ -33,8 +33,8 @@ public class TenantServiceImpl implements ITenantService {
         return t;
     }
 
-    public void createTenant(Tenant tenant) {
-        tenantDao.createEntity(tenant);
+    public Tenant createTenant(Tenant tenant) {
+        return tenantDao.createTenant(tenant);
     }
 
     public void updateTenant(Tenant tenant) throws MyEntityNotFoundException {

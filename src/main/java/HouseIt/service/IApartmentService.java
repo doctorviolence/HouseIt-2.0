@@ -9,11 +9,13 @@ public interface IApartmentService {
 
     List<Apartment> getAllApartments();
 
+    List<Apartment> getEmptyApartmentsInBuilding(long buildingId);
+
     List<Apartment> getApartmentsInBuilding(long buildingId);
 
     Apartment findApartment(long apartmentId) throws MyEntityNotFoundException;
 
-    void createApartment(Apartment apartment);
+    Apartment createApartment(Apartment apartment);
 
     void updateApartment(Apartment apartment) throws MyEntityNotFoundException;
 

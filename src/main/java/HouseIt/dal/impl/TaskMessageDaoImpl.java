@@ -17,4 +17,9 @@ public class TaskMessageDaoImpl extends BaseDaoImpl<TaskMessage> implements ITas
                 .list();
     }
 
+    public TaskMessage createTaskMessage(TaskMessage taskMessage) {
+        getCurrentSession().saveOrUpdate(taskMessage);
+        return taskMessage;
+    }
+
 }

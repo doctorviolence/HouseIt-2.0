@@ -27,10 +27,9 @@ public class UserController {
     // Create user
     @PostMapping(value = "/users/create-user", consumes = "application/json")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<User> createUser(@RequestBody User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userDao.createEntity(user);
-        return new ResponseEntity<User>(HttpStatus.CREATED);
+    public ResponseEntity<User> createUser(@RequestBody User u) {
+        User user = userService.createUser(u);
+        return new ResponseEntity<User>(user, HttpStatus.CREATED);
     }
 
     // Update user

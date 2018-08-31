@@ -19,9 +19,6 @@ public class BuildingServiceImpl implements IBuildingService {
     private IBuildingDao buildingDao;
 
     @Autowired
-    private IManagerDao managerDao;
-
-    @Autowired
     private IUserDao userDao;
 
     @Autowired
@@ -39,8 +36,8 @@ public class BuildingServiceImpl implements IBuildingService {
         return b;
     }
 
-    public void createBuilding(Building building) {
-        buildingDao.createEntity(building);
+    public Building createBuilding(Building building) {
+        return buildingDao.createBuilding(building);
     }
 
     public void updateBuilding(Building building) throws MyEntityNotFoundException {

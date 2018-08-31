@@ -16,29 +16,29 @@ import java.util.List;
 public class BuildingController {
 
     @Autowired
-    private IBuildingService adminUserService;
+    private IBuildingService buildingService;
 
     // Get buildings
-    @PostMapping(value = "/buildings")
+    @GetMapping(value = "/buildings")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<Building>> getBuildings() throws MyEntityNotFoundException {
-        List<Building> buildings = adminUserService.getBuildings();
+        List<Building> buildings = buildingService.getBuildings();
         return new ResponseEntity<List<Building>>(buildings, HttpStatus.OK);
     }
 
     // Create building
     @PostMapping(value = "/buildings/create-building", consumes = "application/json")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Building> createBuilding(@RequestBody Building building) {
-        adminUserService.createBuilding(building);
-        return new ResponseEntity<Building>(HttpStatus.CREATED);
+    public ResponseEntity<Building> createBuilding(@RequestBody Building b) {
+        Building building = buildingService.createBuilding(b);
+        return new ResponseEntity<Building>(building, HttpStatus.CREATED);
     }
 
     // Update building
     @PutMapping(value = "/buildings/update-building", consumes = "application/json")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Building> updateBuilding(@RequestBody Building building) throws MyEntityNotFoundException {
-        adminUserService.updateBuilding(building);
+        buildingService.updateBuilding(building);
         return new ResponseEntity<Building>(HttpStatus.OK);
     }
 
@@ -46,7 +46,7 @@ public class BuildingController {
     @DeleteMapping(value = "/buildings/delete-building/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Building> deleteBuilding(@PathVariable("id") long id) throws MyEntityNotFoundException {
-        adminUserService.deleteBuilding(id);
+        buildingService.deleteBuilding(id);
         return new ResponseEntity<Building>(HttpStatus.NO_CONTENT);
     }
 

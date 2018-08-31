@@ -20,27 +20,25 @@ public class Task implements Serializable {
     @Column(name = "task_type")
     private String taskType;
 
-    @Column(name = "task_status")
-    private String taskStatus;
-
     @Column(name = "resolved")
     private String resolved;
 
     @Column(name = "task_date")
     private String taskDate;
 
-    @Column(name = "fix_date")
-    private String fixDate;
+    @ManyToOne
+    @JoinColumn(name = "building_id", referencedColumnName = "building_id", nullable = false)
+    private Building building;
+
+    @ManyToOne
+    @JoinColumn(name = "apartment_id", referencedColumnName = "apartment_id", nullable = false)
+    private Apartment apartment;
 
     @ManyToOne
     @JoinColumn(name = "tenant_id", referencedColumnName = "tenant_id", nullable = false)
     private Tenant tenant;
 
-    @ManyToOne
-    @JoinColumn(name = "manager_id", referencedColumnName = "manager_id", nullable = false)
-    private Manager manager;
-
-    @JsonIgnore // temporary fix
+    @JsonIgnore
     @OneToMany(mappedBy = "task", fetch = FetchType.LAZY)
     private List<TaskMessage> taskMessages;
 
@@ -68,14 +66,6 @@ public class Task implements Serializable {
         this.taskType = taskType;
     }
 
-    public String getTaskStatus() {
-        return taskStatus;
-    }
-
-    public void setTaskStatus(String taskStatus) {
-        this.taskStatus = taskStatus;
-    }
-
     public String getResolved() {
         return resolved;
     }
@@ -92,12 +82,20 @@ public class Task implements Serializable {
         this.taskDate = taskDate;
     }
 
-    public String getFixDate() {
-        return fixDate;
+    public Building getBuilding() {
+        return building;
     }
 
-    public void setFixDate(String fixDate) {
-        this.fixDate = fixDate;
+    public void setBuilding(Building building) {
+        this.building = building;
+    }
+
+    public Apartment getApartment() {
+        return apartment;
+    }
+
+    public void setApartment(Apartment apartment) {
+        this.apartment = apartment;
     }
 
     public Tenant getTenant() {
@@ -108,13 +106,6 @@ public class Task implements Serializable {
         this.tenant = tenant;
     }
 
-    public Manager getManager() {
-        return manager;
-    }
-
-    public void setManager(Manager manager) {
-        this.manager = manager;
-    }
 
     public List<TaskMessage> getTaskMessages() {
         return taskMessages;

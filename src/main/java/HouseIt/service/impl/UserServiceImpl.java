@@ -52,9 +52,9 @@ public class UserServiceImpl implements UserDetailsService, IUserService {
         return u;
     }
 
-    public void createUser(User user) {
+    public User createUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userDao.createEntity(user);
+        return userDao.createUser(user);
     }
 
     public void updateUser(User user) throws MyEntityNotFoundException {

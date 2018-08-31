@@ -131,6 +131,80 @@ public class UserAuthenticationTest {
         }
     }
 
+    @Test
+    public void whenAuthenticatingWithTenantCredentials_thenReturnCorrectTenantInfo() throws Exception {
+        String json = "{\"username\":\"Test2\",\"password\":\"password\"}";
+
+        String tenantId = this.mvc.perform(post("/auth/login")
+                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+                .content(json))
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse()
+                .getHeader("Tenant");
+
+        String tenantName = this.mvc.perform(post("/auth/login")
+                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+                .content(json))
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse()
+                .getHeader("Name");
+
+        String apartmentId = this.mvc.perform(post("/auth/login")
+                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+                .content(json))
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse()
+                .getHeader("Apartment");
+
+        String buildingId = this.mvc.perform(post("/auth/login")
+                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+                .content(json))
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse()
+                .getHeader("Building");
+
+        try {
+            assertThat(tenantId).isEqualTo("1");
+            assertThat(tenantName).isEqualTo("Test");
+            assertThat(apartmentId).isEqualTo("1");
+            assertThat(buildingId).isEqualTo("1");
+        } catch (Exception e) {
+            fail("Failed to parse correct tenant info");
+        }
+    }
+
+    @Test
+    public void whenAuthenticatingWithAdminCredentials_thenReturnNoTenantInfo() throws Exception {
+        String json = "{\"username\":\"Test\",\"password\":\"password\"}";
+
+        String tenantId = this.mvc.perform(post("/auth/login")
+                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+                .content(json))
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse()
+                .getHeader("Tenant");
+
+        String apartmentId = this.mvc.perform(post("/auth/login")
+                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+                .content(json))
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse()
+                .getHeader("Apartment");
+
+        try {
+            assertThat(tenantId).isNullOrEmpty();
+            assertThat(apartmentId).isNullOrEmpty();
+        } catch (Exception e) {
+            fail("Yo, the test failed there was tenant info!");
+        }
+    }
+
     // NB: Adding more tests (e.g. expiration tests) once I have re-written the service layer/rest endpoints
 
     private Claims parseTokenClaims(String token) {

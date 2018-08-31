@@ -20,7 +20,7 @@ public class ApplicationConfig {
 
     @Bean
     public IApartmentDao apartmentDao() {
-        return new ApartmentDaoImplImpl();
+        return new ApartmentDaoImpl();
     }
 
     @Bean
@@ -36,11 +36,6 @@ public class ApplicationConfig {
     @Bean
     public ITaskMessageDao taskMessageDao() {
         return new TaskMessageDaoImpl();
-    }
-
-    @Bean
-    public IManagerDao managerDao() {
-        return new ManagerDaoImpl();
     }
 
     @Bean

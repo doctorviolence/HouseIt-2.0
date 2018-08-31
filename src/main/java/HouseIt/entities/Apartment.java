@@ -33,9 +33,17 @@ public class Apartment implements Serializable {
     @JoinColumn(name = "building_id", referencedColumnName = "building_id", nullable = false)
     private Building building;
 
-    @JsonIgnore // temporary fix
+    @JsonIgnore
+    @OneToMany(mappedBy = "apartment", fetch = FetchType.LAZY)
+    private List<Task> tasks;
+
+    @JsonIgnore
     @OneToMany(mappedBy = "apartment", fetch = FetchType.LAZY)
     private List<Tenant> tenants;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "apartment", fetch = FetchType.LAZY)
+    private List<User> users;
 
     public Apartment() {
 
@@ -93,12 +101,28 @@ public class Apartment implements Serializable {
         this.building = building;
     }
 
+    public List<Task> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(List<Task> tasks) {
+        this.tasks = tasks;
+    }
+
     public List<Tenant> getTenants() {
         return tenants;
     }
 
     public void setTenants(List<Tenant> tenants) {
         this.tenants = tenants;
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
     }
 
 }

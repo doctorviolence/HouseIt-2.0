@@ -17,6 +17,10 @@ public class TaskMessageServiceImpl implements ITaskMessageService {
     @Autowired
     private ITaskMessageDao taskMessageDao;
 
+    public List<TaskMessage> getAllTaskMessages() {
+        return taskMessageDao.getEntities(TaskMessage.class);
+    }
+
     public List<TaskMessage> getTaskMessagesByTask(long taskNo) throws MyEntityNotFoundException {
         List<TaskMessage> taskMessages = taskMessageDao.getTaskMessagesByTask(taskNo);
         if (taskMessages == null) {
@@ -33,8 +37,8 @@ public class TaskMessageServiceImpl implements ITaskMessageService {
         return m;
     }
 
-    public void createMessage(TaskMessage taskMessage) {
-        taskMessageDao.createEntity(taskMessage);
+    public TaskMessage createMessage(TaskMessage taskMessage) {
+        return taskMessageDao.createTaskMessage(taskMessage);
     }
 
     public void updateMessage(TaskMessage taskMessage) throws MyEntityNotFoundException {

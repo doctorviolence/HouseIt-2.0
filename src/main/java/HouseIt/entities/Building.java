@@ -17,13 +17,26 @@ public class Building implements Serializable {
     @Column(name = "building_id", nullable = false)
     private long buildingId;
 
+    @Column(name = "name")
+    private String name;
+
     @Column(name = "address")
     private String address;
 
-    @Column(name = "floor_levels")
-    private int floorLevels;
+    @Column(name = "zip_code")
+    private String zipCode;
 
-    @JsonIgnore // temporary fix
+    @Column(name = "inspection_date")
+    private String inspectionDate;
+
+    @Column(name = "year_built")
+    private String yearBuilt;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "building", fetch = FetchType.LAZY)
+    private List<Task> tasks;
+
+    @JsonIgnore
     @OneToMany(mappedBy = "building", fetch = FetchType.LAZY)
     private List<Apartment> apartments;
 
@@ -51,12 +64,44 @@ public class Building implements Serializable {
         this.address = address;
     }
 
-    public int getFloorLevels() {
-        return floorLevels;
+    public String getName() {
+        return name;
     }
 
-    public void setFloorLevels(int floorLevels) {
-        this.floorLevels = floorLevels;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getZipCode() {
+        return zipCode;
+    }
+
+    public void setZipCode(String zipCode) {
+        this.zipCode = zipCode;
+    }
+
+    public String getInspectionDate() {
+        return inspectionDate;
+    }
+
+    public void setInspectionDate(String inspectionDate) {
+        this.inspectionDate = inspectionDate;
+    }
+
+    public String getYearBuilt() {
+        return yearBuilt;
+    }
+
+    public void setYearBuilt(String yearBuilt) {
+        this.yearBuilt = yearBuilt;
+    }
+
+    public List<Task> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(List<Task> tasks) {
+        this.tasks = tasks;
     }
 
     public List<Apartment> getApartments() {

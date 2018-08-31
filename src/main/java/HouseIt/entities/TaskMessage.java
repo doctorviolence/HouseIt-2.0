@@ -16,6 +16,9 @@ public class TaskMessage implements Serializable {
     @Column(name = "message_no", nullable = false)
     private long messageNo;
 
+    @Column(name = "post_date")
+    private String datePosted;
+
     @Column(name = "message_text")
     @Type(type = "text")
     private String messageText;
@@ -34,6 +37,14 @@ public class TaskMessage implements Serializable {
 
     public void setMessageNo(long messageNo) {
         this.messageNo = messageNo;
+    }
+
+    public String getDatePosted() {
+        return datePosted;
+    }
+
+    public void setDatePosted(String datePosted) {
+        this.datePosted = datePosted;
     }
 
     public String getMessageText() {

@@ -11,11 +11,13 @@ import java.util.List;
 @Transactional
 public interface ITaskMessageService {
 
+    List<TaskMessage> getAllTaskMessages();
+
     List<TaskMessage> getTaskMessagesByTask(long caseNo) throws MyEntityNotFoundException;
 
     TaskMessage findMessage(long messageNo) throws MyEntityNotFoundException;
 
-    void createMessage(TaskMessage taskMessage);
+    TaskMessage createMessage(TaskMessage taskMessage);
 
     void updateMessage(TaskMessage taskMessage) throws MyEntityNotFoundException;
 

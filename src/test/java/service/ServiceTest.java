@@ -36,9 +36,6 @@ public class ServiceTest {
     @Autowired
     private ITaskMessageService taskMessageService;
 
-    @Autowired
-    private IManagerService managerService;
-
     @Test
     public void testThatServicesNotNull() {
         assertThat(buildingService).isNotNull();
@@ -52,7 +49,7 @@ public class ServiceTest {
     public void whenCreatingBuilding_ThenNoException() {
         Building b = new Building();
         b.setAddress("Sagas gränd");
-        b.setFloorLevels(5);
+        //b.setFloorLevels(5);
 
         buildingService.createBuilding(b);
     }
@@ -67,13 +64,13 @@ public class ServiceTest {
     public void whenSearchingForBuildingId_ThenReturnsCorrectBuilding() throws MyEntityNotFoundException {
         Building b = buildingService.findBuilding(1);
         assertThat(b.getBuildingId()).isEqualTo(1);
-        assertThat(b.getAddress()).isEqualTo("Hyllie allé");
-        assertThat(b.getFloorLevels()).isEqualTo(3);
+        assertThat(b.getAddress()).isEqualTo("Main St");
+        //assertThat(b.getFloorLevels()).isEqualTo(3);
 
         Building b2 = buildingService.findBuilding(2);
         assertThat(b2.getBuildingId()).isEqualTo(2);
-        assertThat(b2.getAddress()).isEqualTo("Drottninggatan");
-        assertThat(b2.getFloorLevels()).isEqualTo(5);
+        assertThat(b2.getAddress()).isEqualTo("Pitt St");
+        //assertThat(b2.getFloorLevels()).isEqualTo(5);
     }
 
     @Test
@@ -122,12 +119,6 @@ public class ServiceTest {
     }
 
     @Test
-    public void whenGettingAllManagers_ThenReturnOne() {
-        List<Manager> managers = managerService.getManagers();
-        assertThat(managers).hasSize(1);
-    }
-
-    @Test
     public void whenGettingTenantsInApartment_ThenReturnOne() {
         List<Tenant> tenants = tenantService.getTenantsInApartment(1);
         assertThat(tenants).hasSize(1);
@@ -158,17 +149,17 @@ public class ServiceTest {
         assertThat(t.getTaskType()).isEqualTo("Kitchen");
         assertThat(t.getTaskType()).isNotEqualTo("Water");
         assertThat(t.getTenant().getTenantId() == 1).isTrue();
-        assertThat(t.getManager().getManagerId() == 1).isTrue();
+        //assertThat(t.getManager().getManagerId() == 1).isTrue();
     }
 
-    @Test
-    public void whenGettingTasksByFixDate_ThenGetCorrectOrder() {
-        List<Task> tasks = taskService.getTasksByFixDate();
-        assertThat(tasks.get(0).getFixDate()).isEqualTo("2018-07-01");
-        assertThat(tasks.get(0).getFixDate()).isNotEqualTo("2018-07-02");
-        assertThat(tasks.get(1).getFixDate()).isEqualTo("2018-07-02");
-        assertThat(tasks.get(1).getFixDate()).isNotEqualTo("2018-07-01");
-    }
+    //@Test
+    //public void whenGettingTasksByFixDate_ThenGetCorrectOrder() {
+    //    List<Task> tasks = taskService.getTasksByFixDate();
+    //    assertThat(tasks.get(0).getFixDate()).isEqualTo("2018-07-01");
+    //    assertThat(tasks.get(0).getFixDate()).isNotEqualTo("2018-07-02");
+    //    assertThat(tasks.get(1).getFixDate()).isEqualTo("2018-07-02");
+    //    assertThat(tasks.get(1).getFixDate()).isNotEqualTo("2018-07-01");
+    //}
 
     @Test
     public void whenFindingTasksByNo_ThenReturnOneTask() throws MyEntityNotFoundException {

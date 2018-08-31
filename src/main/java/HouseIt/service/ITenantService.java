@@ -13,7 +13,7 @@ public interface ITenantService {
 
     Tenant findTenant(long tenantId) throws MyEntityNotFoundException;
 
-    void createTenant(Tenant tenant);
+    Tenant createTenant(Tenant tenant);
 
     void updateTenant(Tenant tenant) throws MyEntityNotFoundException;
 

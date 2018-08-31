@@ -8,4 +8,8 @@ public interface IApartmentDao extends IBaseDao<Apartment> {
 
     List<Apartment> getApartmentsInBuilding(long buildingId);
 
+    List<Apartment> getEmptyApartmentsInBuilding(long buildingId);
+
+    Apartment createApartment(Apartment apartment);
+
 }

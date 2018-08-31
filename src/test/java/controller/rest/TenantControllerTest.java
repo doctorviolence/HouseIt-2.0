@@ -69,7 +69,7 @@ public class TenantControllerTest {
 
             ResponseEntity<Task[]> response = this.template.exchange(
                     "http://localhost:" + port + "/tasks-by-tenant/" + 1,
-                    HttpMethod.POST,
+                    HttpMethod.GET,
                     request,
                     Task[].class
             );
@@ -80,6 +80,10 @@ public class TenantControllerTest {
             Task[] tasks = response.getBody();
 
             assertThat(tasks.length).isEqualTo(2);
+            assertThat(tasks[0].getApartment().getApartmentId()).isEqualTo(1);
+            assertThat(tasks[1].getApartment().getApartmentId()).isEqualTo(1);
+            assertThat(tasks[0].getBuilding().getBuildingId()).isEqualTo(1);
+            assertThat(tasks[1].getBuilding().getBuildingId()).isEqualTo(1);
 
         } catch (HttpClientErrorException e) {
             logger.info(e.getMessage());
@@ -98,7 +102,7 @@ public class TenantControllerTest {
 
             this.template.exchange(
                     "http://localhost:" + port + "/tasks-by-tenant/" + 65,
-                    HttpMethod.POST,
+                    HttpMethod.GET,
                     request,
                     Task[].class
             );
@@ -120,7 +124,7 @@ public class TenantControllerTest {
 
             this.template.exchange(
                     "http://localhost:" + port + "/tasks-by-tenant/" + "bad-value",
-                    HttpMethod.POST,
+                    HttpMethod.GET,
                     request,
                     Task[].class
             );
@@ -163,7 +167,7 @@ public class TenantControllerTest {
 
             this.template.exchange(
                     "http://localhost:" + port + "/tasks/" + 1,
-                    HttpMethod.POST,
+                    HttpMethod.GET,
                     request,
                     Task[].class
             );

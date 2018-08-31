@@ -11,7 +11,7 @@ public interface IBuildingService {
 
     Building findBuilding(long buildingId) throws MyEntityNotFoundException;
 
-    void createBuilding(Building building);
+    Building createBuilding(Building building);
 
     void updateBuilding(Building building) throws MyEntityNotFoundException;
 

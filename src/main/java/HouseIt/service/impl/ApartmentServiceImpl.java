@@ -25,6 +25,10 @@ public class ApartmentServiceImpl implements IApartmentService {
         return apartmentDao.getApartmentsInBuilding(buildingId);
     }
 
+    public List<Apartment> getEmptyApartmentsInBuilding(long buildingId) {
+        return apartmentDao.getEmptyApartmentsInBuilding(buildingId);
+    }
+
     public Apartment findApartment(long apartmentId) throws MyEntityNotFoundException {
         Apartment a = apartmentDao.findEntityById(Apartment.class, apartmentId);
         if (a == null) {
@@ -33,8 +37,8 @@ public class ApartmentServiceImpl implements IApartmentService {
         return a;
     }
 
-    public void createApartment(Apartment apartment) {
-        apartmentDao.createEntity(apartment);
+    public Apartment createApartment(Apartment apartment) {
+        return apartmentDao.createApartment(apartment);
     }
 
     public void updateApartment(Apartment apartment) throws MyEntityNotFoundException {

@@ -30,6 +30,11 @@ public class User implements Serializable {
 
     @JsonIgnore
     @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "apartment_id")
+    private Apartment apartment;
+
+    @JsonIgnore
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "tenant_id")
     private Tenant tenant;
 
@@ -78,6 +83,14 @@ public class User implements Serializable {
         } else {
             this.role = "";
         }
+    }
+
+    public Apartment getApartment() {
+        return apartment;
+    }
+
+    public void setApartment(Apartment apartment) {
+        this.apartment = apartment;
     }
 
     public Tenant getTenant() {

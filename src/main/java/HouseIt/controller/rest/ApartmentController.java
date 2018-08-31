@@ -19,7 +19,7 @@ public class ApartmentController {
     private IApartmentService apartmentService;
 
     // Get all apartments
-    @PostMapping(value = "/apartments")
+    @GetMapping(value = "/apartments")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<Apartment>> getApartments() {
         List<Apartment> apartments = apartmentService.getAllApartments();
@@ -27,19 +27,28 @@ public class ApartmentController {
     }
 
     // Get apartments pertaining to building id
-    @PostMapping(value = "/apartments/apartments-in-building")
+    @GetMapping(value = "/apartments/apartments-in-building/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<List<Apartment>> getApartmentsInBuilding(@RequestBody long id) {
+    public ResponseEntity<List<Apartment>> getApartmentsInBuilding(@PathVariable long id) {
         List<Apartment> apartments = apartmentService.getApartmentsInBuilding(id);
         return new ResponseEntity<List<Apartment>>(apartments, HttpStatus.OK);
     }
 
+    // Get empty apartments pertaining to building
+    @GetMapping(value = "/apartments/empty-apartments-in-building/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<List<Apartment>> getEmptyApartmentsInBuilding(@PathVariable long id) {
+        List<Apartment> apartments = apartmentService.getEmptyApartmentsInBuilding(id);
+        return new ResponseEntity<List<Apartment>>(apartments, HttpStatus.OK);
+    }
+
+
     // Create apartment
     @PostMapping(value = "/apartments/create-apartment", consumes = "application/json")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Apartment> createApartment(@RequestBody Apartment apartment) {
-        apartmentService.createApartment(apartment);
-        return new ResponseEntity<Apartment>(HttpStatus.CREATED);
+    public ResponseEntity<Apartment> createApartment(@RequestBody Apartment a) {
+        Apartment apartment = apartmentService.createApartment(a);
+        return new ResponseEntity<Apartment>(apartment, HttpStatus.CREATED);
     }
 
     // Update apartment
