@@ -5,10 +5,12 @@ import HouseIt.exception.MyEntityNotFoundException;
 
 public interface IUserService {
 
+    User getUser();
+
     User createUser(User user);
 
-    void updateUser(User user) throws MyEntityNotFoundException;
+    void updateUserPassword(String password) throws MyEntityNotFoundException;
 
-    void deleteUser(long userId) throws MyEntityNotFoundException;
+    void deleteUser(User user) throws MyEntityNotFoundException;
 
 }

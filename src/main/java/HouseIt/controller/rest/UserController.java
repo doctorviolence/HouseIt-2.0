@@ -24,6 +24,14 @@ public class UserController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    // Get user (NB: used mainly for establishing controller tests...)
+    @GetMapping(value = "/users/user", consumes = "application/json")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<User> getUser() {
+        User user = userService.getUser();
+        return new ResponseEntity<User>(user, HttpStatus.OK);
+    }
+
     // Create user
     @PostMapping(value = "/users/create-user", consumes = "application/json")
     @PreAuthorize("hasRole('ADMIN')")
@@ -34,17 +42,17 @@ public class UserController {
 
     // Update user
     @PutMapping(value = "/users/update-user", consumes = "application/json")
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<User> updateUser(@RequestBody User user) throws MyEntityNotFoundException {
-        userService.updateUser(user);
+    @PreAuthorize("hasRole('ADMIN') or hasRole('TENANT')")
+    public ResponseEntity<User> updateUser(@RequestBody String password) throws MyEntityNotFoundException {
+        userService.updateUserPassword(password);
         return new ResponseEntity<User>(HttpStatus.OK);
     }
 
     // Delete user
-    @DeleteMapping(value = "/users/delete-user/{id}")
+    @DeleteMapping(value = "/users/delete-user")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<User> deleteUser(@PathVariable("id") long id) throws MyEntityNotFoundException {
-        userService.deleteUser(id);
+    public ResponseEntity<User> deleteUser(@RequestBody User user) throws MyEntityNotFoundException {
+        userService.deleteUser(user);
         return new ResponseEntity<User>(HttpStatus.NO_CONTENT);
     }
 

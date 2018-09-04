@@ -14,9 +14,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.*;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.HttpClientErrorException;
@@ -39,6 +41,9 @@ public class AdminControllerTest {
     private final Logger logger = LoggerFactory.getLogger(AdminControllerTest.class);
 
     private RestTemplate template;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @LocalServerPort
     private int port;
@@ -370,18 +375,18 @@ public class AdminControllerTest {
     }
 
     @Test
-    public void whenDeletingEntity_thenReturnStatusCodeNoContent() {
+    public void whenDeletingEntity_thenReturnStatusCodeNoContent() throws JsonProcessingException {
         String token = initializeValidAuthorizationToken();
         try {
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
             headers.add(HttpHeaders.AUTHORIZATION, token);
-            long id = 3;
 
-            HttpEntity request = new HttpEntity<>(headers);
+            User u = new User("Test3", "password");
+            HttpEntity request = new HttpEntity<>(new ObjectMapper().writeValueAsString(u), headers);
 
             ResponseEntity response = this.template.exchange(
-                    "http://localhost:" + port + "/users/delete-user/" + id,
+                    "http://localhost:" + port + "/users/delete-user",
                     HttpMethod.DELETE,
                     request,
                     User.class
@@ -447,6 +452,58 @@ public class AdminControllerTest {
             fail("Did not return HTTP 201");
         }
     }
+
+    /*@Test
+    public void whenUpdatingUserPassword_thenReturnNoException() throws JsonProcessingException {
+        String token = initializeValidAuthorizationToken();
+        try {
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            headers.add(HttpHeaders.AUTHORIZATION, token);
+            HttpEntity request = new HttpEntity<>(headers);
+
+            // Get original user password
+            ResponseEntity<User> response = this.template.exchange(
+                    "http://localhost:" + port + "/users/user",
+                    HttpMethod.GET,
+                    request,
+                    User.class
+            );
+            assertThat(response).isNotNull();
+            User user = response.getBody();
+            assertThat(user).isNotNull();
+
+            // Update user password
+            HttpEntity request2 = new HttpEntity<>("test_new_password", headers);
+            ResponseEntity response2 = this.template.exchange(
+                    "http://localhost:" + port + "/users/update-user",
+                    HttpMethod.PUT,
+                    request2,
+                    User.class
+            );
+            assertThat(response2.getStatusCode()).isEqualTo(HttpStatus.OK);
+
+            // Get changed user password
+            ResponseEntity<User> response3 = this.template.exchange(
+                    "http://localhost:" + port + "/users/user",
+                    HttpMethod.GET,
+                    request,
+                    User.class
+            );
+            assertThat(response3).isNotNull();
+            User user2 = response3.getBody();
+            assertThat(user2).isNotNull();
+
+            assertThat(user.getUsername().equals(user2.getUsername()));
+            assertThat(user.getPassword()).isNotEqualTo(user2.getPassword());
+
+            System.out.println("Username 1: " + user.getUsername() + " Username 2: " + user2.getUsername());
+            System.out.println("Password 1: " + user.getPassword() + " Password 2: " + user2.getPassword());
+        } catch (HttpServerErrorException e) {
+            logger.error(e.getMessage());
+            fail("Did not return HTTP 200");
+        }
+    }*/
 
     /*
     @Test
