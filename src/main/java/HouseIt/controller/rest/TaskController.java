@@ -18,6 +18,14 @@ public class TaskController {
     @Autowired
     private ITaskService taskService;
 
+    // Get task
+    @GetMapping(value = "/tasks/find-by-id/{id}")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('TENANT')")
+    public ResponseEntity<Task> getTaskById(@PathVariable long id) throws MyEntityNotFoundException {
+        Task t = taskService.findTask(id);
+        return new ResponseEntity<Task>(t, HttpStatus.OK);
+    }
+
     // Get all tasks
     @GetMapping(value = "/tasks")
     @PreAuthorize("hasRole('ADMIN')")

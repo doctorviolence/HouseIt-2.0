@@ -10,7 +10,7 @@ public interface ITaskDao extends IBaseDao<Task> {
 
     List<Task> getTasksByType(String taskType);
 
-    List<Task> getTasksByFixDate();
+    List<Task> getTasksByDate();
 
     Task createTask(Task task);
 

@@ -18,6 +18,13 @@ public class BuildingController {
     @Autowired
     private IBuildingService buildingService;
 
+    // Get building
+    @GetMapping(value = "/buildings/find-by-id/{id}")
+    public ResponseEntity<Building> getBuildingById(@PathVariable long id) throws MyEntityNotFoundException {
+        Building b = buildingService.findBuilding(id);
+        return new ResponseEntity<Building>(b, HttpStatus.OK);
+    }
+
     // Get buildings
     @GetMapping(value = "/buildings")
     @PreAuthorize("hasRole('ADMIN')")

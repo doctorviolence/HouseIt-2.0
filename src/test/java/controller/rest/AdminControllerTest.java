@@ -23,6 +23,7 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import javax.xml.ws.Response;
 import java.util.Arrays;
 import java.util.List;
 
@@ -106,6 +107,37 @@ public class AdminControllerTest {
             fail("Access not denied, did not return HTTP 401");
         } catch (HttpClientErrorException e) {
             assertThat(e.getStatusCode()).isEqualTo(HttpStatus.UNAUTHORIZED);
+        }
+    }
+
+    @Test
+    public void whenRequestingEntityById_thenReturnExpected() {
+        String token = initializeValidAuthorizationToken();
+        try {
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            headers.add(HttpHeaders.AUTHORIZATION, token);
+            long id = 1;
+
+            HttpEntity request = new HttpEntity<>(headers);
+
+            ResponseEntity<Building> response = this.template.exchange(
+                    "http://localhost:" + port + "/buildings/find-by-id/" + id,
+                    HttpMethod.GET,
+                    request,
+                    Building.class
+            );
+
+            assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+
+            assert response.getBody() != null;
+            Building b = response.getBody();
+            assertThat(b.getBuildingId()).isEqualTo(1);
+            assertThat(b.getName()).isEqualTo("Test");
+            assertThat(b.getAddress()).isEqualTo("Main St");
+            assertThat(b.getZipCode()).isEqualTo("21536");
+        } catch (HttpServerErrorException e) {
+            fail("Did not return entity");
         }
     }
 

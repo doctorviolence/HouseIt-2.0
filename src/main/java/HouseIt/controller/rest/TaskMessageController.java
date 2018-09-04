@@ -18,6 +18,13 @@ public class TaskMessageController {
     @Autowired
     private ITaskMessageService taskMessageService;
 
+    // Get task
+    @GetMapping(value = "/messages/-find-by-id/{id}")
+    public ResponseEntity<TaskMessage> getMessageById(@PathVariable long id) throws MyEntityNotFoundException {
+        TaskMessage t = taskMessageService.findMessage(id);
+        return new ResponseEntity<TaskMessage>(t, HttpStatus.OK);
+    }
+
     // Get all task messages
     @GetMapping(value = "/messages")
     @PreAuthorize("hasRole('ADMIN')")

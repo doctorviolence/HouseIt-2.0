@@ -18,6 +18,13 @@ public class TenantController {
     @Autowired
     private ITenantService tenantService;
 
+    // Get tenant
+    @GetMapping(value = "/tenants/-find-by-id/{id}")
+    public ResponseEntity<Tenant> getTenantById(@PathVariable long id) throws MyEntityNotFoundException {
+        Tenant t = tenantService.findTenant(id);
+        return new ResponseEntity<Tenant>(t, HttpStatus.OK);
+    }
+
     // Get all tenants
     //@GetMapping(value = "/tenants")
     //@PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")

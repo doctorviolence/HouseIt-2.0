@@ -157,7 +157,7 @@ public class UserAuthenticationTest {
                 .andExpect(status().isOk())
                 .andReturn()
                 .getResponse()
-                .getHeader("Apartment");
+                .getHeader("ApartmentId");
 
         String buildingId = this.mvc.perform(post("/auth/login")
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -165,7 +165,7 @@ public class UserAuthenticationTest {
                 .andExpect(status().isOk())
                 .andReturn()
                 .getResponse()
-                .getHeader("Building");
+                .getHeader("BuildingId");
 
         try {
             assertThat(tenantId).isEqualTo("1");

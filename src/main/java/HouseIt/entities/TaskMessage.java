@@ -19,6 +19,9 @@ public class TaskMessage implements Serializable {
     @Column(name = "post_date")
     private String datePosted;
 
+    @Column(name = "time_posted")
+    private String timePosted;
+
     @Column(name = "message_text")
     @Type(type = "text")
     private String messageText;
@@ -45,6 +48,14 @@ public class TaskMessage implements Serializable {
 
     public void setDatePosted(String datePosted) {
         this.datePosted = datePosted;
+    }
+
+    public String getTimePosted() {
+        return timePosted;
+    }
+
+    public void setTimePosted(String timePosted) {
+        this.timePosted = timePosted;
     }
 
     public String getMessageText() {

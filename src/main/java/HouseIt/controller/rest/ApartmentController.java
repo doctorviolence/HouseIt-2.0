@@ -18,6 +18,13 @@ public class ApartmentController {
     @Autowired
     private IApartmentService apartmentService;
 
+    // Get apartment
+    @GetMapping(value = "/apartments/find-by-id/{id}")
+    public ResponseEntity<Apartment> getApartmentById(@PathVariable long id) throws MyEntityNotFoundException {
+        Apartment a = apartmentService.findApartment(id);
+        return new ResponseEntity<Apartment>(a, HttpStatus.OK);
+    }
+
     // Get all apartments
     @GetMapping(value = "/apartments")
     @PreAuthorize("hasRole('ADMIN')")

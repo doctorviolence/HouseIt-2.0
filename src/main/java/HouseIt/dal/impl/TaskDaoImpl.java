@@ -15,7 +15,7 @@ public class TaskDaoImpl extends BaseDaoImpl<Task> implements ITaskDao {
     public List<Task> findTasksByTenantId(long tenantId) {
         return (List<Task>) getCurrentSession().createCriteria(Task.class)
                 .add(Restrictions.eq("tenant.tenantId", tenantId))
-                .addOrder(Order.asc("taskDate"))
+                .addOrder(Order.desc("taskDate"))
                 .list();
     }
 
@@ -23,14 +23,14 @@ public class TaskDaoImpl extends BaseDaoImpl<Task> implements ITaskDao {
     public List<Task> getTasksByType(String taskType) {
         return (List<Task>) getCurrentSession().createCriteria(Task.class)
                 .add(Restrictions.eq("taskType", taskType))
-                .addOrder(Order.asc("taskDate"))
+                .addOrder(Order.desc("taskDate"))
                 .list();
     }
 
     @SuppressWarnings("unchecked")
-    public List<Task> getTasksByFixDate() {
+    public List<Task> getTasksByDate() {
         return (List<Task>) getCurrentSession().createCriteria(Task.class)
-                .addOrder(Order.asc("fixDate"))
+                .addOrder(Order.desc("taskDate"))
                 .list();
     }
 

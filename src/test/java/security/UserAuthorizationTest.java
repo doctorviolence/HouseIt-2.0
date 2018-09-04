@@ -22,7 +22,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import static org.junit.Assert.fail;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -49,14 +49,14 @@ public class UserAuthorizationTest {
                 .apply(springSecurity())
                 .build();
 
-        this.adminToken = this.mvc.perform(post("/auth/login")
+        this.adminToken = this.mvc.perform(get("/auth/login")
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
                 .content("{\"username\":\"Test\",\"password\":\"password\"}"))
                 .andReturn()
                 .getResponse()
                 .getHeader("Authorization");
 
-        this.tenantToken = this.mvc.perform(post("/auth/login")
+        this.tenantToken = this.mvc.perform(get("/auth/login")
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
                 .content("{\"username\":\"Test3\",\"password\":\"password\"}"))
                 .andReturn()
@@ -80,7 +80,7 @@ public class UserAuthorizationTest {
     @Test
     public void whenRequestingAdminRestEndPointWithNoToken_thenReturnInvalidToken() {
         try {
-            this.mvc.perform(post("/buildings"));
+            this.mvc.perform(get("/buildings"));
 
         } catch (Exception e) {
             assertThat(e.getMessage()).isEqualTo("Invalid token");
@@ -90,7 +90,7 @@ public class UserAuthorizationTest {
     @Test
     public void whenRequestingAdminRestEndPointWithValidToken_thenReturnExpected() {
         try {
-            String result = this.mvc.perform(post("/buildings")
+            String result = this.mvc.perform(get("/buildings")
                     .header("Authorization", this.adminToken)
                     .contentType(MediaType.APPLICATION_JSON)
                     .accept(MediaType.APPLICATION_JSON))
@@ -112,7 +112,7 @@ public class UserAuthorizationTest {
     @Test
     public void whenRequestingAdminRestEndPointWithInvalidToken_thenReturnUnauthorized() {
         try {
-            this.mvc.perform(post("/buildings")
+            this.mvc.perform(get("/buildings")
                     .header("Authorization", this.tenantToken)
                     .contentType(MediaType.APPLICATION_JSON)
                     .accept(MediaType.APPLICATION_JSON))
@@ -127,7 +127,7 @@ public class UserAuthorizationTest {
     @Test
     public void whenRequestingTenantEndPointWithValidAdminToken_thenReturnStatusCodeOk() {
         try {
-            this.mvc.perform(post("/tasks-by-tenant/1")
+            this.mvc.perform(get("/tasks-by-tenant/1")
                     .header("Authorization", this.adminToken)
                     .contentType(MediaType.APPLICATION_JSON)
                     .accept(MediaType.APPLICATION_JSON))
@@ -142,7 +142,7 @@ public class UserAuthorizationTest {
     @Test
     public void whenRequestingTenantEndPointWithValidTenantToken_thenReturnStatusCodeOk() {
         try {
-            this.mvc.perform(post("/messages/1")
+            this.mvc.perform(get("/messages/1")
                     .header("Authorization", this.tenantToken)
                     .contentType(MediaType.APPLICATION_JSON)
                     .accept(MediaType.APPLICATION_JSON))

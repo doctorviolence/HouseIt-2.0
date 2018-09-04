@@ -18,7 +18,7 @@ public class TaskServiceImpl implements ITaskService {
     private ITaskDao taskDao;
 
     public List<Task> getTasks() {
-        return taskDao.getEntities(Task.class);
+        return taskDao.getTasksByDate();
     }
 
     public List<Task> getTasksByType(String taskType) {
@@ -26,7 +26,7 @@ public class TaskServiceImpl implements ITaskService {
     }
 
     public List<Task> getTasksByFixDate() {
-        return taskDao.getTasksByFixDate();
+        return taskDao.getTasksByDate();
     }
 
     public List<Task> findTasksByTenantId(long tenantId) throws MyEntityNotFoundException {

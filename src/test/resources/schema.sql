@@ -59,6 +59,7 @@ CREATE TABLE IF NOT EXISTS tasks (
 CREATE TABLE IF NOT EXISTS task_messages (
   message_no   BIGINT(20) NOT NULL AUTO_INCREMENT,
   post_date    DATE,
+  time_posted  TIMESTAMP,
   message_text VARCHAR(150),
   task_no      BIGINT(20) NOT NULL,
   PRIMARY KEY (message_no),

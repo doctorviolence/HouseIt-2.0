@@ -92,9 +92,14 @@ public class UserAuthenticationFilter extends UsernamePasswordAuthenticationFilt
 
         if (apartment != null) {
             Long apartmentId = apartment.getApartmentId();
-            response.addHeader("Apartment", String.valueOf(apartmentId));
+            String apartmentNo = apartment.getApartmentNo();
+            response.addHeader("ApartmentId", String.valueOf(apartmentId));
+            response.addHeader("ApartmentNo", apartmentNo);
+
             Long buildingId = apartment.getBuilding().getBuildingId();
-            response.addHeader("Building", String.valueOf(buildingId));
+            String name = apartment.getBuilding().getName();
+            response.addHeader("BuildingId", String.valueOf(buildingId));
+            response.addHeader("BuildingName", name);
         }
 
         logger.info(String.format("Successful authentication at %s", new UrlPathHelper().getPathWithinApplication(request)));
