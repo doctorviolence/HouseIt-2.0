@@ -3,6 +3,7 @@ package HouseIt.service.impl;
 import HouseIt.dal.IUserDao;
 import HouseIt.entities.User;
 import HouseIt.exception.MyEntityNotFoundException;
+import HouseIt.exception.PasswordsDontMatchException;
 import HouseIt.exception.UserExistsException;
 import HouseIt.security.AuthenticatedUser;
 import HouseIt.security.ResetPasswordHelper;
@@ -72,7 +73,8 @@ public class UserServiceImpl implements UserDetailsService, IUserService {
         return userDao.createUser(user);
     }
 
-    public void updateUserPassword(ResetPasswordHelper helper) throws MyEntityNotFoundException {
+    public boolean updateUserPassword(ResetPasswordHelper helper) throws PasswordsDontMatchException {
+        boolean updateSuccess = false;
         try {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             String username = auth.getPrincipal().toString();
@@ -88,12 +90,12 @@ public class UserServiceImpl implements UserDetailsService, IUserService {
             if (passwordEncoder.matches(oldPassword, u.getPassword())) {
                 u.setPassword(passwordEncoder.encode(newPassword));
                 userDao.updateEntity(u);
-            } else {
-                logger.info("Passwords don't match...");
+                updateSuccess = true;
             }
         } catch (Exception e) {
             logger.error(e.getMessage());
         }
+        return updateSuccess;
     }
 
     public void deleteUser(User user) throws MyEntityNotFoundException {

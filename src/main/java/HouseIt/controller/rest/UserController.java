@@ -3,6 +3,7 @@ package HouseIt.controller.rest;
 import HouseIt.dal.IUserDao;
 import HouseIt.entities.User;
 import HouseIt.exception.MyEntityNotFoundException;
+import HouseIt.exception.PasswordsDontMatchException;
 import HouseIt.exception.UserExistsException;
 import HouseIt.security.ResetPasswordHelper;
 import HouseIt.service.IUserService;
@@ -42,12 +43,16 @@ public class UserController {
         return new ResponseEntity<User>(user, HttpStatus.CREATED);
     }
 
-    // Update user
+    // Update user password
     @PutMapping(value = "/users/update-password", consumes = "application/json")
     @PreAuthorize("hasRole('ADMIN') or hasRole('TENANT')")
-    public ResponseEntity<User> updateUser(@RequestBody ResetPasswordHelper passwords) throws MyEntityNotFoundException {
-        userService.updateUserPassword(passwords);
-        return new ResponseEntity<User>(HttpStatus.OK);
+    public ResponseEntity<String> updateUser(@RequestBody ResetPasswordHelper passwords) throws PasswordsDontMatchException {
+        boolean update = userService.updateUserPassword(passwords);
+        if (update) {
+            return new ResponseEntity<>("Password updated", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Passwords don't match...", HttpStatus.BAD_REQUEST);
+        }
     }
 
     // Delete user

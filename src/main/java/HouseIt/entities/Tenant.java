@@ -38,7 +38,7 @@ public class Tenant implements Serializable {
     private List<Task> tasks;
 
     @JsonIgnore
-    @OneToOne(fetch = FetchType.EAGER, mappedBy = "tenant")
+    @OneToOne(fetch = FetchType.EAGER, mappedBy = "tenant", cascade = CascadeType.ALL)
     private User user;
 
     public Tenant() {
