@@ -3,6 +3,8 @@ package HouseIt.controller.rest;
 import HouseIt.dal.IUserDao;
 import HouseIt.entities.User;
 import HouseIt.exception.MyEntityNotFoundException;
+import HouseIt.exception.UserExistsException;
+import HouseIt.security.ResetPasswordHelper;
 import HouseIt.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,16 +37,16 @@ public class UserController {
     // Create user
     @PostMapping(value = "/users/create-user", consumes = "application/json")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<User> createUser(@RequestBody User u) {
+    public ResponseEntity<User> createUser(@RequestBody User u) throws UserExistsException {
         User user = userService.createUser(u);
         return new ResponseEntity<User>(user, HttpStatus.CREATED);
     }
 
     // Update user
-    @PutMapping(value = "/users/update-user", consumes = "application/json")
+    @PutMapping(value = "/users/update-password", consumes = "application/json")
     @PreAuthorize("hasRole('ADMIN') or hasRole('TENANT')")
-    public ResponseEntity<User> updateUser(@RequestBody String password) throws MyEntityNotFoundException {
-        userService.updateUserPassword(password);
+    public ResponseEntity<User> updateUser(@RequestBody ResetPasswordHelper passwords) throws MyEntityNotFoundException {
+        userService.updateUserPassword(passwords);
         return new ResponseEntity<User>(HttpStatus.OK);
     }
 

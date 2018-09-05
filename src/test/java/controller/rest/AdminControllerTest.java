@@ -453,7 +453,8 @@ public class AdminControllerTest {
         }
     }
 
-    /*@Test
+    // This code works but is commented out because it interferes with the rest of the tests...
+    /**@Test
     public void whenUpdatingUserPassword_thenReturnNoException() throws JsonProcessingException {
         String token = initializeValidAuthorizationToken();
         try {
@@ -474,9 +475,9 @@ public class AdminControllerTest {
             assertThat(user).isNotNull();
 
             // Update user password
-            HttpEntity request2 = new HttpEntity<>("test_new_password", headers);
+            HttpEntity request2 = new HttpEntity<>("{\"oldPassword\":\"password\",\"newPassword\":\"password2\"}", headers);
             ResponseEntity response2 = this.template.exchange(
-                    "http://localhost:" + port + "/users/update-user",
+                    "http://localhost:" + port + "/users/update-password",
                     HttpMethod.PUT,
                     request2,
                     User.class
@@ -496,20 +497,17 @@ public class AdminControllerTest {
 
             assertThat(user.getUsername().equals(user2.getUsername()));
             assertThat(user.getPassword()).isNotEqualTo(user2.getPassword());
-
-            System.out.println("Username 1: " + user.getUsername() + " Username 2: " + user2.getUsername());
-            System.out.println("Password 1: " + user.getPassword() + " Password 2: " + user2.getPassword());
         } catch (HttpServerErrorException e) {
             logger.error(e.getMessage());
             fail("Did not return HTTP 200");
         }
-    }*/
+    }**/
 
-    /*
+    /**
     @Test
     public void whenRequestingWithMissingParameter_thenReturnMissingParameterException() {
 
-    }*/
+    }**/
 
     private String initializeValidAuthorizationToken() {
         HttpHeaders headers = new HttpHeaders();

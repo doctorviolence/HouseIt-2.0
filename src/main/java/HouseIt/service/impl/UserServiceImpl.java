@@ -3,7 +3,9 @@ package HouseIt.service.impl;
 import HouseIt.dal.IUserDao;
 import HouseIt.entities.User;
 import HouseIt.exception.MyEntityNotFoundException;
+import HouseIt.exception.UserExistsException;
 import HouseIt.security.AuthenticatedUser;
+import HouseIt.security.ResetPasswordHelper;
 import HouseIt.service.IUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,12 +63,16 @@ public class UserServiceImpl implements UserDetailsService, IUserService {
         return user;
     }
 
-    public User createUser(User user) {
+    public User createUser(User user) throws UserExistsException {
+        User u = userDao.findByUsername(user.getUsername());
+        if (u != null) {
+            throw new UserExistsException("User already exists");
+        }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userDao.createUser(user);
     }
 
-    public void updateUserPassword(String password) throws MyEntityNotFoundException {
+    public void updateUserPassword(ResetPasswordHelper helper) throws MyEntityNotFoundException {
         try {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             String username = auth.getPrincipal().toString();
@@ -76,8 +82,15 @@ public class UserServiceImpl implements UserDetailsService, IUserService {
                 throw new UsernameNotFoundException(String.format("Unable to find user by username %s.", username));
             }
 
-            u.setPassword(passwordEncoder.encode(password));
-            userDao.updateEntity(u);
+            String oldPassword = helper.getOldPassword();
+            String newPassword = helper.getNewPassword();
+
+            if (passwordEncoder.matches(oldPassword, u.getPassword())) {
+                u.setPassword(passwordEncoder.encode(newPassword));
+                userDao.updateEntity(u);
+            } else {
+                logger.info("Passwords don't match...");
+            }
         } catch (Exception e) {
             logger.error(e.getMessage());
         }

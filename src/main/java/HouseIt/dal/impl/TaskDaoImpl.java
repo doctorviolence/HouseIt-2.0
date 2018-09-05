@@ -7,16 +7,19 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 public class TaskDaoImpl extends BaseDaoImpl<Task> implements ITaskDao {
 
     @SuppressWarnings("unchecked")
     public List<Task> findTasksByTenantId(long tenantId) {
-        return (List<Task>) getCurrentSession().createCriteria(Task.class)
+        List<Task> tasks = (List<Task>) getCurrentSession().createCriteria(Task.class)
                 .add(Restrictions.eq("tenant.tenantId", tenantId))
                 .addOrder(Order.desc("taskDate"))
                 .list();
+
+        return tasks.stream().distinct().collect(Collectors.toList());
     }
 
     @SuppressWarnings("unchecked")
@@ -29,9 +32,12 @@ public class TaskDaoImpl extends BaseDaoImpl<Task> implements ITaskDao {
 
     @SuppressWarnings("unchecked")
     public List<Task> getTasksByDate() {
-        return (List<Task>) getCurrentSession().createCriteria(Task.class)
+        List<Task> tasks = (List<Task>) getCurrentSession().createCriteria(Task.class)
                 .addOrder(Order.desc("taskDate"))
                 .list();
+
+        return tasks.stream().distinct().collect(Collectors.toList());
+
     }
 
     public Task createTask(Task task) {

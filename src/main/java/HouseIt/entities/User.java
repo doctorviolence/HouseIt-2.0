@@ -24,16 +24,13 @@ public class User implements Serializable {
     @Column(name = "pw")
     private String password;
 
-    @JsonIgnore
     @Column(name = "role")
     private String role;
 
-    @JsonIgnore
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "apartment_id")
+    @ManyToOne
+    @JoinColumn(name = "apartment_id", referencedColumnName = "apartment_id")
     private Apartment apartment;
 
-    @JsonIgnore
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "tenant_id")
     private Tenant tenant;
@@ -45,6 +42,14 @@ public class User implements Serializable {
     public User(String username, String password) {
         this.username = username;
         this.password = password;
+    }
+
+    public User(String username, String password, String role, Apartment apartment, Tenant tenant) {
+        this.username = username;
+        this.password = password;
+        this.role = role;
+        this.apartment = apartment;
+        this.tenant = tenant;
     }
 
     public long getId() {
