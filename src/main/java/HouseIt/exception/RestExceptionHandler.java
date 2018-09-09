@@ -1,5 +1,7 @@
 package HouseIt.exception;
 
+import com.mysql.cj.jdbc.exceptions.MysqlDataTruncation;
+import org.hibernate.exception.DataException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -58,7 +60,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @Override
     protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException e, HttpHeaders headers, HttpStatus status, WebRequest request) {
         logger.error("Http Message Not Readable Exception: ", e);
-        ErrorResponse response = new ErrorResponse(HttpStatus.BAD_REQUEST, "400 Not Found Error, oh no!", e);
+        ErrorResponse response = new ErrorResponse(HttpStatus.BAD_REQUEST, "400 Bad Request, oh no! Please make sure you have entered correct data...", e);
 
         return new ResponseEntity<>(response, response.getStatus());
     }
@@ -78,8 +80,24 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
         if (e.getCause() instanceof ConstraintViolationException) {
             response = new ErrorResponse(HttpStatus.CONFLICT, "500 Internal Server Error, oh no! This action conflicts with the database...", e);
+        } else if (e.getCause() instanceof DataException) {
+            response = new ErrorResponse(HttpStatus.BAD_REQUEST, "400 Bad Request, oh no! The data you tried to add is not valid. Please make sure e.g. that the date is formatted correctly...", e);
         } else {
             response = new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "500 Internal Server Error, oh no! This action conflicts with the database...", e);
+        }
+
+        return new ResponseEntity<>(response, response.getStatus());
+    }
+
+    @ExceptionHandler(DataException.class)
+    protected ResponseEntity<Object> handleDataException(DataException e) {
+        logger.error("Data Exception: ", e);
+        ErrorResponse response = null;
+
+        if (e.getCause() instanceof MysqlDataTruncation) {
+            response = new ErrorResponse(HttpStatus.BAD_REQUEST, "400 Bad Request, oh no! The data you tried to add is not valid. Please make sure e.g. that date is formatted correctly...", e);
+        } else {
+            response = new ErrorResponse(HttpStatus.BAD_REQUEST, "400 Bad Request, oh no! The data you tried to add is not valid...", e);
         }
 
         return new ResponseEntity<>(response, response.getStatus());
