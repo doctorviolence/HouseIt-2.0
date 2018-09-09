@@ -1,5 +1,6 @@
 package HouseIt.controller.rest;
 
+import HouseIt.exception.FileUploadException;
 import HouseIt.exception.MyEntityNotFoundException;
 import HouseIt.entities.Building;
 import HouseIt.service.IBuildingService;
@@ -8,7 +9,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.List;
 
 @CrossOrigin(maxAge = 3600)
@@ -55,6 +59,14 @@ public class BuildingController {
     public ResponseEntity<Building> deleteBuilding(@PathVariable("id") long id) throws MyEntityNotFoundException {
         buildingService.deleteBuilding(id);
         return new ResponseEntity<Building>(HttpStatus.NO_CONTENT);
+    }
+
+    // Upload building image
+    @PostMapping(value = "/buildings/upload-image", consumes = "multipart/form-data")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> uploadImage(@RequestParam("file") MultipartFile file) throws FileUploadException, IOException {
+        buildingService.uploadImage(file);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }

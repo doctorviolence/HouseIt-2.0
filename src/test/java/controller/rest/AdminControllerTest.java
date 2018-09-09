@@ -383,6 +383,7 @@ public class AdminControllerTest {
             headers.add(HttpHeaders.AUTHORIZATION, token);
 
             User u = new User("Test3", "password");
+            u.setRole("ROLE_TENANT");
             HttpEntity request = new HttpEntity<>(new ObjectMapper().writeValueAsString(u), headers);
 
             ResponseEntity response = this.template.exchange(

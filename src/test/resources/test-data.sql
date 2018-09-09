@@ -1,8 +1,8 @@
-INSERT INTO buildings VALUES (NULL, 'Test', 'Main St', '21536', '2018-05-19', '2013');
+INSERT INTO buildings VALUES (NULL, 'Test', 'Main St', '21536', '2018-05-19', '2013', FALSE);
 
-INSERT INTO buildings VALUES (NULL, 'Test2', 'Pitt St', '21536', '2019-12-31', '2019');
+INSERT INTO buildings VALUES (NULL, 'Test2', 'Pitt St', '21536', '2019-12-31', '2019', FALSE);
 
-INSERT INTO buildings VALUES (NULL, 'Test3', 'Maroubra St', '21536', '2018-01-01', '2010');
+INSERT INTO buildings VALUES (NULL, 'Test3', 'Maroubra St', '21536', '2018-01-01', '2010', FALSE);
 
 INSERT INTO apartments VALUES (NULL, 'N202', 69, 2, 9751, 1);
 

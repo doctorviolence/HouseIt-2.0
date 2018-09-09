@@ -32,6 +32,9 @@ public class Building implements Serializable {
     @Column(name = "year_built")
     private String yearBuilt;
 
+    @Column(name = "image")
+    private boolean image;
+
     @JsonIgnore
     @OneToMany(mappedBy = "building", fetch = FetchType.LAZY)
     private List<Task> tasks;
@@ -94,6 +97,14 @@ public class Building implements Serializable {
 
     public void setYearBuilt(String yearBuilt) {
         this.yearBuilt = yearBuilt;
+    }
+
+    public boolean isImage() {
+        return image;
+    }
+
+    public void setImage(boolean image) {
+        this.image = image;
     }
 
     public List<Task> getTasks() {

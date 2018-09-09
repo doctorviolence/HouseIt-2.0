@@ -5,6 +5,7 @@ CREATE TABLE IF NOT EXISTS buildings (
   zip_code        INT,
   inspection_date DATE,
   year_built      INT(4),
+  image           BOOLEAN,
   PRIMARY KEY (building_id)
 );
 
