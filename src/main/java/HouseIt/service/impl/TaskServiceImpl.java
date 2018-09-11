@@ -21,20 +21,28 @@ public class TaskServiceImpl implements ITaskService {
         return taskDao.getTasksByDate();
     }
 
-    public List<Task> getTasksByType(String taskType) {
-        return taskDao.getTasksByType(taskType);
+    public List<Task> getTodoTasks() {
+        return taskDao.getTodoTasksByDate();
     }
 
-    public List<Task> getTasksByFixDate() {
-        return taskDao.getTasksByDate();
+    public List<Task> getCompletedTasks() {
+        return taskDao.getCompletedTasksByDate();
+    }
+
+    public List<Task> getTasksBySubject(String subject) {
+        return taskDao.getTasksBySubject(subject);
     }
 
     public List<Task> findTasksByTenantId(long tenantId) throws MyEntityNotFoundException {
-        List<Task> tasks = taskDao.findTasksByTenantId(tenantId);
-        if (tasks.isEmpty()) {
-            throw new MyEntityNotFoundException(String.format("No tasks found for tenant id (%s).", tenantId));
-        }
-        return tasks;
+        return taskDao.findTasksByTenantId(tenantId);
+    }
+
+    public List<Task> findTodoTasksByTenantId(long tenantId) throws MyEntityNotFoundException {
+        return taskDao.findTodoTasksByTenantId(tenantId);
+    }
+
+    public List<Task> findCompletedTasksByTenantId(long tenantId) throws MyEntityNotFoundException {
+        return taskDao.findCompletedTasksByTenantId(tenantId);
     }
 
     public Task findTask(long taskNo) throws MyEntityNotFoundException {

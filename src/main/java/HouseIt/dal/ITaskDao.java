@@ -6,11 +6,19 @@ import java.util.List;
 
 public interface ITaskDao extends IBaseDao<Task> {
 
+    List<Task> getTasksByDate();
+
+    List<Task> getTodoTasksByDate();
+
+    List<Task> getCompletedTasksByDate();
+
     List<Task> findTasksByTenantId(long tenantId);
 
-    List<Task> getTasksByType(String taskType);
+    List<Task> findTodoTasksByTenantId(long tenantId);
 
-    List<Task> getTasksByDate();
+    List<Task> findCompletedTasksByTenantId(long tenantId);
+
+    List<Task> getTasksBySubject(String subject);
 
     Task createTask(Task task);
 

@@ -16,15 +16,15 @@ public class TaskMessage implements Serializable {
     @Column(name = "message_no", nullable = false)
     private long messageNo;
 
-    @Column(name = "post_date")
-    private String datePosted;
-
     @Column(name = "time_posted")
     private String timePosted;
 
     @Column(name = "message_text")
     @Type(type = "text")
     private String messageText;
+
+    @Column(name = "is_written_by_tenant")
+    private boolean writtenByTenant;
 
     @ManyToOne
     @JoinColumn(name = "task_no", referencedColumnName = "task_no", nullable = false)
@@ -42,14 +42,6 @@ public class TaskMessage implements Serializable {
         this.messageNo = messageNo;
     }
 
-    public String getDatePosted() {
-        return datePosted;
-    }
-
-    public void setDatePosted(String datePosted) {
-        this.datePosted = datePosted;
-    }
-
     public String getTimePosted() {
         return timePosted;
     }
@@ -64,6 +56,14 @@ public class TaskMessage implements Serializable {
 
     public void setMessageText(String messageText) {
         this.messageText = messageText;
+    }
+
+    public boolean isWrittenByTenant() {
+        return writtenByTenant;
+    }
+
+    public void setWrittenByTenant(boolean writtenByTenant) {
+        this.writtenByTenant = writtenByTenant;
     }
 
     public Task getTask() {

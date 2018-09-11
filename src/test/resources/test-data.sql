@@ -12,13 +12,13 @@ INSERT INTO apartments VALUES (NULL, 'N203', 75, 4, 17451, 3);
 
 INSERT INTO tenants VALUES (NULL, 'Test', 'Data', '1234', 'test@test.com', 1);
 
-INSERT INTO tasks VALUES (NULL, 'Kitchen', 'No', '2018-06-19', 1, 1, 1);
+INSERT INTO tasks VALUES (NULL, 'Kitchen', 0, '2018-06-19', 1);
 
-INSERT INTO tasks VALUES (NULL, 'Bathroom', 'No', '2018-06-19', 1, 1, 1);
+INSERT INTO tasks VALUES (NULL, 'Bathroom', 0, '2018-06-19', 1);
 
-INSERT INTO task_messages VALUES (NULL, '2018-06-19', '2018-06-19 00:00:00', 'Water leaking from kitchen tap.', 1);
+INSERT INTO task_messages VALUES (NULL, '2018-06-19 00:00:00', 'Water leaking from kitchen tap.', TRUE, 1);
 
-INSERT INTO task_messages VALUES (NULL, '2018-06-19', '2018-06-19 00:00:00', 'Water all over the floor. Come ASAP.', 1);
+INSERT INTO task_messages VALUES (NULL, '2018-06-19 00:00:00', 'Water all over the floor. Come ASAP.', TRUE, 1);
 
 INSERT INTO users
 VALUES (NULL, 'Test', '$2a$10$Q8LhsI6ybh7XowXtL8cJf.9uZg8XqjFm403HV.NEkDHqXUZH0VX26', 'ROLE_ADMIN', NULL, NULL);

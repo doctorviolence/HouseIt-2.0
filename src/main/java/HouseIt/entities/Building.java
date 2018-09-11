@@ -32,12 +32,8 @@ public class Building implements Serializable {
     @Column(name = "year_built")
     private String yearBuilt;
 
-    @Column(name = "image")
-    private boolean image;
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "building", fetch = FetchType.LAZY)
-    private List<Task> tasks;
+    @Column(name = "is_image_attached")
+    private boolean imageAttached;
 
     @JsonIgnore
     @OneToMany(mappedBy = "building", fetch = FetchType.LAZY)
@@ -99,20 +95,12 @@ public class Building implements Serializable {
         this.yearBuilt = yearBuilt;
     }
 
-    public boolean isImage() {
-        return image;
+    public boolean isImageAttached() {
+        return imageAttached;
     }
 
-    public void setImage(boolean image) {
-        this.image = image;
-    }
-
-    public List<Task> getTasks() {
-        return tasks;
-    }
-
-    public void setTasks(List<Task> tasks) {
-        this.tasks = tasks;
+    public void setImage(boolean isImageAttached) {
+        this.imageAttached = imageAttached;
     }
 
     public List<Apartment> getApartments() {

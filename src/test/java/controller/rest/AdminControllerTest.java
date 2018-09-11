@@ -436,7 +436,6 @@ public class AdminControllerTest {
             u.setPassword("Password");
             u.setRole("ROLE_TENANT");
             u.setTenant(new Tenant(1));
-            u.setApartment(new Apartment(1));
 
             HttpEntity request = new HttpEntity<>(new ObjectMapper().writeValueAsString(u), headers);
 

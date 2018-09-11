@@ -27,10 +27,6 @@ public class User implements Serializable {
     @Column(name = "role")
     private String role;
 
-    @ManyToOne
-    @JoinColumn(name = "apartment_id", referencedColumnName = "apartment_id")
-    private Apartment apartment;
-
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "tenant_id")
     private Tenant tenant;
@@ -44,11 +40,10 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public User(String username, String password, String role, Apartment apartment, Tenant tenant) {
+    public User(String username, String password, String role, Tenant tenant) {
         this.username = username;
         this.password = password;
         this.role = role;
-        this.apartment = apartment;
         this.tenant = tenant;
     }
 
@@ -88,14 +83,6 @@ public class User implements Serializable {
         } else {
             this.role = "";
         }
-    }
-
-    public Apartment getApartment() {
-        return apartment;
-    }
-
-    public void setApartment(Apartment apartment) {
-        this.apartment = apartment;
     }
 
     public Tenant getTenant() {

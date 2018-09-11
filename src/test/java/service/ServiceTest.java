@@ -132,22 +132,22 @@ public class ServiceTest {
 
     @Test
     public void whenFindingTasksByTenantId_ThenReturnTwo() throws MyEntityNotFoundException {
-        List<Task> tasks = taskService.findTasksByTenantId(1);
+        List<Task> tasks = taskService.findTodoTasksByTenantId(1);
         assertThat(tasks.size() == 2);
     }
 
     @Test
     public void whenGettingTaskByType_ThenReturnCorrectTasks() {
-        List<Task> water = taskService.getTasksByType("Water");
+        List<Task> water = taskService.getTasksBySubject("Water");
         assertThat(water).isNullOrEmpty();
 
-        List<Task> kitchen = taskService.getTasksByType("Kitchen");
+        List<Task> kitchen = taskService.getTasksBySubject("Kitchen");
         assertThat(kitchen).hasSize(1);
 
         Task t = kitchen.get(0);
         assertThat(t.getTaskNo()).isEqualTo(1);
-        assertThat(t.getTaskType()).isEqualTo("Kitchen");
-        assertThat(t.getTaskType()).isNotEqualTo("Water");
+        assertThat(t.getSubject()).isEqualTo("Kitchen");
+        assertThat(t.getSubject()).isNotEqualTo("Water");
         assertThat(t.getTenant().getTenantId() == 1).isTrue();
         //assertThat(t.getManager().getManagerId() == 1).isTrue();
     }
@@ -165,8 +165,8 @@ public class ServiceTest {
     public void whenFindingTasksByNo_ThenReturnOneTask() throws MyEntityNotFoundException {
         Task test = taskService.findTask(1);
         assertThat(test.getTaskNo()).isEqualTo(1);
-        assertThat(test.getTaskType()).isEqualTo("Kitchen");
-        assertThat(test.getTaskType()).isNotEqualTo("Bathroom");
+        assertThat(test.getSubject()).isEqualTo("Kitchen");
+        assertThat(test.getSubject()).isNotEqualTo("Bathroom");
     }
 
     @Test

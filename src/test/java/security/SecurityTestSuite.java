@@ -1,5 +1,6 @@
 package security;
 
+import HouseIt.security.ResetPasswordHelper;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
@@ -7,7 +8,7 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses({
         UserAuthenticationTest.class,
         UserAuthorizationTest.class,
-        AuthenticatedUserTest.class
+        AuthenticatedUserTest.class,
 })
 public class SecurityTestSuite {
 

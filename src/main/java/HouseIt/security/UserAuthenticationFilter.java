@@ -1,7 +1,6 @@
 package HouseIt.security;
 
 import HouseIt.entities.Apartment;
-import HouseIt.entities.Building;
 import HouseIt.entities.Tenant;
 import HouseIt.entities.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -76,7 +75,8 @@ public class UserAuthenticationFilter extends UsernamePasswordAuthenticationFilt
             throws IOException, ServletException {
         String token = this.generateToken(auth);
         Tenant tenant = this.generateUserTenant(auth);
-        Apartment apartment = this.generateUserApartment(auth);
+        Apartment apartment = null;
+
 
         if (token != null) {
             response.addHeader(tokenHeader, tokenPrefix + token);
@@ -85,7 +85,9 @@ public class UserAuthenticationFilter extends UsernamePasswordAuthenticationFilt
 
         if (tenant != null) {
             Long tenantId = tenant.getTenantId();
+            apartment = tenant.getApartment();
             String tenantName = tenant.getFirstName();
+
             response.addHeader("Tenant", String.valueOf(tenantId));
             response.addHeader("Name", tenantName);
         }
@@ -140,17 +142,6 @@ public class UserAuthenticationFilter extends UsernamePasswordAuthenticationFilt
         }
 
         return tenant;
-    }
-
-    private Apartment generateUserApartment(Authentication authentication) {
-        AuthenticatedUser user = (AuthenticatedUser) authentication.getPrincipal();
-        Apartment apartment = user.getUser().getApartment();
-
-        if (apartment == null) {
-            return null;
-        }
-
-        return apartment;
     }
 
 }

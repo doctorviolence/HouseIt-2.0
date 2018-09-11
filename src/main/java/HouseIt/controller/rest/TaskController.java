@@ -29,31 +29,23 @@ public class TaskController {
     // Get all tasks
     @GetMapping(value = "/tasks")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<List<Task>> getTasks() throws MyEntityNotFoundException {
+    public ResponseEntity<List<Task>> getTodoTasks() throws MyEntityNotFoundException {
         List<Task> tasks = taskService.getTasks();
         return new ResponseEntity<List<Task>>(tasks, HttpStatus.OK);
     }
 
     // Get tasks by type
-    @GetMapping(value = "/tasks/tasks-by-type/{type}")
+    @GetMapping(value = "/tasks/tasks-by-subject/{subject}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<List<Task>> getTasksByType(@PathVariable("type") String type) throws MyEntityNotFoundException {
-        List<Task> tasks = taskService.getTasksByType(type);
-        return new ResponseEntity<List<Task>>(tasks, HttpStatus.OK);
-    }
-
-    // Get tasks by fix date
-    @GetMapping(value = "/tasks/tasks-by-fix-date")
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<List<Task>> getTasksByFixDate() throws MyEntityNotFoundException {
-        List<Task> tasks = taskService.getTasksByFixDate();
+    public ResponseEntity<List<Task>> getTasksBySubject(@PathVariable("subject") String subject) throws MyEntityNotFoundException {
+        List<Task> tasks = taskService.getTasksBySubject(subject);
         return new ResponseEntity<List<Task>>(tasks, HttpStatus.OK);
     }
 
     // Get tasks pertaining to tenant
-    @GetMapping(value = "/tasks-by-tenant/{id}")
+    @GetMapping(value = "/tasks/tasks-by-tenant/{id}")
     @PreAuthorize("hasRole('ADMIN') or hasRole('TENANT')")
-    public ResponseEntity<List<Task>> getTasksByTenantId(@PathVariable("id") long id) throws MyEntityNotFoundException {
+    public ResponseEntity<List<Task>> getCompletedTasksByTenantId(@PathVariable("id") long id) throws MyEntityNotFoundException {
         List<Task> tasks = taskService.findTasksByTenantId(id);
         return new ResponseEntity<List<Task>>(tasks, HttpStatus.OK);
     }

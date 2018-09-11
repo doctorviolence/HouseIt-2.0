@@ -13,11 +13,17 @@ public interface ITaskService {
 
     List<Task> getTasks();
 
-    List<Task> getTasksByType(String taskType);
+    List<Task> getTodoTasks();
 
-    List<Task> getTasksByFixDate();
+    List<Task> getCompletedTasks();
+
+    List<Task> getTasksBySubject(String subject);
 
     List<Task> findTasksByTenantId(long tenantId) throws MyEntityNotFoundException;
+
+    List<Task> findTodoTasksByTenantId(long tenantId) throws MyEntityNotFoundException;
+
+    List<Task> findCompletedTasksByTenantId(long tenantId) throws MyEntityNotFoundException;
 
     Task findTask(long taskNo) throws MyEntityNotFoundException;
 

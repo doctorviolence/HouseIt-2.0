@@ -29,18 +29,19 @@ public class AuthenticatedUserTest {
 
     @Before
     public void setUp() throws Exception {
+        this.tenant.setApartment(this.apartment);
+        this.tenant2.setApartment(this.apartment);
+
         this.user.setPassword(this.password);
         this.user.setUsername(this.username);
         this.user.setRole("ROLE_ADMIN,ROLE_TENANT");
         this.user.setTenant(this.tenant);
         this.apartment.setBuilding(this.building);
-        this.user.setApartment(this.apartment);
         this.user2.setPassword(this.password);
         this.user2.setUsername(this.username);
         this.user2.setRole("ROLE_ADMIN,ROLE_TENANT");
         this.user2.setTenant(this.tenant2);
         this.apartment.setBuilding(this.building);
-        this.user2.setApartment(this.apartment);
     }
 
     @After
@@ -89,7 +90,7 @@ public class AuthenticatedUserTest {
     @Test
     public void whenGettingApartmentObjectFromAuthUser_thenReturnCorrectApartmentId() {
         AuthenticatedUser authUser = new AuthenticatedUser(username, password, this.user2);
-        assertThat(authUser.getApartment().getApartmentId()).isEqualTo(1);
+        assertThat(authUser.getTenant().getApartment().getApartmentId()).isEqualTo(1);
     }
 
 }

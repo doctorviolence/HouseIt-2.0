@@ -57,7 +57,7 @@ public class UserAuthorizationFilter extends BasicAuthenticationFilter {
 
             if (header == null || !header.startsWith(tokenPrefix)) {
                 //chain.doFilter(request, response);
-                throw new AccessDeniedException("Invalid token");
+                throw new AccessDeniedException("Invalid token...");
             }
 
             String user = Jwts.parser()

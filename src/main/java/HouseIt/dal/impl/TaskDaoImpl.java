@@ -13,31 +13,72 @@ import java.util.stream.Collectors;
 public class TaskDaoImpl extends BaseDaoImpl<Task> implements ITaskDao {
 
     @SuppressWarnings("unchecked")
+    public List<Task> getTasksByDate() {
+        List<Task> tasks = (List<Task>) getCurrentSession().createCriteria(Task.class)
+                .addOrder(Order.desc("datePosted"))
+                .list();
+
+        return tasks.stream().distinct().collect(Collectors.toList());
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<Task> getTodoTasksByDate() {
+        List<Task> tasks = (List<Task>) getCurrentSession().createCriteria(Task.class)
+                .add(Restrictions.eq("resolved", false))
+                .addOrder(Order.desc("datePosted"))
+                .list();
+
+        return tasks.stream().distinct().collect(Collectors.toList());
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<Task> getCompletedTasksByDate() {
+        List<Task> tasks = (List<Task>) getCurrentSession().createCriteria(Task.class)
+                .add(Restrictions.eq("resolved", true))
+                .addOrder(Order.desc("datePosted"))
+                .list();
+
+        return tasks.stream().distinct().collect(Collectors.toList());
+    }
+
+    @SuppressWarnings("unchecked")
     public List<Task> findTasksByTenantId(long tenantId) {
         List<Task> tasks = (List<Task>) getCurrentSession().createCriteria(Task.class)
                 .add(Restrictions.eq("tenant.tenantId", tenantId))
-                .addOrder(Order.desc("taskDate"))
+                .addOrder(Order.desc("datePosted"))
                 .list();
 
         return tasks.stream().distinct().collect(Collectors.toList());
     }
 
     @SuppressWarnings("unchecked")
-    public List<Task> getTasksByType(String taskType) {
-        return (List<Task>) getCurrentSession().createCriteria(Task.class)
-                .add(Restrictions.eq("taskType", taskType))
-                .addOrder(Order.desc("taskDate"))
-                .list();
-    }
-
-    @SuppressWarnings("unchecked")
-    public List<Task> getTasksByDate() {
+    public List<Task> findTodoTasksByTenantId(long tenantId) {
         List<Task> tasks = (List<Task>) getCurrentSession().createCriteria(Task.class)
-                .addOrder(Order.desc("taskDate"))
+                .add(Restrictions.eq("tenant.tenantId", tenantId))
+                .add(Restrictions.eq("resolved", false))
+                .addOrder(Order.desc("datePosted"))
                 .list();
 
         return tasks.stream().distinct().collect(Collectors.toList());
+    }
 
+    @SuppressWarnings("unchecked")
+    public List<Task> findCompletedTasksByTenantId(long tenantId) {
+        List<Task> tasks = (List<Task>) getCurrentSession().createCriteria(Task.class)
+                .add(Restrictions.eq("tenant.tenantId", tenantId))
+                .add(Restrictions.eq("resolved", true))
+                .addOrder(Order.desc("datePosted"))
+                .list();
+
+        return tasks.stream().distinct().collect(Collectors.toList());
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<Task> getTasksBySubject(String subject) {
+        return (List<Task>) getCurrentSession().createCriteria(Task.class)
+                .add(Restrictions.eq("subject", subject))
+                .addOrder(Order.desc("datePosted"))
+                .list();
     }
 
     public Task createTask(Task task) {

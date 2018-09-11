@@ -127,7 +127,7 @@ public class UserAuthorizationTest {
     @Test
     public void whenRequestingTenantEndPointWithValidAdminToken_thenReturnStatusCodeOk() {
         try {
-            this.mvc.perform(get("/tasks-by-tenant/1")
+            this.mvc.perform(get("/todo-tasks-by-tenant/1")
                     .header("Authorization", this.adminToken)
                     .contentType(MediaType.APPLICATION_JSON)
                     .accept(MediaType.APPLICATION_JSON))

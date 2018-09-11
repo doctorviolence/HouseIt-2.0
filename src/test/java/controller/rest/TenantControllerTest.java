@@ -20,6 +20,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
 @RunWith(SpringRunner.class)
@@ -68,7 +69,7 @@ public class TenantControllerTest {
             HttpEntity request = new HttpEntity<>(headers);
 
             ResponseEntity<Task[]> response = this.template.exchange(
-                    "http://localhost:" + port + "/tasks-by-tenant/" + 1,
+                    "http://localhost:" + port + "/tasks/tasks-by-tenant/" + 1,
                     HttpMethod.GET,
                     request,
                     Task[].class
@@ -80,10 +81,10 @@ public class TenantControllerTest {
             Task[] tasks = response.getBody();
 
             assertThat(tasks.length).isEqualTo(2);
-            assertThat(tasks[0].getApartment().getApartmentId()).isEqualTo(1);
-            assertThat(tasks[1].getApartment().getApartmentId()).isEqualTo(1);
-            assertThat(tasks[0].getBuilding().getBuildingId()).isEqualTo(1);
-            assertThat(tasks[1].getBuilding().getBuildingId()).isEqualTo(1);
+            assertThat(tasks[0].getTenant().getApartment().getApartmentId()).isEqualTo(1);
+            assertThat(tasks[1].getTenant().getApartment().getApartmentId()).isEqualTo(1);
+            assertThat(tasks[0].getTenant().getApartment().getBuilding().getBuildingId()).isEqualTo(1);
+            assertThat(tasks[1].getTenant().getApartment().getBuilding().getBuildingId()).isEqualTo(1);
 
         } catch (HttpClientErrorException e) {
             logger.info(e.getMessage());
@@ -92,7 +93,7 @@ public class TenantControllerTest {
     }
 
     @Test
-    public void whenRequestingTasksWithInvalidTenantId_thenReturnNotFound() {
+    public void whenRequestingTasksWithInvalidTenantId_thenReturnNoTasks() {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.add(HttpHeaders.AUTHORIZATION, this.tenantToken);
@@ -100,16 +101,17 @@ public class TenantControllerTest {
         try {
             HttpEntity request = new HttpEntity<>(headers);
 
-            this.template.exchange(
-                    "http://localhost:" + port + "/tasks-by-tenant/" + 65,
+            ResponseEntity<Task[]> response = this.template.exchange(
+                    "http://localhost:" + port + "/tasks/tasks-by-tenant/" + 65,
                     HttpMethod.GET,
                     request,
                     Task[].class
             );
 
-            fail("Did not return HTTP 404");
+            assertNotNull(response);
+            assertThat(response.getBody()).isEmpty();
         } catch (HttpClientErrorException e) {
-            assertThat(e.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+            fail("Returned tasks...");
         }
     }
 
@@ -123,7 +125,7 @@ public class TenantControllerTest {
             HttpEntity request = new HttpEntity<>(headers);
 
             this.template.exchange(
-                    "http://localhost:" + port + "/tasks-by-tenant/" + "bad-value",
+                    "http://localhost:" + port + "/tasks/tasks-by-tenant/" + "bad-value",
                     HttpMethod.GET,
                     request,
                     Task[].class

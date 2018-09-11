@@ -17,22 +17,14 @@ public class Task implements Serializable {
     @Column(name = "task_no", nullable = false)
     private long taskNo;
 
-    @Column(name = "task_type")
-    private String taskType;
+    @Column(name = "subject")
+    private String subject;
 
     @Column(name = "resolved")
-    private String resolved;
+    private boolean resolved;
 
-    @Column(name = "task_date")
-    private String taskDate;
-
-    @ManyToOne
-    @JoinColumn(name = "building_id", referencedColumnName = "building_id", nullable = false)
-    private Building building;
-
-    @ManyToOne
-    @JoinColumn(name = "apartment_id", referencedColumnName = "apartment_id", nullable = false)
-    private Apartment apartment;
+    @Column(name = "date_posted")
+    private String datePosted;
 
     @ManyToOne
     @JoinColumn(name = "tenant_id", referencedColumnName = "tenant_id", nullable = false)
@@ -58,44 +50,28 @@ public class Task implements Serializable {
         this.taskNo = taskNo;
     }
 
-    public String getTaskType() {
-        return taskType;
+    public String getSubject() {
+        return subject;
     }
 
-    public void setTaskType(String taskType) {
-        this.taskType = taskType;
+    public void setSubject(String subject) {
+        this.subject = subject;
     }
 
-    public String getResolved() {
+    public boolean isResolved() {
         return resolved;
     }
 
-    public void setResolved(String resolved) {
+    public void setResolved(boolean resolved) {
         this.resolved = resolved;
     }
 
-    public String getTaskDate() {
-        return taskDate;
+    public String getDatePosted() {
+        return datePosted;
     }
 
-    public void setTaskDate(String taskDate) {
-        this.taskDate = taskDate;
-    }
-
-    public Building getBuilding() {
-        return building;
-    }
-
-    public void setBuilding(Building building) {
-        this.building = building;
-    }
-
-    public Apartment getApartment() {
-        return apartment;
-    }
-
-    public void setApartment(Apartment apartment) {
-        this.apartment = apartment;
+    public void setDatePosted(String datePosted) {
+        this.datePosted = datePosted;
     }
 
     public Tenant getTenant() {
@@ -106,6 +82,21 @@ public class Task implements Serializable {
         this.tenant = tenant;
     }
 
+    public Apartment getApartment() {
+        return this.tenant.getApartment();
+    }
+
+    public void setApartment(Apartment apartment) {
+        this.tenant.setApartment(apartment);
+    }
+
+    public Building getBuilding() {
+        return this.tenant.getApartment().getBuilding();
+    }
+
+    public void setBuilding(Building building) {
+        this.tenant.getApartment().setBuilding(building);
+    }
 
     public List<TaskMessage> getTaskMessages() {
         return taskMessages;
